@@ -1,3 +1,5 @@
+
+# %%
 from argparse import ArgumentParser
 import random
 import os
@@ -30,7 +32,7 @@ parser.add_argument("--seed", default=0, type=int)
 # TODO: try different number of workers
 parser.add_argument("--num-workers", default=10, type=int, help="Workers number for torch Dataloader")
 parser.add_argument("--cycles", default=1, type=int, help="Number of adaptation cycles")
-parser.add_argument("--model", type=str, help="Load this model")
+parser.add_argument("--model", default="6530566_epoch_15_train_acc_0.9959_val_acc_0.6567.model", type=str, help="Load this model")
 
 # Add these dummy arguments so code can be run as notebook
 parser.add_argument("--ip")
@@ -45,7 +47,6 @@ parser.add_argument("--iopub")
 parser.add_argument("--f")
 
 args = parser.parse_args()
-print(args)
 
 os.environ['PYTHONHASHSEED'] = str(args.seed)
 random.seed(args.seed)
@@ -58,13 +59,15 @@ torch.backends.cudnn.deterministic = True
 
 if torch.cuda.is_available() and "LOCAL_RANK" in os.environ:
     local_rank = int(os.environ["LOCAL_RANK"])
+    if local_rank == 0:
+      print("World size: " + str(os.environ["WORLD_SIZE"]))
+      print(args)
     device = torch.device(f"cuda:{local_rank}")
     distributed = True
     dist.init_process_group(backend="nccl")
 else:
     device = "cpu"
     distributed = False
-print(device)
 
 normalize = Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])
 train_transform = Compose(
@@ -102,27 +105,27 @@ def get_test_session_loaders():
                                                     pin_memory=True)
   return test_session_loaders
 
-def get_test_results_matrix():
-  return np.full(shape=(len(test_permutations), args.cycles, len(test_sessions)), fill_value=None)
-
-def eval(model, cycles, stop_permutation):
-  results = get_test_results_matrix()
-  for i_permutation, permutation in enumerate(test_permutations[:stop_permutation]):
-    model = deepcopy(model)
-    for cycle in range(cycles):
+def eval(model, reset, stop_permutation):
+  permutations = test_permutations[:stop_permutation]
+  results = np.full(shape=(len(permutations), args.cycles, len(test_sessions)), fill_value=None)
+  for i_permutation, permutation in enumerate(permutations):
+    if reset:
+      model.reset()
+    for cycle in range(args.cycles):
       test_session_loaders = get_test_session_loaders()
       for i_session, session in enumerate(permutation):
-        correct = 0
-        total = 0
+        correct = torch.tensor(0, device=device)
+        total = torch.tensor(0, device=device)
         loader = test_session_loaders[session]
         for image, label in tqdm(loader, total=len(loader)):
           image, label = image.to(device).float(), label.to(device)
           output = model(image)
           pred = torch.max(output, dim=1).indices
-          correct += torch.sum(pred == label)
-          total += label.size(0)
+          correct = torch.add(correct, torch.sum(pred == label))
+          total = torch.add(total, label.size(0))
         dist.all_reduce(correct)
         dist.all_reduce(total)
         acc = float(correct / total)
         results[i_permutation][cycle][i_session] = acc
-        print(results, end='\r')
+        if not distributed or local_rank == 0:
+          print(results)
