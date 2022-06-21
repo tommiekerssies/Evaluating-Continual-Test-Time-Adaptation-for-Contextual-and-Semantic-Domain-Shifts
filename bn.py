@@ -1,7 +1,6 @@
 # %%
 import utils
 import torch
-from tqdm import tqdm
 
 results = utils.get_test_results_matrix()
 for i_permutation, permutation in enumerate(utils.test_permutations):

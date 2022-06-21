@@ -17,6 +17,8 @@ from torchvision.transforms import (
 )
 from core50 import CORE50
 from torch.utils.data.distributed import DistributedSampler
+from tqdm import tqdm
+from copy import deepcopy
 
 
 parser = ArgumentParser()
@@ -102,3 +104,25 @@ def get_test_session_loaders():
 
 def get_test_results_matrix():
   return np.full(shape=(len(test_permutations), args.cycles, len(test_sessions)), fill_value=None)
+
+def eval(model, cycles, stop_permutation):
+  results = get_test_results_matrix()
+  for i_permutation, permutation in enumerate(test_permutations[:stop_permutation]):
+    model = deepcopy(model)
+    for cycle in range(cycles):
+      test_session_loaders = get_test_session_loaders()
+      for i_session, session in enumerate(permutation):
+        correct = 0
+        total = 0
+        loader = test_session_loaders[session]
+        for image, label in tqdm(loader, total=len(loader)):
+          image, label = image.to(device).float(), label.to(device)
+          output = model(image)
+          pred = torch.max(output, dim=1).indices
+          correct += torch.sum(pred == label)
+          total += label.size(0)
+        dist.all_reduce(correct)
+        dist.all_reduce(total)
+        acc = float(correct / total)
+        results[i_permutation][cycle][i_session] = acc
+        print(results, end='\r')
