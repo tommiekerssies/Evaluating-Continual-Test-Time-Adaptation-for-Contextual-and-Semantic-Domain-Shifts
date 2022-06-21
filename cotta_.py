@@ -10,7 +10,7 @@ for i_permutation, permutation in enumerate(utils.test_permutations):
   model = cotta.configure_model(model)
   params, _ = cotta.collect_params(model)
   optimizer = torch.optim.Adam(params, lr=utils.args.lr)
-  model = cotta.CoTTA(model, optimizer)
+  model = cotta.CoTTA(model, optimizer, utils.device)
   for cycle in range(utils.args.cycles):
     test_session_loaders = utils.get_test_session_loaders()
     for i_session, session in enumerate(permutation):

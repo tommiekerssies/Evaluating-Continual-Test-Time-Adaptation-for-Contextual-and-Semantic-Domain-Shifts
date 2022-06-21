@@ -1,4 +1,8 @@
 *.out
+batches_filelists.zip
+batches_filelists/
+core50_128x128.zip
+core50_128x128/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

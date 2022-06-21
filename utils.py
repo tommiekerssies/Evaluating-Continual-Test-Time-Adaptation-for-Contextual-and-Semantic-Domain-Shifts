@@ -16,6 +16,8 @@ from torchvision.transforms import (
     RandomHorizontalFlip,
 )
 from core50 import CORE50
+from torch.utils.data.distributed import DistributedSampler
+
 
 parser = ArgumentParser()
 parser.add_argument("--path", default="./", type=str, help="Path where data and models should be stored")
@@ -24,8 +26,8 @@ parser.add_argument("--batch-size", default=64, type=int, help="Batch size")
 parser.add_argument("--lr", default=1e-3, type=float, help="Main learning rate")
 parser.add_argument("--seed", default=0, type=int)
 # TODO: try different number of workers
-parser.add_argument("--num-workers", default=4, type=int, help="Workers number for torch Dataloader")
-parser.add_argument("--cycles", default=10, type=int, help="Number of adaptation cycles")
+parser.add_argument("--num-workers", default=10, type=int, help="Workers number for torch Dataloader")
+parser.add_argument("--cycles", default=1, type=int, help="Number of adaptation cycles")
 parser.add_argument("--model", type=str, help="Load this model")
 
 # Add these dummy arguments so code can be run as notebook
@@ -60,6 +62,7 @@ if torch.cuda.is_available() and "LOCAL_RANK" in os.environ:
 else:
     device = "cpu"
     distributed = False
+print(device)
 
 normalize = Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])
 train_transform = Compose(
@@ -86,7 +89,10 @@ def get_test_session_loaders():
   test_session_loaders = {}
   for test_session in test_sessions:
     dataset = CORE50(root=args.path, train=False, transform=val_transform, test_session=test_session)
-    sampler = RandomSampler(dataset, generator=torch.Generator().manual_seed(args.seed))
+    if distributed:
+      sampler = DistributedSampler(dataset, seed=args.seed, shuffle=True)
+    else:
+      sampler = RandomSampler(dataset, generator=torch.Generator().manual_seed(args.seed))
     test_session_loaders[test_session] = DataLoader(dataset=dataset,
                                                     batch_size=args.batch_size,
                                                     sampler=sampler,

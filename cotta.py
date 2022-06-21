@@ -52,7 +52,7 @@ class CoTTA(nn.Module):
 
     Once tented, a model adapts itself by updating on every forward.
     """
-    def __init__(self, model, optimizer, steps=1, episodic=False, mt_alpha=0.99, rst_m=0.1, ap=0.9):
+    def __init__(self, model, optimizer, device, steps=1, episodic=False, mt_alpha=0.99, rst_m=0.1, ap=0.9):
         super().__init__()
         self.model = model
         self.optimizer = optimizer
@@ -66,6 +66,7 @@ class CoTTA(nn.Module):
         self.mt = mt_alpha
         self.rst = rst_m
         self.ap = ap
+        self.device = device
 
     def forward(self, x):
         if self.episodic:
@@ -115,7 +116,7 @@ class CoTTA(nn.Module):
             for nm, m  in self.model.named_modules():
                 for npp, p in m.named_parameters():
                     if npp in ['weight', 'bias'] and p.requires_grad:
-                        mask = (torch.rand(p.shape)<self.rst).float().cuda() 
+                        mask = (torch.rand(p.shape)<self.rst).float().to(self.device)
                         with torch.no_grad():
                             p.data = self.model_state[f"{nm}.{npp}"] * mask + p * (1.-mask)
         return outputs_ema
@@ -142,7 +143,6 @@ def collect_params(model):
                 if np in ['weight', 'bias'] and p.requires_grad:
                     params.append(p)
                     names.append(f"{nm}.{np}")
-                    print(nm, np)
     return params, names
 
 
