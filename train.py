@@ -11,14 +11,13 @@ from torch.utils.data.distributed import DistributedSampler
 import os
 from tqdm import tqdm
 from core50 import CORE50
-from statistics import fmean
 
 def train(model, train_loader):
   model = model.train()
   train_loss = 0.
   train_correct = 0
   train_total = 0
-  for image, label in tqdm(train_loader, total=len(train_loader)):
+  for image, label in train_loader:
     image, label = image.to(utils.device).float(), label.to(utils.device)
     output = model(image)
     loss = criterion(output, label)
@@ -29,6 +28,8 @@ def train(model, train_loader):
     pred = torch.max(output, dim=1).indices
     train_correct += torch.sum(pred == label)
     train_total += label.size(0)
+  dist.all_reduce(train_correct)
+  dist.all_reduce(train_total)
   return train_loss, train_correct / train_total
 
 train_dataset = CORE50(root=utils.args.path, sessions=utils.args.train_sessions, download=True, transform=utils.train_transform)
@@ -50,9 +51,10 @@ optimizer = Adam(model.parameters(), lr=utils.args.lr)
 
 epoch = 0
 best_val_acc = utils.eval(model)
-print("""rank: {}, epoch {}, val accuracy: {:,.8f}""".format(utils.local_rank, epoch, best_val_acc))
+if not utils.distributed or dist.get_rank() == 0:
+  print("""epoch {}, val accuracy: {}""".format(epoch, best_val_acc))
 filename = None
-while True:
+while utils.args.max_epochs is None or epoch < utils.args.max_epochs:
   epoch += 1
   epoch_start = time.time()
   if utils.distributed:
@@ -61,29 +63,29 @@ while True:
   train_loss, train_acc = train(model, train_loader)
   val_acc = utils.eval(model)
 
-  print("""
-    rank: {}, 
-    epoch {}, 
-    train loss: {:.4f}, 
-    train accuracy: {:.8f},
-    val accuracy: {:,.8f}
-  """.format(
-    utils.local_rank,
-    epoch,
-    train_loss,
-    train_acc,
-    val_acc,
-  ))
+  if not utils.distributed or dist.get_rank() == 0:
+    print("""
+      epoch {}, 
+      train loss: {:.4f}, 
+      train accuracy: {:.8f},
+      val accuracy: {:,.8f}
+    """.format(
+      utils.local_rank,
+      epoch,
+      train_loss,
+      train_acc,
+      val_acc,
+    ))
 
-  if utils.distributed and dist.get_rank() == 0 and val_acc > best_val_acc:
-    best_val_acc = val_acc
-    if filename:
-      os.remove(filename)
-    filename = f"sessions_{','.join(utils.args.train_sessions)}"
-    filename += f"_epoch_{str(int(epoch))}"
-    filename += f"_train_acc_{str(float(train_acc))}"
-    filename += f"_val_acc_{str(float(val_acc))}"
-    if "SLURM_JOB_ID" in os.environ:
-      filename += f"_jobid_{os.environ['SLURM_JOB_ID']}"
-    filename += ".model"
-    torch.save(model.module.state_dict(), filename)
+    if val_acc > best_val_acc:
+      best_val_acc = val_acc
+      if filename:
+        os.remove(filename)
+      filename = f"sessions_{','.join(utils.args.train_sessions)}"
+      filename += f"_epoch_{str(int(epoch))}"
+      filename += f"_train_acc_{str(float(train_acc))}"
+      filename += f"_val_acc_{str(float(val_acc))}"
+      if "SLURM_JOB_ID" in os.environ:
+        filename += f"_jobid_{os.environ['SLURM_JOB_ID']}"
+      filename += ".model"
+      torch.save(model.module.state_dict(), filename)

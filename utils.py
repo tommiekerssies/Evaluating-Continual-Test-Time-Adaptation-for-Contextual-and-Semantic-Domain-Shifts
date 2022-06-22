@@ -20,12 +20,12 @@ from torchvision.transforms import (
 from core50 import CORE50
 from torch.utils.data.distributed import DistributedSampler
 from tqdm import tqdm
-from copy import deepcopy
 
 # TODO: add test sessions argument to use for training and TTA
 
 parser = ArgumentParser()
 parser.add_argument("--path", default="./", type=str, help="Path where data and models should be stored")
+parser.add_argument("--max_epochs", type=int, help="Batch size")
 # TODO: try different bs
 parser.add_argument("--batch_size", default=64, type=int, help="Batch size")
 parser.add_argument("--lr", default=1e-3, type=float, help="Main learning rate")
@@ -34,8 +34,8 @@ parser.add_argument("--seed", default=0, type=int)
 parser.add_argument("--num_workers", default=10, type=int, help="Workers number for torch Dataloader")
 parser.add_argument("--cycles", default=1, type=int, help="Number of adaptation cycles")
 parser.add_argument("--model", default="6530566_epoch_15_train_acc_0.9959_val_acc_0.6567.model", type=str, help="Load this model")
-parser.add_argument("--train_sessions", default=[1,2,4,5,6,8,9,11], nargs='+')
-parser.add_argument("--val_sessions", default=[3,7,10], nargs='+')
+parser.add_argument("--train_sessions", nargs='+')
+parser.add_argument("--val_sessions", nargs='+')
 
 # Add these dummy arguments so code can be run as notebook
 parser.add_argument("--ip")
@@ -60,17 +60,32 @@ torch.cuda.manual_seed_all(args.seed) # if you are using multi-GPU.
 torch.backends.cudnn.benchmark = True
 torch.backends.cudnn.deterministic = True
 
-if torch.cuda.is_available() and "LOCAL_RANK" in os.environ:
-    local_rank = int(os.environ["LOCAL_RANK"])
-    if local_rank == 0:
-      print("World size: " + str(os.environ["WORLD_SIZE"]))
-      print(args)
-    device = torch.device(f"cuda:{local_rank}")
-    distributed = True
-    dist.init_process_group(backend="nccl")
+distributed = False
+if torch.cuda.is_available():
+    if "LOCAL_RANK" in os.environ:
+      distributed = True
+      dist.init_process_group(backend="nccl")
+      device = torch.device(f"cuda:{dist.get_rank()}")
+    else:
+      device = torch.device("cuda")
 else:
-    device = "cpu"
-    distributed = False
+    device = torch.device("cpu")
+
+if dist.get_rank() == 0:
+  print("World size: " + str(dist.get_world_size()))
+
+if not distributed or dist.get_rank() == 0: 
+  print(args)
+
+all_sessions = set(range(1,12))
+
+if args.val_sessions is None:
+  if args.train_sessions is None:
+    exit()
+  args.val_sessions = all_sessions - set(args.train_sessions)
+
+if args.train_sessions is None:
+  args.train_sessions = all_sessions - set(args.val_sessions)
 
 normalize = Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])
 train_transform = Compose(
@@ -83,11 +98,11 @@ def get_model(load_saved_model):
   num_ftrs = model.fc.in_features
   # TODO: try the simpler task of predicting the 10 categories
   model.fc = Linear(num_ftrs, 50)
-  if args.model:
+  if load_saved_model and args.model is not None:
     model.load_state_dict(torch.load(args.model, map_location=device))
   model = model.to(device)
   if distributed:
-    model = DDP(model, [local_rank], local_rank)
+    model = DDP(model, [dist.get_rank()], dist.get_rank())
   return model
 
 def get_val_session_loaders():
@@ -117,7 +132,7 @@ def eval(model, stop_permutation=1, reset=False):
         correct = torch.tensor(0, device=device)
         total = torch.tensor(0, device=device)
         loader = val_session_loaders[session]
-        for image, label in tqdm(loader, total=len(loader)):
+        for image, label in loader:
           image, label = image.to(device).float(), label.to(device)
           output = model(image)
           pred = torch.max(output, dim=1).indices
@@ -127,6 +142,6 @@ def eval(model, stop_permutation=1, reset=False):
         dist.all_reduce(total)
         acc = float(correct / total)
         results[i_permutation][cycle][i_session] = acc
-        if not distributed or local_rank == 0:
+        if not distributed or dist.get_rank() == 0:
           print(results)
   return np.mean(results)

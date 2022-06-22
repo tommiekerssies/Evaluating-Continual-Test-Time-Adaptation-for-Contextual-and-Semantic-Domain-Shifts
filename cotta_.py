@@ -1,7 +1,6 @@
 # %%
 import utils
 import torch
-from tqdm import tqdm
 import cotta
 
 model = utils.get_model()
