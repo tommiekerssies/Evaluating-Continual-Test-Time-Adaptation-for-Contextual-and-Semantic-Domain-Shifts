@@ -167,9 +167,9 @@ class CORE50(data.Dataset):
         'batches_filelists.zip': 'e3297508a8998ba0c99a83d6b36bde62'
     }
 
-    def __init__(self, root, check_integrity=False, scenario='ni', train=True,
+    def __init__(self, root, sessions, check_integrity=False, scenario='ni',
                  img_size='128x128', run=0, batch=7, cumul=True, transform=None,
-                 target_transform=None, download=False, test_session=None):
+                 target_transform=None, download=False):
         self.root = os.path.expanduser(root)
         self.img_size = img_size
         self.scenario = scenario
@@ -198,30 +198,23 @@ class CORE50(data.Dataset):
         else:
             suffix = 'inc'
 
-        if train:
-            self.fpath = os.path.join(
-                scenario.upper() + '_' + suffix, 'run' + str(run),
-                'train_batch_' + str(batch).zfill(2) + '_filelist.txt'
-            )
-        else:
-            # it's the last one, hence the test batch
-            self.fpath = os.path.join(
-                scenario.upper() + '_' + suffix, 'run' + str(run),
-                'test_filelist.txt'
-            )
-
         # Loading the filelist
-        path = os.path.join(self.root, self.filenames['filelists'][:-4],
-                            self.fpath)
-        with open(path, 'r') as f:
-            for i, line in enumerate(f):
-                if line.strip():
-                    path, label = line.split()                      
-                    if test_session is not None:
-                      if not path.startswith(f"s{str(test_session)}"):
-                        continue
-                    self.labels.append(int(label))
-                    self.img_paths.append(path)
+        path1 = os.path.join(self.root, self.filenames['filelists'][:-4], scenario.upper() + '_' + suffix,
+                             'run' + str(run), 'train_batch_' + str(batch).zfill(2) + '_filelist.txt')
+        path2 = os.path.join(self.root, self.filenames['filelists'][:-4], scenario.upper() + '_' + suffix,
+                             'run' + str(run), 'test_filelist.txt')
+        with open(path1, 'r') as f1, open(path2, 'r') as f2:
+          for line in f1.readlines() + f2.readlines():
+            if line.strip():
+              path, label = line.split()
+              include_session = False
+              for session in sessions:                      
+                if path.startswith(f"s{str(session)}"):
+                  include_session = True
+                  break
+              if include_session:
+                self.labels.append(int(label))
+                self.img_paths.append(path)
 
     def __getitem__(self, index):
         """

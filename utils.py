@@ -22,17 +22,20 @@ from torch.utils.data.distributed import DistributedSampler
 from tqdm import tqdm
 from copy import deepcopy
 
+# TODO: add test sessions argument to use for training and TTA
 
 parser = ArgumentParser()
 parser.add_argument("--path", default="./", type=str, help="Path where data and models should be stored")
 # TODO: try different bs
-parser.add_argument("--batch-size", default=64, type=int, help="Batch size")
+parser.add_argument("--batch_size", default=64, type=int, help="Batch size")
 parser.add_argument("--lr", default=1e-3, type=float, help="Main learning rate")
 parser.add_argument("--seed", default=0, type=int)
 # TODO: try different number of workers
-parser.add_argument("--num-workers", default=10, type=int, help="Workers number for torch Dataloader")
+parser.add_argument("--num_workers", default=10, type=int, help="Workers number for torch Dataloader")
 parser.add_argument("--cycles", default=1, type=int, help="Number of adaptation cycles")
 parser.add_argument("--model", default="6530566_epoch_15_train_acc_0.9959_val_acc_0.6567.model", type=str, help="Load this model")
+parser.add_argument("--train_sessions", default=[1,2,4,5,6,8,9,11], nargs='+')
+parser.add_argument("--val_sessions", default=[3,7,10], nargs='+')
 
 # Add these dummy arguments so code can be run as notebook
 parser.add_argument("--ip")
@@ -75,10 +78,7 @@ train_transform = Compose(
 )
 val_transform = Compose([ToTensor(), normalize])
 
-test_sessions = (3, 7, 10)
-test_permutations = list(itertools.permutations(test_sessions))
-
-def get_model():
+def get_model(load_saved_model):
   model = resnet18(pretrained=True)
   num_ftrs = model.fc.in_features
   # TODO: try the simpler task of predicting the 10 categories
@@ -90,33 +90,33 @@ def get_model():
     model = DDP(model, [local_rank], local_rank)
   return model
 
-def get_test_session_loaders():
-  test_session_loaders = {}
-  for test_session in test_sessions:
-    dataset = CORE50(root=args.path, train=False, transform=val_transform, test_session=test_session)
+def get_val_session_loaders():
+  session_loaders = {}
+  for session in args.val_sessions:
+    dataset = CORE50(root=args.path, transform=val_transform, sessions=[session])
     if distributed:
       sampler = DistributedSampler(dataset, seed=args.seed, shuffle=True)
     else:
       sampler = RandomSampler(dataset, generator=torch.Generator().manual_seed(args.seed))
-    test_session_loaders[test_session] = DataLoader(dataset=dataset,
-                                                    batch_size=args.batch_size,
-                                                    sampler=sampler,
-                                                    num_workers=args.num_workers,
-                                                    pin_memory=True)
-  return test_session_loaders
+    session_loaders[session] = DataLoader(dataset=dataset,
+                                          batch_size=args.batch_size,
+                                          sampler=sampler,
+                                          num_workers=args.num_workers,
+                                          pin_memory=True)
+  return session_loaders
 
-def eval(model, reset, stop_permutation):
-  permutations = test_permutations[:stop_permutation]
-  results = np.full(shape=(len(permutations), args.cycles, len(test_sessions)), fill_value=None)
+def eval(model, stop_permutation=1, reset=False):
+  permutations = list(itertools.permutations(args.val_sessions))[:stop_permutation]
+  results = np.full(shape=(len(permutations), args.cycles, len(args.val_sessions)), fill_value=None)
   for i_permutation, permutation in enumerate(permutations):
     if reset:
       model.reset()
     for cycle in range(args.cycles):
-      test_session_loaders = get_test_session_loaders()
+      val_session_loaders = get_val_session_loaders()
       for i_session, session in enumerate(permutation):
         correct = torch.tensor(0, device=device)
         total = torch.tensor(0, device=device)
-        loader = test_session_loaders[session]
+        loader = val_session_loaders[session]
         for image, label in tqdm(loader, total=len(loader)):
           image, label = image.to(device).float(), label.to(device)
           output = model(image)
@@ -129,3 +129,4 @@ def eval(model, reset, stop_permutation):
         results[i_permutation][cycle][i_session] = acc
         if not distributed or local_rank == 0:
           print(results)
+  return np.mean(results)
