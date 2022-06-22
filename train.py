@@ -10,7 +10,6 @@ from torch.utils.data import RandomSampler, DataLoader
 from torch.utils.data.distributed import DistributedSampler
 import os
 from tqdm import tqdm
-import datetime
 from core50 import CORE50
 from statistics import fmean
 
@@ -80,13 +79,11 @@ while True:
     best_val_acc = val_acc
     if filename:
       os.remove(filename)
-    if "SLURM_JOB_ID" in os.environ:
-      filename = os.environ["SLURM_JOB_ID"]
-    else:
-      filename = datetime.datetime.now().strftime("%Y%m%d%H%M%S")
-    filename += f"_train_sessions_{','.join(utils.args.train_sessions)}"
+    filename = f"sessions_{','.join(utils.args.train_sessions)}"
     filename += f"_epoch_{str(int(epoch))}"
     filename += f"_train_acc_{str(float(train_acc))}"
     filename += f"_val_acc_{str(float(val_acc))}"
+    if "SLURM_JOB_ID" in os.environ:
+      filename += f"_jobid_{os.environ['SLURM_JOB_ID']}"
     filename += ".model"
     torch.save(model.module.state_dict(), filename)
