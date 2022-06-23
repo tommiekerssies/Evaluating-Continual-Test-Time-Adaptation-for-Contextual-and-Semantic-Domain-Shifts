@@ -19,21 +19,20 @@ from torchvision.transforms import (
 )
 from core50 import CORE50
 from torch.utils.data.distributed import DistributedSampler
-from tqdm import tqdm
 
-# TODO: add test sessions argument to use for training and TTA
+# TODO: use TensorBoard!
 
 parser = ArgumentParser()
 parser.add_argument("--path", default="./", type=str, help="Path where data and models should be stored")
-parser.add_argument("--max_epochs", type=int, help="Batch size")
+parser.add_argument("--max_epochs", type=int)
 # TODO: try different bs
-parser.add_argument("--batch_size", default=64, type=int, help="Batch size")
+parser.add_argument("--batch_size", default=128, type=int, help="Batch size")
 parser.add_argument("--lr", default=1e-3, type=float, help="Main learning rate")
 parser.add_argument("--seed", default=0, type=int)
 # TODO: try different number of workers
 parser.add_argument("--num_workers", default=10, type=int, help="Workers number for torch Dataloader")
 parser.add_argument("--cycles", default=1, type=int, help="Number of adaptation cycles")
-parser.add_argument("--model", default="6530566_epoch_15_train_acc_0.9959_val_acc_0.6567.model", type=str, help="Load this model")
+parser.add_argument("--model", type=str, help="Load this model")
 parser.add_argument("--train_sessions", nargs='+')
 parser.add_argument("--val_sessions", nargs='+')
 
@@ -120,6 +119,27 @@ def get_val_session_loaders():
                                           pin_memory=True)
   return session_loaders
 
+def train(model, loader, criterion, optimizer):
+  model = model.train()
+  total_loss = torch.tensor(0., device=device)
+  total_correct = torch.tensor(0, device=device)
+  total_images = torch.tensor(0, device=device)
+  for image, label in loader:
+    image, label = image.to(device).float(), label.to(device)
+    output = model(image)
+    loss = criterion(output, label)
+    loss.backward()
+    optimizer.step()
+    optimizer.zero_grad()
+    pred = torch.max(output, dim=1).indices
+    total_loss.add_(loss.item() / len(loader))
+    total_correct.add_(torch.sum(pred == label))
+    total_images.add_(label.size(0))
+  dist.all_reduce(total_loss)
+  dist.all_reduce(total_correct)
+  dist.all_reduce(total_images)
+  return total_loss, total_correct / total_images
+
 def eval(model, stop_permutation=1, reset=False):
   permutations = list(itertools.permutations(args.val_sessions))[:stop_permutation]
   results = np.full(shape=(len(permutations), args.cycles, len(args.val_sessions)), fill_value=None)
@@ -136,8 +156,8 @@ def eval(model, stop_permutation=1, reset=False):
           image, label = image.to(device).float(), label.to(device)
           output = model(image)
           pred = torch.max(output, dim=1).indices
-          correct = torch.add(correct, torch.sum(pred == label))
-          total = torch.add(total, label.size(0))
+          correct.add_(torch.sum(pred == label))
+          total.add_(label.size(0))
         dist.all_reduce(correct)
         dist.all_reduce(total)
         acc = float(correct / total)
