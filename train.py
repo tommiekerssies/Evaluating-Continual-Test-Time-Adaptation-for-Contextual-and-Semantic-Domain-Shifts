@@ -33,35 +33,37 @@ best_val_acc = utils.eval(model)
 if not utils.distributed or dist.get_rank() == 0:
   print("""starting val accuracy: {}""".format(best_val_acc))
 filename = None
+
 while utils.args.max_epochs is None or epoch < utils.args.max_epochs:
   epoch_start = time.time()
   if utils.distributed:
     sampler.set_epoch(epoch)
 
   train_loss, train_acc = utils.train(model, loader, criterion, optimizer)
-  val_acc = utils.eval(model)
+  val_acc = utils.eval(model, eval_mode=True)
 
   if not utils.distributed or dist.get_rank() == 0:
     print("""
       epoch {}, 
       train loss: {:.4f}, 
       train accuracy: {:.8f},
-      val accuracy: {:,.8f}
+      val accuracy: {}
     """.format(
       epoch,
       train_loss,
       train_acc,
-      val_acc,
+      str(val_acc),
     ))
 
-    if val_acc > best_val_acc:
+    if not utils.args.eval or val_acc > best_val_acc:
       best_val_acc = val_acc
       if filename:
         os.remove(filename)
-      filename = f"sessions_{','.join(utils.args.train_sessions)}"
+      filename = f"sessions_{','.join([str(s) for s in utils.args.train_sessions])}"
       filename += f"_epoch_{str(int(epoch))}"
       filename += f"_train_acc_{str(float(train_acc))}"
-      filename += f"_val_acc_{str(float(val_acc))}"
+      if val_acc is not None:
+        filename += f"_val_acc_{str(float(val_acc))}"
       if "SLURM_JOB_ID" in os.environ:
         filename += f"_jobid_{os.environ['SLURM_JOB_ID']}"
       filename += ".model"

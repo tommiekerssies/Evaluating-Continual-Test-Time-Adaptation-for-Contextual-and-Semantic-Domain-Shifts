@@ -209,7 +209,7 @@ class CORE50(data.Dataset):
               path, label = line.split()
               include_session = False
               for session in sessions:                      
-                if path.startswith(f"s{str(session)}"):
+                if path.startswith(f"s{str(session)}/"):
                   include_session = True
                   break
               if include_session:

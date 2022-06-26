@@ -26,15 +26,16 @@ parser = ArgumentParser()
 parser.add_argument("--path", default="./", type=str, help="Path where data and models should be stored")
 parser.add_argument("--max_epochs", type=int)
 # TODO: try different bs
-parser.add_argument("--batch_size", default=128, type=int, help="Batch size")
+parser.add_argument("--batch_size", default=1024, type=int, help="Batch size")
 parser.add_argument("--lr", default=1e-3, type=float, help="Main learning rate")
 parser.add_argument("--seed", default=0, type=int)
 # TODO: try different number of workers
 parser.add_argument("--num_workers", default=10, type=int, help="Workers number for torch Dataloader")
 parser.add_argument("--cycles", default=1, type=int, help="Number of adaptation cycles")
 parser.add_argument("--model", type=str, help="Load this model")
-parser.add_argument("--train_sessions", nargs='+')
-parser.add_argument("--val_sessions", nargs='+')
+parser.add_argument("--eval", type=bool)
+parser.add_argument("--train_sessions", type=int, nargs='+')
+parser.add_argument("--val_sessions", type=int, nargs='+')
 
 # Add these dummy arguments so code can be run as notebook
 parser.add_argument("--ip")
@@ -70,7 +71,7 @@ if torch.cuda.is_available():
 else:
     device = torch.device("cpu")
 
-if dist.get_rank() == 0:
+if distributed and dist.get_rank() == 0:
   print("World size: " + str(dist.get_world_size()))
 
 if not distributed or dist.get_rank() == 0: 
@@ -80,7 +81,7 @@ all_sessions = set(range(1,12))
 
 if args.val_sessions is None:
   if args.train_sessions is None:
-    exit()
+    raise RuntimeError("No sessions specified")
   args.val_sessions = all_sessions - set(args.train_sessions)
 
 if args.train_sessions is None:
@@ -132,15 +133,22 @@ def train(model, loader, criterion, optimizer):
     optimizer.step()
     optimizer.zero_grad()
     pred = torch.max(output, dim=1).indices
-    total_loss.add_(loss.item() / len(loader))
-    total_correct.add_(torch.sum(pred == label))
-    total_images.add_(label.size(0))
-  dist.all_reduce(total_loss)
-  dist.all_reduce(total_correct)
-  dist.all_reduce(total_images)
+    total_loss += (loss.item() / len(loader))
+    total_correct += (torch.sum(pred == label))
+    total_images += label.size(0)
+  if distributed:
+    dist.all_reduce(total_loss)
+    dist.all_reduce(total_correct)
+    dist.all_reduce(total_images)
   return total_loss, total_correct / total_images
 
-def eval(model, stop_permutation=1, reset=False):
+def eval(model, eval_mode=True, stop_permutation=1, reset=False):
+  if not args.eval:
+    return None
+  if eval_mode:
+    model = model.eval()
+  else:
+    model = model.train()
   permutations = list(itertools.permutations(args.val_sessions))[:stop_permutation]
   results = np.full(shape=(len(permutations), args.cycles, len(args.val_sessions)), fill_value=None)
   for i_permutation, permutation in enumerate(permutations):
@@ -156,12 +164,15 @@ def eval(model, stop_permutation=1, reset=False):
           image, label = image.to(device).float(), label.to(device)
           output = model(image)
           pred = torch.max(output, dim=1).indices
-          correct.add_(torch.sum(pred == label))
-          total.add_(label.size(0))
-        dist.all_reduce(correct)
-        dist.all_reduce(total)
+          correct += torch.sum(pred == label)
+          total += label.size(0)
+        if distributed:
+          dist.all_reduce(correct)
+          dist.all_reduce(total)
         acc = float(correct / total)
         results[i_permutation][cycle][i_session] = acc
-        if not distributed or dist.get_rank() == 0:
-          print(results)
+        # if not distributed or dist.get_rank() == 0:
+        #   print(results)
+  if not distributed or dist.get_rank() == 0:
+    print(results)
   return np.mean(results)

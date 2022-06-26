@@ -1,5 +1,6 @@
 *.out
 *.run
+*.model
 batches_filelists.zip
 batches_filelists/
 core50_128x128.zip
