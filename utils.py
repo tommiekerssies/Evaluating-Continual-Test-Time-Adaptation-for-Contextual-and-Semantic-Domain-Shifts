@@ -26,14 +26,14 @@ parser = ArgumentParser()
 parser.add_argument("--path", default="./", type=str, help="Path where data and models should be stored")
 parser.add_argument("--max_epochs", type=int)
 # TODO: try different bs
-parser.add_argument("--batch_size", default=1024, type=int, help="Batch size")
+parser.add_argument("--batch_size", default=128, type=int, help="Batch size")
 parser.add_argument("--lr", default=1e-3, type=float, help="Main learning rate")
 parser.add_argument("--seed", default=0, type=int)
 # TODO: try different number of workers
 parser.add_argument("--num_workers", default=10, type=int, help="Workers number for torch Dataloader")
 parser.add_argument("--cycles", default=1, type=int, help="Number of adaptation cycles")
 parser.add_argument("--model", type=str, help="Load this model")
-parser.add_argument("--eval", type=bool)
+parser.add_argument("--eval", default=True, type=bool)
 parser.add_argument("--train_sessions", type=int, nargs='+')
 parser.add_argument("--val_sessions", type=int, nargs='+')
 

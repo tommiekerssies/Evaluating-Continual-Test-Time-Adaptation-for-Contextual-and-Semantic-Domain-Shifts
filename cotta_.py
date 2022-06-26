@@ -3,7 +3,7 @@ import utils
 import torch
 import cotta
 
-model = utils.get_model()
+model = utils.get_model(load_saved_model=True)
 model = cotta.configure_model(model)
 params, _ = cotta.collect_params(model)
 optimizer = torch.optim.Adam(params, lr=utils.args.lr)
