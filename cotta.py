@@ -1,3 +1,4 @@
+# %%
 from copy import deepcopy
 import torch
 import torch.nn as nn
@@ -5,9 +6,10 @@ import torch.jit
 import PIL
 import torchvision.transforms as transforms
 import my_transforms as my_transforms
+from matplotlib import pyplot as plt
 
 def get_tta_transforms(gaussian_std: float=0.005, soft=False, clip_inputs=False):
-    img_shape = (32, 32, 3)
+    img_shape = (128, 128, 3)
     n_pixels = img_shape[0]
 
     clip_min, clip_max = 0.0, 1.0
@@ -36,7 +38,7 @@ def get_tta_transforms(gaussian_std: float=0.005, soft=False, clip_inputs=False)
         transforms.CenterCrop(size=n_pixels),
         transforms.RandomHorizontalFlip(p=p_hflip),
         my_transforms.GaussianNoise(0, gaussian_std),
-        my_transforms.Clip(clip_min, clip_max)
+        #my_transforms.Clip(clip_min, clip_max)
     ])
     return tta_transforms
 

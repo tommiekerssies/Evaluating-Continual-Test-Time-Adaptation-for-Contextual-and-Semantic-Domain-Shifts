@@ -61,9 +61,6 @@ while utils.args.max_epochs is None or epoch < utils.args.max_epochs:
         os.remove(filename)
       filename = f"sessions_{','.join([str(s) for s in utils.args.train_sessions])}"
       filename += f"_epoch_{str(int(epoch))}"
-      filename += f"_train_acc_{str(float(train_acc))}"
-      if val_acc is not None:
-        filename += f"_val_acc_{str(float(val_acc))}"
       if "SLURM_JOB_ID" in os.environ:
         filename += f"_jobid_{os.environ['SLURM_JOB_ID']}"
       filename += ".model"

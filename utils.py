@@ -1,6 +1,7 @@
 
 # %%
 from argparse import ArgumentParser
+import copy
 import random
 import os
 import numpy as np
@@ -21,6 +22,7 @@ from core50 import CORE50
 from torch.utils.data.distributed import DistributedSampler
 
 # TODO: use TensorBoard!
+# TODO: img_size parameter that is also used in cotta transform code
 
 parser = ArgumentParser()
 parser.add_argument("--path", default="./", type=str, help="Path where data and models should be stored")
@@ -36,6 +38,7 @@ parser.add_argument("--model", type=str, help="Load this model")
 parser.add_argument("--eval", default=True, type=bool)
 parser.add_argument("--train_sessions", type=int, nargs='+')
 parser.add_argument("--val_sessions", type=int, nargs='+')
+parser.add_argument("--show_intermediate_results", type=bool, default=False)
 
 # Add these dummy arguments so code can be run as notebook
 parser.add_argument("--ip")
@@ -171,8 +174,8 @@ def eval(model, eval_mode=True, stop_permutation=1, reset=False):
           dist.all_reduce(total)
         acc = float(correct / total)
         results[i_permutation][cycle][i_session] = acc
-        # if not distributed or dist.get_rank() == 0:
-        #   print(results)
-  if not distributed or dist.get_rank() == 0:
-    print(results)
+        if args.show_intermediate_results and (not distributed or dist.get_rank() == 0):
+          print(results)
+  if not args.show_intermediate_results and (not distributed or dist.get_rank() == 0):
+   print(results)
   return np.mean(results)
