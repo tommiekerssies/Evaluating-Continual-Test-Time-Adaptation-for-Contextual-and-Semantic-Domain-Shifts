@@ -1,51 +1,47 @@
 
 # %%
 from argparse import ArgumentParser
-import copy
 import random
 import os
 import numpy as np
 import torch
 import itertools
-from torch.nn import Linear
 from torch.utils.data import RandomSampler, DataLoader
 from torch.nn.parallel import DistributedDataParallel as DDP
 import torch.distributed as dist
-from torchvision.models import resnet18
-from torchvision.transforms import (
-    ToTensor,
-    Normalize,
-    Compose,
-    RandomHorizontalFlip,
-)
-from core50 import CORE50
+import core50
+import domainnet
 from torch.utils.data.distributed import DistributedSampler
+import wandb
+from statistics import mean
 
-# TODO: use TensorBoard!
 # TODO: img_size parameter that is also used in cotta transform code
+# TODO: add example run/sh script to repo
 
 parser = ArgumentParser()
-parser.add_argument("--path", default="./", type=str, help="Path where data and models should be stored")
+parser.add_argument("--path", type=str, help="Path where data and models should be stored", default="./")
 parser.add_argument("--max_epochs", type=int)
 # TODO: try different bs
 parser.add_argument("--batch_size", default=128, type=int, help="Batch size")
 parser.add_argument("--lr", default=1e-3, type=float, help="Main learning rate")
 parser.add_argument("--seed", default=0, type=int)
 # TODO: try different number of workers
-parser.add_argument("--num_workers", default=10, type=int, help="Workers number for torch Dataloader")
+parser.add_argument("--num_workers", default=8, type=int, help="Workers number for torch Dataloader")
 parser.add_argument("--cycles", default=1, type=int, help="Number of adaptation cycles")
-parser.add_argument("--model", type=str, help="Load this model")
+parser.add_argument("--model", type=str, help="Load this model", default="best_real_2020.pth.tar")
+parser.add_argument("--dataset", type=str, default="DomainNet-126")
 parser.add_argument("--eval", default=True, type=bool)
-parser.add_argument("--train_sessions", type=int, nargs='+')
-parser.add_argument("--val_sessions", type=int, nargs='+')
-parser.add_argument("--show_intermediate_results", type=bool, default=False)
+parser.add_argument("--sources", type=str, nargs='+', default=["real"])
+parser.add_argument("--targets", type=str, nargs='+', default=["painting"])
 
 # Add these dummy arguments so code can be run as notebook
 parser.add_argument("--ip")
 parser.add_argument("--stdin")
 parser.add_argument("--control")
 parser.add_argument("--hb")
+parser.add_argument("--domain.signature_scheme")
 parser.add_argument("--Session.signature_scheme")
+parser.add_argument("--domain.key")
 parser.add_argument("--Session.key")
 parser.add_argument("--shell")
 parser.add_argument("--transport")
@@ -74,54 +70,40 @@ if torch.cuda.is_available():
 else:
     device = torch.device("cpu")
 
-if distributed and dist.get_rank() == 0:
-  print("World size: " + str(dist.get_world_size()))
+if (not distributed or dist.get_rank() == 0):
+  wandb.init(project="CTTAVR")
+  wandb.config.update(args)
+  wandb.config.world_size = dist.get_world_size() if distributed else 1
 
-if not distributed or dist.get_rank() == 0: 
-  print(args)
-
-all_sessions = set(range(1,12))
-
-if args.val_sessions is None:
-  if args.train_sessions is None:
-    raise RuntimeError("No sessions specified")
-  args.val_sessions = all_sessions - set(args.train_sessions)
-
-if args.train_sessions is None:
-  args.train_sessions = all_sessions - set(args.val_sessions)
-
-normalize = Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])
-train_transform = Compose(
-    [ToTensor(), RandomHorizontalFlip(), normalize]
-)
-val_transform = Compose([ToTensor(), normalize])
+if args.dataset == "CORe50":
+  dataset_ = core50
+elif args.dataset == "DomainNet-126":
+  dataset_ = domainnet
 
 def get_model(load_saved_model):
-  model = resnet18(pretrained=True)
-  num_ftrs = model.fc.in_features
-  # TODO: try the simpler task of predicting the 10 categories
-  model.fc = Linear(num_ftrs, 50)
+  model = dataset_.Model(device)
   if load_saved_model and args.model is not None:
-    model.load_state_dict(torch.load(args.model, map_location=device))
+    state_dict = torch.load(args.model, map_location=device)
+    model.load_state_dict(state_dict)
   model = model.to(device)
   if distributed:
     model = DDP(model, [dist.get_rank()], dist.get_rank())
   return model
 
-def get_val_session_loaders():
-  session_loaders = {}
-  for session in args.val_sessions:
-    dataset = CORE50(root=args.path, transform=val_transform, sessions=[session])
+def get_target_loaders():
+  domain_loaders = {}
+  for domain in args.targets:
+    dataset = dataset_.Dataset(root=args.path, transform=dataset_.val_transform, domains=[domain])
     if distributed:
       sampler = DistributedSampler(dataset, seed=args.seed, shuffle=True)
     else:
       sampler = RandomSampler(dataset, generator=torch.Generator().manual_seed(args.seed))
-    session_loaders[session] = DataLoader(dataset=dataset,
-                                          batch_size=args.batch_size,
-                                          sampler=sampler,
-                                          num_workers=args.num_workers,
-                                          pin_memory=True)
-  return session_loaders
+    domain_loaders[domain] = DataLoader(dataset=dataset,
+                                        batch_size=args.batch_size,
+                                        sampler=sampler,
+                                        num_workers=args.num_workers,
+                                        pin_memory=True)
+  return domain_loaders
 
 def train(model, loader, criterion, optimizer):
   model = model.train()
@@ -148,34 +130,48 @@ def train(model, loader, criterion, optimizer):
 def eval(model, eval_mode=True, stop_permutation=1, reset=False):
   if not args.eval:
     return None
+  
+  if (not distributed or dist.get_rank() == 0):
+    wandb.watch(model)
+  
   if eval_mode:
     model = model.eval()
   else:
     model = model.train()
-  permutations = list(itertools.permutations(args.val_sessions))[:stop_permutation]
-  results = np.full(shape=(len(permutations), args.cycles, len(args.val_sessions)), fill_value=None)
-  for i_permutation, permutation in enumerate(permutations):
+  
+  permutations = list(itertools.permutations(args.targets))[:stop_permutation]
+  results = {}
+  for permutation in permutations:
+    results[str(permutation)] = {}
     if reset:
       model.reset()
     for cycle in range(args.cycles):
-      val_session_loaders = get_val_session_loaders()
-      for i_session, session in enumerate(permutation):
+      results[str(permutation)][f"cycle_{cycle}"] = {}
+      target_loaders = get_target_loaders()
+      for i_domain, domain in enumerate(permutation):
         correct = torch.tensor(0, device=device)
         total = torch.tensor(0, device=device)
-        loader = val_session_loaders[session]
+        loader = target_loaders[domain]
         for image, label in loader:
           image, label = image.to(device).float(), label.to(device)
           output = model(image)
           pred = torch.max(output, dim=1).indices
           correct += torch.sum(pred == label)
           total += label.size(0)
-        if distributed:
-          dist.all_reduce(correct)
-          dist.all_reduce(total)
-        acc = float(correct / total)
-        results[i_permutation][cycle][i_session] = acc
-        if args.show_intermediate_results and (not distributed or dist.get_rank() == 0):
-          print(results)
-  if not args.show_intermediate_results and (not distributed or dist.get_rank() == 0):
-   print(results)
-  return np.mean(results)
+          intermediate_correct = correct.detach().clone()
+          intermediate_total = total.detach().clone()
+          if distributed:
+            dist.all_reduce(intermediate_correct)
+            dist.all_reduce(intermediate_total)
+          results[str(permutation)][f"cycle_{cycle}"][f"{i_domain}_{domain}"] = float(intermediate_correct / intermediate_total)
+          if (not distributed or dist.get_rank() == 0):	
+            wandb.log(results[str(permutation)][f"cycle_{cycle}"])
+
+  def values(d):
+    for val in d.values():
+      if isinstance(val, dict):
+        yield from values(val)
+      else:
+        yield val
+
+  return mean(list(values(results)))

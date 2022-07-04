@@ -1,15 +1,3 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
-
-################################################################################
-# Date: 22-11-2017                                                             #
-# Author: Vincenzo Lomonaco                                                    #
-# E-mail: vincenzo.lomonaco@unibo.it                                           #
-# Website: vincenzolomonaco.com                                                #
-################################################################################
-
-""" CORe50 Dataset class """
-
 from __future__ import print_function
 import os
 import os.path
@@ -19,6 +7,32 @@ import sys
 import time
 import torch.utils.data as data
 from torchvision.datasets.folder import pil_loader
+from torchvision.transforms import (
+    ToTensor,
+    Normalize,
+    Compose,
+    RandomHorizontalFlip,
+)
+from torchvision.models import resnet18
+from torch import nn
+
+# TODO: try the simpler task of predicting the 10 categories
+num_classes = 50
+
+normalize = Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])
+train_transform = Compose(
+    [ToTensor(), RandomHorizontalFlip(), normalize]
+)
+val_transform = Compose([ToTensor(), normalize])
+
+class Model(nn.Module):
+  def __init__(self, device):
+    super().__init__(device=device)
+    self.model = resnet18(pretrained=True, device=device)
+    self.model.fc = nn.Linear(self.model.fc.in_features, num_classes)
+  
+  def forward(self, x):
+    return self.model(x)
 
 def check_integrity(fpath, md5):
     if not os.path.isfile(fpath):
@@ -77,7 +91,7 @@ def download_url(url, root, filename, md5):
                 urllib.request.urlretrieve(url, fpath, reporthook)
 
 
-class CORE50(data.Dataset):
+class Dataset(data.Dataset):
     """`CORE50 <https://vlomonaco.github.io/core50/>`_ Dataset, specifically
         designed for Continuous Learning and Robotic Vision applications.
         For more information and additional materials visit the official
@@ -167,7 +181,7 @@ class CORE50(data.Dataset):
         'batches_filelists.zip': 'e3297508a8998ba0c99a83d6b36bde62'
     }
 
-    def __init__(self, root, sessions, check_integrity=False, scenario='ni',
+    def __init__(self, root, domains, check_integrity=False, scenario='ni',
                  img_size='128x128', run=0, batch=7, cumul=True, transform=None,
                  target_transform=None, download=False):
         self.root = os.path.expanduser(root)
@@ -208,7 +222,7 @@ class CORE50(data.Dataset):
             if line.strip():
               path, label = line.split()
               include_session = False
-              for session in sessions:                      
+              for session in domains:                      
                 if path.startswith(f"s{str(session)}/"):
                   include_session = True
                   break

@@ -63,7 +63,7 @@ while utils.args.max_epochs is None or epoch < utils.args.max_epochs:
       filename += f"_epoch_{str(int(epoch))}"
       if "SLURM_JOB_ID" in os.environ:
         filename += f"_jobid_{os.environ['SLURM_JOB_ID']}"
-      filename += ".model"
+      filename += ".pth"
       torch.save(model.module.state_dict(), filename)
   
   epoch += 1
