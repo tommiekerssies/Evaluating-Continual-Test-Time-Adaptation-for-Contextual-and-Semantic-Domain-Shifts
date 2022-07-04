@@ -83,7 +83,7 @@ elif args.dataset == "DomainNet-126":
 def get_model(load_saved_model):
   model = dataset_.Model(device)
   if load_saved_model and args.model is not None:
-    state_dict = torch.load(args.model, map_location=device)
+    state_dict = torch.load(os.path.join(args.path, args.model), map_location=device)
     model.load_state_dict(state_dict)
   model = model.to(device)
   if distributed:
