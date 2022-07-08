@@ -17,7 +17,7 @@ class CoTTA(Module):
   Once tented, a model adapts itself by updating on every forward.
   """
 
-  def __init__(self, model, optimizer, device, mt_alpha, rst_m, ap, steps=1, episodic=False):
+  def __init__(self, model, optimizer, device, mt_alpha, rst_m, ap=None, steps=1, episodic=False):
     super().__init__()
     self.model = model
     self.optimizer = optimizer
@@ -55,24 +55,24 @@ class CoTTA(Module):
   def forward_and_adapt(self, x):
     outputs = self.model(x)
     # Teacher Prediction
-    anchor_prob = torch.nn.functional.softmax(
-        self.model_anchor(x), dim=1).max(1)[0]
+    # anchor_prob = torch.nn.functional.softmax(self.model_anchor(x), dim=1).max(1)[0]
     standard_ema = self.model_ema(x)
     # Threshold choice discussed in supplementary
-    if anchor_prob.mean(0) < self.ap:
-      # Augmentation-averaged Prediction
-      N = 32
-      outputs_emas = []
-      for _ in range(N):
-        # plt.imshow(x[2].permute(1, 2, 0).cpu().numpy())
-        # plt.show()
-        # plt.imshow(self.transform(x)[2].permute(1, 2, 0).cpu().numpy())
-        # raise Exception()
-        outputs_ = self.model_ema(self.transform(x)).detach()
-        outputs_emas.append(outputs_)
-      outputs_ema = torch.stack(outputs_emas).mean(0)
-    else:
-      outputs_ema = standard_ema
+    # if anchor_prob.mean(0) < self.ap:
+    #   # Augmentation-averaged Prediction
+    #   N = 32
+    #   outputs_emas = []
+    #   for _ in range(N):
+    #     # plt.imshow(x[2].permute(1, 2, 0).cpu().numpy())
+    #     # plt.show()
+    #     # plt.imshow(self.transform(x)[2].permute(1, 2, 0).cpu().numpy())
+    #     # raise Exception()
+    #     outputs_ = self.model_ema(self.transform(x)).detach()
+    #     outputs_emas.append(outputs_)
+    #   outputs_ema = torch.stack(outputs_emas).mean(0)
+    # else:
+    #   outputs_ema = standard_ema
+    outputs_ema = standard_ema
     # Student update
     loss = (softmax_entropy(outputs, outputs_ema)).mean(0)
     loss.backward()
@@ -202,13 +202,3 @@ def check_model(model):
   assert has_any_params, "tent needs params to update: " \
                          "check which require grad"
   assert has_all_params, "cotta should update all params"
-
-
-model = utils.get_model(load_saved_model=True)
-model = configure_model(model)
-check_model(model)
-params, _ = collect_params(model)
-optimizer = torch.optim.Adam(params, lr=utils.args.lr)
-model = CoTTA(model, optimizer, utils.device, mt_alpha=utils.args.mt_alpha,
-              rst_m=utils.args.rst_m, ap=utils.args.ap)
-utils.eval(model, eval_mode=False, reset=True, stop_permutation=1)

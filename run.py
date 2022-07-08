@@ -1,6 +1,5 @@
 import utils
 from torch.optim import Adam
-import wandb
 
 if utils.args.method == "source":
   model = utils.get_model(load_saved_model=True).eval()
@@ -18,7 +17,16 @@ elif utils.args.method == "tent":
   params, _ = tent.collect_params(model)
   optimizer = Adam(params, lr=utils.args.lr)
   model = tent.Tent(model, optimizer)
+
+elif utils.args.method == "cotta":
+  import cotta
+
+  model = utils.get_model(load_saved_model=True)
+  model = cotta.configure_model(model)
+  cotta.check_model(model)
+
+  params, _ = cotta.collect_params(model)
+  optimizer = Adam(params, lr=utils.args.lr)
+  model = cotta.CoTTA(model, optimizer, utils.device, mt_alpha=utils.args.mt_alpha, rst_m=utils.args.rst_m)
   
-mean_acc = utils.eval(model, log_intermediate_results=True)
-if utils.is_master:
-  wandb.log({"mean": mean_acc})
+utils.eval(model)

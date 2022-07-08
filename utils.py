@@ -66,7 +66,7 @@ def get_loader(domains, include_train_data, include_val_data):
                     num_workers=args.num_workers,
                     pin_memory=True)
 
-def eval(model, log_intermediate_results):  
+def eval(model, log=True):  
   results = np.full(shape=(args.cycles, len(args.t)), fill_value=None)
   
   for cycle in range(args.cycles):
@@ -90,12 +90,15 @@ def eval(model, log_intermediate_results):
           dist.all_reduce(intermediate_total)
         
         domain_acc = float(intermediate_correct / intermediate_total)
-        if log_intermediate_results and is_master:	
-          wandb.log({f"c{cycle}_t{i_target}": domain_acc})
+        if log and is_master:	
+          wandb.log({','.join(str(t) for t in target): domain_acc})
       
       results[cycle][i_target] = domain_acc
-
-  return np.mean(results)
+  
+  mean_acc = np.mean(results)
+  if log and is_master:	
+    wandb.log({"results": results, "mean": mean_acc})
+  return mean_acc
 
 
 parser = ArgumentParser()
@@ -112,6 +115,8 @@ parser.add_argument("--model", type=str, help="Load this model")
 parser.add_argument("--dataset", type=str)
 parser.add_argument("--sources", type=str, nargs='+')
 parser.add_argument("-t", type=str, nargs='+', action='append')
+parser.add_argument("--mt_alpha", type=float)
+parser.add_argument("--rst_m", type=float)
 
 if is_notebook():
   # Add these dummy arguments so code can be run as notebook
@@ -149,6 +154,8 @@ if torch.cuda.is_available():
     else:
       device = torch.device("cuda")
 else:
+    if "LOCAL_RANK" in os.environ:
+      raise Exception("distributed but no cuda available")
     device = torch.device("cpu")
 
 is_master = not is_notebook() and (not distributed or dist.get_rank() == 0)

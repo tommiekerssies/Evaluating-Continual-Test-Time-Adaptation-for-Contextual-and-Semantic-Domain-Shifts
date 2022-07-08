@@ -17,7 +17,7 @@ model = utils.get_model(load_saved_model=False)
 optimizer = Adam(model.parameters(), lr=utils.args.lr)
 epoch = 0
 
-best_val_acc = utils.eval(model.eval(), log_intermediate_results=False)
+best_val_acc = utils.eval(model.eval(), log=False)
 if utils.is_master:
   wandb.log({"start_val_acc": best_val_acc})
 
