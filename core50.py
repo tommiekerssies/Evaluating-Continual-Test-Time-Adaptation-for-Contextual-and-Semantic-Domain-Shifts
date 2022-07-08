@@ -13,11 +13,13 @@ from torchvision.transforms import (
     Compose,
     RandomHorizontalFlip,
 )
-from torchvision.models import resnet18
+from torchvision.models import resnet18, ResNet18_Weights
 from torch import nn
 
 # TODO: try the simpler task of predicting the 10 categories
 num_classes = 50
+train_ratio = 0.9
+img_size = 128
 
 normalize = Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])
 train_transform = Compose(
@@ -26,9 +28,10 @@ train_transform = Compose(
 val_transform = Compose([ToTensor(), normalize])
 
 class Model(nn.Module):
-  def __init__(self, device):
-    super().__init__(device=device)
-    self.model = resnet18(pretrained=True, device=device)
+  def __init__(self, device, *args, **kwargs):
+    super().__init__(*args, **kwargs)
+    self.to(device)
+    self.model = resnet18(weights=ResNet18_Weights.DEFAULT).to(device)
     self.model.fc = nn.Linear(self.model.fc.in_features, num_classes)
   
   def forward(self, x):
@@ -106,8 +109,8 @@ class Dataset(data.Dataset):
             benchmark ``ni``, ``nc`` or ``nic``.
         train (bool, optional): If True, creates the dataset from the training
             set, otherwise creates from test set.
-        img_size (string, optional): One of the two img sizes available among
-            ``128x128`` or ``350x350``.
+        img_size (int, optional): One of the two img sizes available among
+            128 or 350.
         cumul (bool, optional): If True the cumulative scenario is assumed, the
             incremental scenario otherwise. Practically speaking ``cumul=True``
             means that for batch=i also batch=0,...i-1 will be added to the
@@ -163,16 +166,16 @@ class Dataset(data.Dataset):
         'nic': 79
     }
     urls = {
-        '128x128': 'http://bias.csr.unibo.it/maltoni/download/core50/'
+        '128': 'http://bias.csr.unibo.it/maltoni/download/core50/'
                    'core50_128x128.zip',
-        '350x350': 'http://bias.csr.unibo.it/maltoni/download/core50/'
+        '350': 'http://bias.csr.unibo.it/maltoni/download/core50/'
                    'core50_350x350.zip',
         'filelists': 'https://vlomonaco.github.io/core50/data/'
                      'batches_filelists.zip'
     }
     filenames = {
-        '128x128': 'core50_128x128.zip',
-        '350x350': 'core50_350x350.zip',
+        '128': 'core50_128x128.zip',
+        '350': 'core50_350x350.zip',
         'filelists': 'batches_filelists.zip'
     }
     md5s = {
@@ -181,11 +184,9 @@ class Dataset(data.Dataset):
         'batches_filelists.zip': 'e3297508a8998ba0c99a83d6b36bde62'
     }
 
-    def __init__(self, root, domains, check_integrity=False, scenario='ni',
-                 img_size='128x128', run=0, batch=7, cumul=True, transform=None,
+    def __init__(self, root, domains, check_integrity=False, scenario='ni', run=0, batch=7, cumul=True, transform=None,
                  target_transform=None, download=False):
         self.root = os.path.expanduser(root)
-        self.img_size = img_size
         self.scenario = scenario
         self.run = run
         self.batch = batch
@@ -241,7 +242,7 @@ class Dataset(data.Dataset):
         fpath = self.img_paths[index]
         target = self.labels[index]
         img = pil_loader(
-            os.path.join(self.root, self.filenames[self.img_size][:-4], fpath)
+            os.path.join(self.root, self.filenames[str(img_size)][:-4], fpath)
         )
 
         if self.transform is not None:
@@ -258,8 +259,8 @@ class Dataset(data.Dataset):
     def _check_integrity(self):
         root = self.root
         for filename, md5 in self.md5s.items():
-            if ((self.img_size == '128x128' and filename == 'core50_350x350.zip') or
-                (self.img_size == '350x350' and filename == 'core50_128x128.zip')):
+            if ((img_size == 128 and filename == 'core50_350x350.zip') or
+                (img_size == 350 and filename == 'core50_128x128.zip')):
               continue
             fpath = os.path.join(root, filename)
             if not check_integrity(fpath, md5):
@@ -276,7 +277,7 @@ class Dataset(data.Dataset):
         root = self.root
 
         # Downloading the dataset and filelists
-        for name in (self.img_size, 'filelists'):
+        for name in (img_size, 'filelists'):
             download_url(
                 self.urls[name], root, self.filenames[name],
                 self.md5s[self.filenames[name]]

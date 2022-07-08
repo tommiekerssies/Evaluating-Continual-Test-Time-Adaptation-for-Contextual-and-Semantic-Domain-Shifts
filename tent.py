@@ -1,11 +1,12 @@
+# %%
 from copy import deepcopy
 import torch
-import torch.nn as nn
 import torch.jit
-import utils
 import torch
+from torch.nn import BatchNorm2d, SyncBatchNorm, Module
+import utils
 
-class Tent(nn.Module):
+class Tent(Module):
     """Tent adapts a model by entropy minimization during testing.
 
     Once tented, a model adapts itself by updating on every forward.
@@ -20,8 +21,8 @@ class Tent(nn.Module):
 
         # note: if the model is never reset, like for continual adaptation,
         # then skipping the state copy would save memory
-        self.model_state, self.optimizer_state = \
-            copy_model_and_optimizer(self.model, self.optimizer)
+        # self.model_state, self.optimizer_state = \
+        #     copy_model_and_optimizer(self.model, self.optimizer)
 
     def forward(self, x):
         if self.episodic:
@@ -72,7 +73,7 @@ def collect_params(model):
     params = []
     names = []
     for nm, m in model.named_modules():
-        if isinstance(m, nn.BatchNorm2d):
+        if isinstance(m, (BatchNorm2d, SyncBatchNorm)):
             for np, p in m.named_parameters():
                 if np in ['weight', 'bias']:  # weight is scale, bias is shift
                     params.append(p)
@@ -101,7 +102,7 @@ def configure_model(model):
     model.requires_grad_(False)
     # configure norm for tent updates: enable grad + force batch statisics
     for m in model.modules():
-        if isinstance(m, nn.BatchNorm2d):
+        if isinstance(m, (BatchNorm2d, SyncBatchNorm)):
             m.requires_grad_(True)
             # force use of batch stats in train and eval modes
             m.track_running_stats = False
@@ -121,12 +122,5 @@ def check_model(model):
                            "check which require grad"
     assert not has_all_params, "tent should not update all params: " \
                                "check which require grad"
-    has_bn = any([isinstance(m, nn.BatchNorm2d) for m in model.modules()])
+    has_bn = any([isinstance(m, (BatchNorm2d, SyncBatchNorm)) for m in model.modules()])
     assert has_bn, "tent needs normalization for its optimization"
-
-model = utils.get_model(load_saved_model=True)
-model = configure_model(model)
-params, _ = collect_params(model)
-optimizer = torch.optim.Adam(params, lr=utils.args.lr)
-model = Tent(model, optimizer)
-utils.eval(model, eval_mode=False, reset=True, stop_permutation=1)

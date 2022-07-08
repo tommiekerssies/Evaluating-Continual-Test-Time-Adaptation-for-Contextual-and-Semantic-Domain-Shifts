@@ -1,69 +1,64 @@
 #%%
 import utils
-import time
 import torch
-from torch import Generator
 from torch.nn import CrossEntropyLoss
 from torch.optim import Adam
 import torch.distributed as dist
-from torch.utils.data import RandomSampler, DataLoader
-from torch.utils.data.distributed import DistributedSampler
 import os
-from core50 import CORE50
+import wandb
 
-dataset = CORE50(root=utils.args.path, sessions=utils.args.train_sessions, transform=utils.train_transform)
+model_path = os.path.join(utils.args.path, utils.args.model)
+if os.path.exists(model_path):
+  raise Exception("Model already exists at {}".format(model_path))
 
-if utils.distributed:
-  sampler = DistributedSampler(dataset, seed=utils.args.seed, shuffle=True)
-else:
-  sampler = RandomSampler(dataset, generator=Generator().manual_seed(utils.args.seed))
-
-loader = DataLoader(dataset=dataset,
-                    batch_size=utils.args.batch_size,
-                    sampler=sampler,
-                    num_workers=utils.args.num_workers,
-                    pin_memory=True)
-
+train_loader = utils.get_loader(domains=utils.args.sources, include_train_data=True, include_val_data=False)
 criterion = CrossEntropyLoss()
 model = utils.get_model(load_saved_model=False)
 optimizer = Adam(model.parameters(), lr=utils.args.lr)
-
 epoch = 0
-best_val_acc = utils.eval(model)
-if not utils.distributed or dist.get_rank() == 0:
-  print("""starting val accuracy: {}""".format(best_val_acc))
-filename = None
+
+best_val_acc = utils.eval(model.eval(), log_intermediate_results=False)
+if utils.is_master:
+  wandb.log({"start_val_acc": best_val_acc})
+
+if utils.is_master:
+  wandb.watch(model)
 
 while utils.args.max_epochs is None or epoch < utils.args.max_epochs:
-  epoch_start = time.time()
   if utils.distributed:
-    sampler.set_epoch(epoch)
+    train_loader.sampler.set_epoch(epoch)
 
-  train_loss, train_acc = utils.train(model, loader, criterion, optimizer)
-  val_acc = utils.eval(model, eval_mode=True)
+  total_loss = torch.tensor(0., device=utils.device)
+  total_correct = torch.tensor(0, device=utils.device)
+  total_images = torch.tensor(0, device=utils.device)
 
-  if not utils.distributed or dist.get_rank() == 0:
-    print("""
-      epoch {}, 
-      train loss: {:.4f}, 
-      train accuracy: {:.8f},
-      val accuracy: {}
-    """.format(
-      epoch,
-      train_loss,
-      train_acc,
-      str(val_acc),
-    ))
+  for image, label in train_loader:
+    image, label = image.to(utils.device).float(), label.to(utils.device)
+    model = model.train()
+    output = model(image)
+    loss = criterion(output, label)
+    loss.backward()
+    optimizer.step()
+    optimizer.zero_grad()
+    pred = torch.max(output, dim=1).indices
+    total_loss += (loss.item() / len(train_loader))
+    total_correct += (torch.sum(pred == label))
+    total_images += label.size(0)
+  
+  if utils.distributed:
+    dist.all_reduce(total_loss)
+    dist.all_reduce(total_correct)
+    dist.all_reduce(total_images)
+  
+  val_acc = utils.eval(model.eval(), log_intermediate_results=False)
 
-    if not utils.args.eval or val_acc > best_val_acc:
+  if utils.is_master:
+    wandb.log({"epoch": epoch, "train_loss": total_loss, "train_acc": total_correct / total_images, "val_acc": val_acc})
+
+    if val_acc > best_val_acc:
       best_val_acc = val_acc
-      if filename:
-        os.remove(filename)
-      filename = f"sessions_{','.join([str(s) for s in utils.args.train_sessions])}"
-      filename += f"_epoch_{str(int(epoch))}"
-      if "SLURM_JOB_ID" in os.environ:
-        filename += f"_jobid_{os.environ['SLURM_JOB_ID']}"
-      filename += ".pth"
-      torch.save(model.module.state_dict(), filename)
+      if os.path.exists(model_path):
+        os.remove(model_path)
+      torch.save(model.module.state_dict(), model_path)
   
   epoch += 1

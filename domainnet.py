@@ -1,13 +1,15 @@
 from torchvision import transforms
 import torch
 import torch.nn as nn
-from torchvision.models import resnet50
+from torchvision.models import resnet50, ResNet50_Weights
 import os
 from PIL import Image
 from torch.utils.data import Dataset
 
 num_classes = 126
 bottleneck_dim = 256
+img_size = 224
+train_ratio = 0.9
 
 normalize = transforms.Normalize(
     mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]
@@ -16,7 +18,7 @@ normalize = transforms.Normalize(
 val_transform = transforms.Compose(
     [
         transforms.Resize((256, 256)),
-        transforms.CenterCrop(224),
+        transforms.CenterCrop(img_size),
         transforms.ToTensor(),
         normalize,
     ]
@@ -24,10 +26,10 @@ val_transform = transforms.Compose(
 
 
 class Model(nn.Module):
-    def __init__(self, device):
-        super().__init__()
+    def __init__(self, device, *args, **kwargs):
+        super().__init__(*args, **kwargs)
         self.to(device)
-        model = resnet50(pretrained=True).to(device)
+        model = resnet50(weights=ResNet50_Weights.DEFAULT).to(device)
         model.fc = nn.Linear(model.fc.in_features, bottleneck_dim)
         bn = nn.BatchNorm1d(bottleneck_dim)
         self.encoder = nn.Sequential(model, bn)
@@ -37,13 +39,15 @@ class Model(nn.Module):
     def forward(self, x):
         return self.fc(torch.flatten(self.encoder(x), 1))
 
-    def load_state_dict(self, checkpoint):
+    def load_state_dict(self, checkpoint, *args, **kwargs):
+        if "state_dict" in checkpoint:
+          checkpoint = checkpoint["state_dict"]
         state_dict = {}
-        for name, param in checkpoint["state_dict"].items():
+        for name, param in checkpoint.items():
             # get rid of 'module.' prefix brought by DDP
             name = name.replace("module.", "")
             state_dict[name] = param
-        super().load_state_dict(state_dict)
+        super().load_state_dict(state_dict, *args, **kwargs)
 
 
 class Dataset(Dataset):
@@ -51,7 +55,7 @@ class Dataset(Dataset):
         self,
         root: str,
         domains,
-        transform=None,
+        transform,
     ):
         self.transform = transform
 
