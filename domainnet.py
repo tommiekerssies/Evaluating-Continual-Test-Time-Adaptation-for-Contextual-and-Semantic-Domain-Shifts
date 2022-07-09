@@ -1,3 +1,4 @@
+from copy import deepcopy
 from torchvision import transforms
 import torch
 import torch.nn as nn
@@ -49,6 +50,21 @@ class Model(nn.Module):
             state_dict[name] = param
         super().load_state_dict(state_dict, *args, **kwargs)
 
+    def __deepcopy__(self, memo):
+      """deepcopy on weightnorm gives an error, so fix it by detaching before and reattaching after"""
+      self.fc.weight = torch._weight_norm(self.fc.weight_v, self.fc.weight_g, dim=0).detach()
+
+      deepcopy_method = self.__deepcopy__
+      self.__deepcopy__ = None
+      cp = deepcopy(self, memo)
+
+      self.fc.weight = torch._weight_norm(self.fc.weight_v, self.fc.weight_g, dim=0) #reattach
+      cp.fc.weight = torch._weight_norm(cp.fc.weight_v, cp.fc.weight_g, dim=0) #reattach
+
+      self.__deepcopy__ = deepcopy_method
+      cp.__deepcopy__ = deepcopy_method
+
+      return cp
 
 class Dataset(Dataset):
     def __init__(

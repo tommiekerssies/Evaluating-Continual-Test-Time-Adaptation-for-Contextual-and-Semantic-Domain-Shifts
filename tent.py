@@ -4,7 +4,6 @@ import torch
 import torch.jit
 import torch
 from torch.nn import BatchNorm2d, SyncBatchNorm, Module
-import utils
 
 class Tent(Module):
     """Tent adapts a model by entropy minimization during testing.
@@ -39,6 +38,37 @@ class Tent(Module):
         load_model_and_optimizer(self.model, self.optimizer,
                                  self.model_state, self.optimizer_state)
 
+    @staticmethod
+    def collect_params(model):
+      """Collect the affine scale + shift parameters from batch norms.
+
+      Walk the model's modules and collect all batch normalization parameters.
+      Return the parameters.
+
+      Note: other choices of parameterization are possible!
+      """
+      params = []
+      for _, m in model.named_modules():
+          if isinstance(m, (BatchNorm2d, SyncBatchNorm)):
+              for np, p in m.named_parameters():
+                  if np in ['weight', 'bias']:  # weight is scale, bias is shift
+                      params.append(p)
+      return params
+
+    def __deepcopy__(self, memo):
+      deepcopy_method = self.__deepcopy__
+      self.__deepcopy__ = None            
+      
+      cp = deepcopy(self, memo)
+    
+      params = self.collect_params(cp.model)
+      cp.optimizer = type(self.optimizer)(params, lr=self.optimizer.defaults['lr'])
+      cp.optimizer.load_state_dict(self.optimizer.state_dict())
+
+      self.__deepcopy__ = deepcopy_method
+      cp.__deepcopy__ = deepcopy_method
+
+      return cp
 
 @torch.jit.script
 def softmax_entropy(x: torch.Tensor) -> torch.Tensor:
@@ -60,25 +90,6 @@ def forward_and_adapt(x, model, optimizer):
     optimizer.step()
     optimizer.zero_grad()
     return outputs
-
-
-def collect_params(model):
-    """Collect the affine scale + shift parameters from batch norms.
-
-    Walk the model's modules and collect all batch normalization parameters.
-    Return the parameters and their names.
-
-    Note: other choices of parameterization are possible!
-    """
-    params = []
-    names = []
-    for nm, m in model.named_modules():
-        if isinstance(m, (BatchNorm2d, SyncBatchNorm)):
-            for np, p in m.named_parameters():
-                if np in ['weight', 'bias']:  # weight is scale, bias is shift
-                    params.append(p)
-                    names.append(f"{nm}.{np}")
-    return params, names
 
 
 def copy_model_and_optimizer(model, optimizer):

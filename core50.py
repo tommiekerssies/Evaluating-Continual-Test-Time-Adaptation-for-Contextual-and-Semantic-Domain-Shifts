@@ -277,7 +277,7 @@ class Dataset(data.Dataset):
         root = self.root
 
         # Downloading the dataset and filelists
-        for name in (img_size, 'filelists'):
+        for name in (str(img_size), 'filelists'):
             download_url(
                 self.urls[name], root, self.filenames[name],
                 self.md5s[self.filenames[name]]

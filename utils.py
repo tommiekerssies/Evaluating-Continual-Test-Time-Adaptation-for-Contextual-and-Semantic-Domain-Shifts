@@ -3,6 +3,7 @@
 # TODO: add run/sh scripts to repo
 # %%
 from argparse import ArgumentParser
+from copy import deepcopy
 import random
 import os
 import numpy as np
@@ -66,55 +67,45 @@ def get_loader(domains, include_train_data, include_val_data):
                     num_workers=args.num_workers,
                     pin_memory=True)
 
-def eval(model, log=True):  
-  results = np.full(shape=(args.cycles, len(args.t)), fill_value=None)
-  
-  for cycle in range(args.cycles):
-    for i_target, target in enumerate(args.t):
-      include_train_data = not bool(set(target) & set(args.sources))
-      loader = get_loader(target, include_train_data=include_train_data, include_val_data=True)
-      
-      correct = torch.tensor(0, device=device)
-      total = torch.tensor(0, device=device)
-      for image, label in loader:
-        image, label = image.to(device).float(), label.to(device)
-        output = model(image)
-        pred = torch.max(output, dim=1).indices
-        correct += torch.sum(pred == label)
-        total += label.size(0)
-        
-        intermediate_correct = correct.detach().clone()
-        intermediate_total = total.detach().clone()
-        if distributed:
-          dist.all_reduce(intermediate_correct)
-          dist.all_reduce(intermediate_total)
-        
-        domain_acc = float(intermediate_correct / intermediate_total)
-        if log and is_master:	
-          wandb.log({','.join(str(t) for t in target): domain_acc})
-      
-      results[cycle][i_target] = domain_acc
-  
-  mean_acc = np.mean(results)
-  if log and is_master:	
-    wandb.log({"results": results, "mean": mean_acc})
-  return mean_acc
+def eval(model, loader, log_as=None):  
+  correct = torch.tensor(0, device=device)
+  total = torch.tensor(0, device=device)
+  acc = None
 
+  for image, label in loader:
+    image, label = image.to(device).float(), label.to(device)
+    output = model(image)
+    pred = torch.max(output, dim=1).indices
+    correct += torch.sum(pred == label)
+    total += label.size(0)
+    
+    if log_as:
+      intermediate_correct = correct.detach().clone()
+      intermediate_total = total.detach().clone()
+      
+      if distributed:
+        dist.all_reduce(intermediate_correct)
+        dist.all_reduce(intermediate_total)
+      
+      if is_master:	
+        acc = float(intermediate_correct / intermediate_total)
+        wandb.log({log_as: acc})
+  
+  return acc if acc else float(correct / total)
 
 parser = ArgumentParser()
 parser.add_argument("--method", type=str)
 parser.add_argument("--path", type=str, help="Path where data and models should be stored")
-parser.add_argument("--max_epochs", type=int)
+parser.add_argument("--epochs", type=int)
 parser.add_argument("--batch_size", type=int, help="Batch size")
 parser.add_argument("--lr", type=float, help="Main learning rate")
 parser.add_argument("--seed", type=int)
 # TODO: try different number of workers
-parser.add_argument("--num_workers", default=8, type=int, help="Workers number for torch Dataloader")
-parser.add_argument("--cycles", type=int, help="Number of adaptation cycles")
+parser.add_argument("--num_workers", default=16, type=int, help="Workers number for torch Dataloader")
 parser.add_argument("--model", type=str, help="Load this model")
 parser.add_argument("--dataset", type=str)
 parser.add_argument("--sources", type=str, nargs='+')
-parser.add_argument("-t", type=str, nargs='+', action='append')
+parser.add_argument("--targets", type=str, nargs='+')
 parser.add_argument("--mt_alpha", type=float)
 parser.add_argument("--rst_m", type=float)
 

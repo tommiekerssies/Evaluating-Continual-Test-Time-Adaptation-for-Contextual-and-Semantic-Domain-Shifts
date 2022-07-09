@@ -12,19 +12,20 @@ if os.path.exists(model_path):
   raise Exception("Model already exists at {}".format(model_path))
 
 train_loader = utils.get_loader(domains=utils.args.sources, include_train_data=True, include_val_data=False)
+val_loader = utils.get_loader(domains=utils.args.sources, include_train_data=False, include_val_data=True)
 criterion = CrossEntropyLoss()
 model = utils.get_model(load_saved_model=False)
 optimizer = Adam(model.parameters(), lr=utils.args.lr)
 epoch = 0
 
-best_val_acc = utils.eval(model.eval(), log=False)
+best_val_acc = utils.eval(model.eval(), val_loader)
 if utils.is_master:
   wandb.log({"start_val_acc": best_val_acc})
 
 if utils.is_master:
   wandb.watch(model)
 
-while utils.args.max_epochs is None or epoch < utils.args.max_epochs:
+while utils.args.epochs is None or epoch < utils.args.epochs:
   if utils.distributed:
     train_loader.sampler.set_epoch(epoch)
 
@@ -50,7 +51,7 @@ while utils.args.max_epochs is None or epoch < utils.args.max_epochs:
     dist.all_reduce(total_correct)
     dist.all_reduce(total_images)
   
-  val_acc = utils.eval(model.eval(), log_intermediate_results=False)
+  val_acc = utils.eval(model.eval(), val_loader)
 
   if utils.is_master:
     wandb.log({"epoch": epoch, "train_loss": total_loss, "train_acc": total_correct / total_images, "val_acc": val_acc})
