@@ -3,7 +3,6 @@
 # TODO: add run/sh scripts to repo
 # %%
 from argparse import ArgumentParser
-from copy import deepcopy
 import random
 import os
 import numpy as np
@@ -152,7 +151,7 @@ else:
 is_master = not is_notebook() and (not distributed or dist.get_rank() == 0)
 
 if is_master:
-  wandb.init(project="CTTAVR")
+  wandb.init(project="CTTAVR", dir=args.path)
   wandb.config.update(args)
   wandb.config.world_size = dist.get_world_size() if distributed else 1
 

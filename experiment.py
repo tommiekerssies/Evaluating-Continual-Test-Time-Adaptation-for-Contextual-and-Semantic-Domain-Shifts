@@ -1,9 +1,10 @@
 # %%
 from copy import deepcopy
+import os
 from statistics import mean
-import numpy as np
-import wandb
 from torch.optim import Adam
+import wandb
+import torch
 
 target_acc = None
 
@@ -38,6 +39,9 @@ try:
     optimizer = Adam(params, lr=utils.args.lr)
     model = cotta.CoTTA(model, optimizer, utils.device, mt_alpha=utils.args.mt_alpha, rst_m=utils.args.rst_m)
 
+  if utils.is_master:
+    wandb.watch(model)
+
   source_val_loader = utils.get_loader(domains=utils.args.sources, include_train_data=False, include_val_data=True)
   target_domain_loaders = []
   for domain in utils.args.targets:
@@ -62,6 +66,7 @@ try:
     source_acc.append(get_source_acc())
     
     if utils.is_master:	
+      torch.save(model, os.path.join(wandb.run.dir, "model.pth.tar"))
       wandb.log({
         "epoch": epoch, 
         "source_acc": source_acc, 
@@ -76,7 +81,7 @@ except Exception as e:
     
     wandb.finish(exit_code=1, quiet=True)
     
-    if not np.any(target_acc):
+    if len(target_acc) == 0:
       wandb.Api().run(path).delete()
     
     raise e
