@@ -107,6 +107,7 @@ parser.add_argument("--sources", type=str, nargs='+')
 parser.add_argument("--targets", type=str, nargs='+')
 parser.add_argument("--mt_alpha", type=float)
 parser.add_argument("--rst_m", type=float)
+parser.add_argument("--resume_run", type=str)
 
 if is_notebook():
   # Add these dummy arguments so code can be run as notebook
@@ -151,8 +152,9 @@ else:
 is_master = not is_notebook() and (not distributed or dist.get_rank() == 0)
 
 if is_master:
-  wandb.init(project="CTTAVR", dir=args.path)
-  wandb.config.update(args)
+  wandb.init(id=args.resume_run, project="CTTAVR", dir=args.path, resume="must" if args.resume_run else "never")
+  wandb.config.update({"resume_run": args.resume_run}, allow_val_change=True)
+  wandb.config.update(args, allow_val_change=False)
   wandb.config.world_size = dist.get_world_size() if distributed else 1
 
 if args.dataset == "CORe50":

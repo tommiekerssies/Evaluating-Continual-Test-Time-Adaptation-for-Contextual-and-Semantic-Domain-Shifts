@@ -1,21 +1,28 @@
 # %%
 from copy import deepcopy
-import os
 from statistics import mean
 from torch.optim import Adam
 import wandb
 import torch
+import os
 
-target_acc = None
+adaptation_model_name = "model.pth.tar"
+target_accs = []
+source_accs = []
+epoch = 0
 
 try:
   import utils
 
-  if utils.args.method == "source":
-    model = utils.get_model(load_saved_model=True).eval()
+  if utils.args.resume_run:
+    adaptation_model = torch.load(wandb.restore(adaptation_model_name))
+    print(adaptation_model)
+    
+  elif utils.args.method == "source":
+    adaptation_model = utils.get_model(load_saved_model=True).eval()
 
   elif utils.args.method == "bn":
-    model = utils.get_model(load_saved_model=True).train()
+    adaptation_model = utils.get_model(load_saved_model=True).train()
 
   elif utils.args.method == "tent":
     import tent
@@ -26,7 +33,7 @@ try:
 
     params = tent.Tent.collect_params(model)
     optimizer = Adam(params, lr=utils.args.lr)
-    model = tent.Tent(model, optimizer)
+    adaptation_model = tent.Tent(model, optimizer)
 
   elif utils.args.method == "cotta":
     import cotta
@@ -37,43 +44,44 @@ try:
 
     params = cotta.CoTTA.collect_params(model)
     optimizer = Adam(params, lr=utils.args.lr)
-    model = cotta.CoTTA(model, optimizer, utils.device, mt_alpha=utils.args.mt_alpha, rst_m=utils.args.rst_m)
+    adaptation_model = cotta.CoTTA(model, optimizer, utils.device, mt_alpha=utils.args.mt_alpha, rst_m=utils.args.rst_m)
 
   if utils.is_master:
-    wandb.watch(model)
+    wandb.watch(adaptation_model)
 
   source_val_loader = utils.get_loader(domains=utils.args.sources, include_train_data=False, include_val_data=True)
   target_domain_loaders = []
   for domain in utils.args.targets:
     target_domain_loaders.append(utils.get_loader([domain], include_train_data=True, include_val_data=True))
 
+  log_intermediate_results = utils.args.epochs == 1
+
   def get_source_acc():
-    return utils.eval(deepcopy(model), source_val_loader, log_as=','.join(utils.args.sources))
+    return utils.eval(deepcopy(adaptation_model), source_val_loader, log_as=','.join(utils.args.sources) if log_intermediate_results else None)
   
-  epoch = 0
-  target_acc = []
-  source_acc = [get_source_acc()]
+  source_accs.append(get_source_acc())
   while utils.args.epochs is None or epoch < utils.args.epochs:
     epoch += 1
     
-    target_acc.append([])
+    target_acc = []
     for i, domain in enumerate(utils.args.targets):
       if utils.distributed:
         target_domain_loaders[i].sampler.set_epoch(epoch)  
       
-      target_acc[-1].append(utils.eval(model, target_domain_loaders[i], log_as=domain))
+      target_acc.append(utils.eval(adaptation_model, target_domain_loaders[i], log_as=domain if log_intermediate_results else None))
     
-    source_acc.append(get_source_acc())
+    source_accs.append(get_source_acc())
+    target_accs.append(target_acc)
     
     if utils.is_master:	
-      torch.save(model, os.path.join(wandb.run.dir, "model.pth.tar"))
+      #torch.save(adaptation_model, os.path.join(wandb.run.dir, adaptation_model_name))
       wandb.log({
         "epoch": epoch, 
-        "source_acc": source_acc, 
-        "target_acc": target_acc, 
-        "target_acc_mean": mean([acc for accs in target_acc for acc in accs]),
-        "forget_rate": source_acc[0] - source_acc[-1]}
-      )
+        "source_acc": source_accs, 
+        "target_acc": target_accs, 
+        "target_acc_mean": mean([acc for accs in target_accs for acc in accs]),
+        "forget_rate": source_accs[0] - source_accs[-1]
+      })
 
 except Exception as e:
   if utils.is_master:
@@ -81,7 +89,7 @@ except Exception as e:
     
     wandb.finish(exit_code=1, quiet=True)
     
-    if len(target_acc) == 0:
+    if len(target_accs) == 0 and not utils.args.resume_run:
       wandb.Api().run(path).delete()
     
     raise e
