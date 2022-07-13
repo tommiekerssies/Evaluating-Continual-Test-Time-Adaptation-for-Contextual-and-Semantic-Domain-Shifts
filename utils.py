@@ -98,9 +98,9 @@ parser.add_argument("--path", type=str, help="Path where data and models should 
 parser.add_argument("--epochs", type=int)
 parser.add_argument("--batch_size", type=int, help="Batch size")
 parser.add_argument("--lr", type=float, help="Main learning rate")
-parser.add_argument("--seed", type=int)
+parser.add_argument("--seed", type=int, default=0)
 # TODO: try different number of workers
-parser.add_argument("--num_workers", default=16, type=int, help="Workers number for torch Dataloader")
+parser.add_argument("--num_workers", default=15, type=int, help="Workers number for torch Dataloader")
 parser.add_argument("--model", type=str, help="Load this model")
 parser.add_argument("--dataset", type=str)
 parser.add_argument("--sources", type=str, nargs='+')

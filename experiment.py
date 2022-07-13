@@ -74,7 +74,7 @@ try:
     target_accs.append(target_acc)
     
     if utils.is_master:	
-      #torch.save(adaptation_model, os.path.join(wandb.run.dir, adaptation_model_name))
+      torch.save(adaptation_model, os.path.join(wandb.run.dir, adaptation_model_name))
       wandb.log({
         "epoch": epoch, 
         "source_acc": source_accs, 
