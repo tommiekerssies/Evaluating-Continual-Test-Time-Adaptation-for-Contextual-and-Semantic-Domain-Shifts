@@ -56,10 +56,10 @@ try:
 
   log_intermediate_results = utils.args.epochs == 1
 
-  def get_source_acc():
-    return utils.eval(deepcopy(adaptation_model), source_val_loader, log_as=','.join(utils.args.sources) if log_intermediate_results else None)
+  def get_source_acc(temp):
+    return utils.eval(deepcopy(adaptation_model), source_val_loader, log_as=temp + ','.join(utils.args.sources) if log_intermediate_results else None)
   
-  source_accs.append(get_source_acc())
+  source_accs.append(get_source_acc("start "))
   while utils.args.epochs is None or epoch < utils.args.epochs:
     epoch += 1
     
@@ -70,15 +70,16 @@ try:
       
       target_acc.append(utils.eval(adaptation_model, target_domain_loaders[i], log_as=domain if log_intermediate_results else None))
     
-    source_accs.append(get_source_acc())
+    source_accs.append(get_source_acc("end "))
     target_accs.append(target_acc)
     
     if utils.is_master:	
-      #torch.save(adaptation_model, os.path.join(wandb.run.dir, adaptation_model_name))
+      torch.save(adaptation_model, os.path.join(wandb.run.dir, adaptation_model_name))
       wandb.log({
         "epoch": epoch, 
         "source_acc": source_accs, 
         "target_acc": target_accs, 
+        "mean_old_temp": mean([acc for accs in target_accs for acc in accs] + source_accs),
         "target_acc_mean": mean([acc for accs in target_accs for acc in accs]),
         "forget_rate": source_accs[0] - source_accs[-1]
       })
