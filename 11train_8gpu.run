@@ -1,0 +1,12 @@
+#!/usr/bin/bash
+torchrun --nproc_per_node=8 train.py --max_epochs 15 --train_sessions 1
+torchrun --nproc_per_node=8 train.py --max_epochs 15 --train_sessions 2
+torchrun --nproc_per_node=8 train.py --max_epochs 15 --train_sessions 3
+torchrun --nproc_per_node=8 train.py --max_epochs 15 --train_sessions 4
+torchrun --nproc_per_node=8 train.py --max_epochs 15 --train_sessions 5
+torchrun --nproc_per_node=8 train.py --max_epochs 15 --train_sessions 6
+torchrun --nproc_per_node=8 train.py --max_epochs 15 --train_sessions 7
+torchrun --nproc_per_node=8 train.py --max_epochs 15 --train_sessions 8
+torchrun --nproc_per_node=8 train.py --max_epochs 15 --train_sessions 9
+torchrun --nproc_per_node=8 train.py --max_epochs 15 --train_sessions 10
+torchrun --nproc_per_node=8 train.py --max_epochs 15 --train_sessions 11

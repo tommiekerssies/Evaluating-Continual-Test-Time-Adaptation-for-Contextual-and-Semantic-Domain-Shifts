@@ -1,0 +1,33 @@
+#!/usr/bin/bash
+torchrun --nproc_per_node=8 source.py --val_sessions 1 2 3 4 5 6 7 8 9 10 11 --model sessions_1_epoch_2_train_acc_0.997776210308075_val_acc_0.823767754164609.model
+torchrun --nproc_per_node=8 bn.py --val_sessions 1 2 3 4 5 6 7 8 9 10 11 --model sessions_1_epoch_2_train_acc_0.997776210308075_val_acc_0.823767754164609.model
+
+torchrun --nproc_per_node=8 source.py --val_sessions 1 2 3 4 5 6 7 8 9 10 11 --model sessions_2_epoch_14_train_acc_1.0_val_acc_0.6589215885509144.model
+torchrun --nproc_per_node=8 bn.py --val_sessions 1 2 3 4 5 6 7 8 9 10 11 --model sessions_2_epoch_14_train_acc_1.0_val_acc_0.6589215885509144.model
+
+torchrun --nproc_per_node=8 source.py --val_sessions 1 2 3 4 5 6 7 8 9 10 11 --model sessions_3_epoch_14_train_acc_1.0_val_acc_0.6505236734043468.model
+torchrun --nproc_per_node=8 bn.py --val_sessions 1 2 3 4 5 6 7 8 9 10 11 --model sessions_3_epoch_14_train_acc_1.0_val_acc_0.6505236734043468.model
+
+torchrun --nproc_per_node=8 source.py --val_sessions 1 2 3 4 5 6 7 8 9 10 11 --model sessions_4_epoch_14_train_acc_1.0_val_acc_0.658561419356953.model
+torchrun --nproc_per_node=8 bn.py --val_sessions 1 2 3 4 5 6 7 8 9 10 11 --model sessions_4_epoch_14_train_acc_1.0_val_acc_0.658561419356953.model
+
+torchrun --nproc_per_node=8 source.py --val_sessions 1 2 3 4 5 6 7 8 9 10 11 --model sessions_5_epoch_14_train_acc_1.0_val_acc_0.6392889727245678.model
+torchrun --nproc_per_node=8 bn.py --val_sessions 1 2 3 4 5 6 7 8 9 10 11 --model sessions_5_epoch_14_train_acc_1.0_val_acc_0.6392889727245678.model
+
+torchrun --nproc_per_node=8 source.py --val_sessions 1 2 3 4 5 6 7 8 9 10 11 --model sessions_6_epoch_14_train_acc_1.0_val_acc_0.6307899951934814.model
+torchrun --nproc_per_node=8 bn.py --val_sessions 1 2 3 4 5 6 7 8 9 10 11 --model sessions_6_epoch_14_train_acc_1.0_val_acc_0.6307899951934814.model
+
+torchrun --nproc_per_node=8 source.py --val_sessions 1 2 3 4 5 6 7 8 9 10 11 --model sessions_7_epoch_14_train_acc_1.0_val_acc_0.6373903941024434.model
+torchrun --nproc_per_node=8 bn.py --val_sessions 1 2 3 4 5 6 7 8 9 10 11 --model sessions_7_epoch_14_train_acc_1.0_val_acc_0.6373903941024434.model
+
+torchrun --nproc_per_node=8 source.py --val_sessions 1 2 3 4 5 6 7 8 9 10 11 --model sessions_8_epoch_14_train_acc_1.0_val_acc_0.6961174282160673.model
+torchrun --nproc_per_node=8 bn.py --val_sessions 1 2 3 4 5 6 7 8 9 10 11 --model sessions_8_epoch_14_train_acc_1.0_val_acc_0.6961174282160673.model
+
+torchrun --nproc_per_node=8 source.py --val_sessions 1 2 3 4 5 6 7 8 9 10 11 --model sessions_9_epoch_14_train_acc_1.0_val_acc_0.6916188353841956.model
+torchrun --nproc_per_node=8 bn.py --val_sessions 1 2 3 4 5 6 7 8 9 10 11 --model sessions_9_epoch_14_train_acc_1.0_val_acc_0.6916188353841956.model
+
+torchrun --nproc_per_node=8 source.py --val_sessions 1 2 3 4 5 6 7 8 9 10 11 --model sessions_10_epoch_8_train_acc_0.9999333024024963_val_acc_0.6520190293138678.model
+torchrun --nproc_per_node=8 bn.py --val_sessions 1 2 3 4 5 6 7 8 9 10 11 --model sessions_10_epoch_8_train_acc_0.9999333024024963_val_acc_0.6520190293138678.model
+
+torchrun --nproc_per_node=8 source.py --val_sessions 1 2 3 4 5 6 7 8 9 10 11 --model sessions_11_epoch_5_train_acc_0.9998666048049927_val_acc_0.6676842380653728.model
+torchrun --nproc_per_node=8 bn.py --val_sessions 1 2 3 4 5 6 7 8 9 10 11 --model sessions_11_epoch_5_train_acc_0.9998666048049927_val_acc_0.6676842380653728.model

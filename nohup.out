@@ -1,0 +1,83 @@
+wandb: Currently logged in as: tommiekerssies. Use `wandb login --relogin` to force relogin
+wandb: wandb version 0.12.21 is available!  To upgrade, please run:
+wandb:  $ pip install wandb --upgrade
+wandb: Tracking run with wandb version 0.12.20
+wandb: Run data is saved locally in /home/tommie_kerssies/CTTAVR/wandb/run-20220709_001224-4uklpaur
+wandb: Run `wandb offline` to turn off syncing.
+wandb: Syncing run helpful-energy-481
+wandb: ⭐️ View project at https://wandb.ai/tommiekerssies/CTTAVR
+wandb: 🚀 View run at https://wandb.ai/tommiekerssies/CTTAVR/runs/4uklpaur
+cycle: 0/100
+cycle: 1/100
+cycle: 2/100
+cycle: 3/100
+cycle: 4/100
+cycle: 5/100
+cycle: 6/100
+cycle: 7/100
+cycle: 8/100
+cycle: 9/100
+cycle: 10/100
+cycle: 11/100
+cycle: 12/100
+cycle: 13/100
+cycle: 14/100
+cycle: 15/100
+cycle: 16/100
+cycle: 17/100
+cycle: 18/100
+cycle: 19/100
+cycle: 20/100
+cycle: 21/100
+cycle: 22/100
+cycle: 23/100
+cycle: 24/100
+cycle: 25/100
+cycle: 26/100
+cycle: 27/100
+cycle: 28/100
+cycle: 29/100
+cycle: 30/100
+cycle: 31/100
+cycle: 32/100
+cycle: 33/100
+cycle: 34/100
+cycle: 35/100
+cycle: 36/100
+cycle: 37/100
+cycle: 38/100
+cycle: 39/100
+cycle: 40/100
+cycle: 41/100
+cycle: 42/100
+cycle: 43/100
+cycle: 44/100
+cycle: 45/100
+cycle: 46/100
+WARNING:torch.distributed.elastic.agent.server.api:Received 1 death signal, shutting down workers
+WARNING:torch.distributed.elastic.multiprocessing.api:Sending process 1182892 closing signal SIGHUP
+WARNING:torch.distributed.elastic.multiprocessing.api:Sending process 1182893 closing signal SIGHUP
+WARNING:torch.distributed.elastic.multiprocessing.api:Sending process 1182894 closing signal SIGHUP
+WARNING:torch.distributed.elastic.multiprocessing.api:Sending process 1182895 closing signal SIGHUP
+Traceback (most recent call last):
+  File "/home/tommie_kerssies/miniconda3/envs/CTTAVR/bin/torchrun", line 33, in <module>
+    sys.exit(load_entry_point('torch==1.12.0', 'console_scripts', 'torchrun')())
+  File "/home/tommie_kerssies/miniconda3/envs/CTTAVR/lib/python3.10/site-packages/torch/distributed/elastic/multiprocessing/errors/__init__.py", line 345, in wrapper
+    return f(*args, **kwargs)
+  File "/home/tommie_kerssies/miniconda3/envs/CTTAVR/lib/python3.10/site-packages/torch/distributed/run.py", line 761, in main
+    run(args)
+  File "/home/tommie_kerssies/miniconda3/envs/CTTAVR/lib/python3.10/site-packages/torch/distributed/run.py", line 752, in run
+    elastic_launch(
+  File "/home/tommie_kerssies/miniconda3/envs/CTTAVR/lib/python3.10/site-packages/torch/distributed/launcher/api.py", line 131, in __call__
+    return launch_agent(self._config, self._entrypoint, list(args))
+  File "/home/tommie_kerssies/miniconda3/envs/CTTAVR/lib/python3.10/site-packages/torch/distributed/launcher/api.py", line 236, in launch_agent
+    result = agent.run()
+  File "/home/tommie_kerssies/miniconda3/envs/CTTAVR/lib/python3.10/site-packages/torch/distributed/elastic/metrics/api.py", line 125, in wrapper
+    result = f(*args, **kwargs)
+  File "/home/tommie_kerssies/miniconda3/envs/CTTAVR/lib/python3.10/site-packages/torch/distributed/elastic/agent/server/api.py", line 709, in run
+    result = self._invoke_run(role)
+  File "/home/tommie_kerssies/miniconda3/envs/CTTAVR/lib/python3.10/site-packages/torch/distributed/elastic/agent/server/api.py", line 850, in _invoke_run
+    time.sleep(monitor_interval)
+  File "/home/tommie_kerssies/miniconda3/envs/CTTAVR/lib/python3.10/site-packages/torch/distributed/elastic/multiprocessing/api.py", line 60, in _terminate_process_handler
+    raise SignalException(f"Process {os.getpid()} got signal: {sigval}", sigval=sigval)
+torch.distributed.elastic.multiprocessing.api.SignalException: Process 1182843 got signal: 1

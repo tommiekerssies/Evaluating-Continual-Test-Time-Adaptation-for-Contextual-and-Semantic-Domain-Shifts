@@ -1,0 +1,1102 @@
+WARNING:torch.distributed.run:
+*****************************************
+Setting OMP_NUM_THREADS environment variable for each process to be 1 in default, to avoid your system being overloaded, please further tune the variable for optimal performance in your application as needed. 
+*****************************************
+World size: 8
+Namespace(path='./', max_epochs=None, batch_size=8, lr=0.001, seed=0, num_workers=10, cycles=1, model='sessions_1,2,3,4,5,6,7,8,9,10_epoch_9_train_acc_0.9989992380142212.model', eval=True, train_sessions=None, val_sessions=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11], ip=None, stdin=None, control=None, hb=None, shell=None, transport=None, iopub=None, f=None, **{'Session.signature_scheme': None, 'Session.key': None})
+Traceback (most recent call last):
+  File "/home/tommie_kerssies/CORe50/bn.py", line 4, in <module>
+    model = utils.get_model(load_saved_model=True) 
+  File "/home/tommie_kerssies/CORe50/utils.py", line 105, in get_model
+    model = DDP(model, [dist.get_rank()], dist.get_rank())
+  File "/home/tommie_kerssies/miniconda3/envs/DAGM/lib/python3.9/site-packages/torch/nn/parallel/distributed.py", line 641, in __init__
+    dist._verify_params_across_processes(self.process_group, parameters)
+RuntimeError: CUDA error: out of memory
+CUDA kernel errors might be asynchronously reported at some other API call,so the stacktrace below might be incorrect.
+For debugging consider passing CUDA_LAUNCH_BLOCKING=1.
+WARNING:torch.distributed.elastic.multiprocessing.api:Sending process 657170 closing signal SIGTERM
+WARNING:torch.distributed.elastic.multiprocessing.api:Sending process 657171 closing signal SIGTERM
+WARNING:torch.distributed.elastic.multiprocessing.api:Sending process 657172 closing signal SIGTERM
+WARNING:torch.distributed.elastic.multiprocessing.api:Sending process 657173 closing signal SIGTERM
+WARNING:torch.distributed.elastic.multiprocessing.api:Sending process 657175 closing signal SIGTERM
+WARNING:torch.distributed.elastic.multiprocessing.api:Sending process 657176 closing signal SIGTERM
+WARNING:torch.distributed.elastic.multiprocessing.api:Sending process 657177 closing signal SIGTERM
+ERROR:torch.distributed.elastic.multiprocessing.api:failed (exitcode: 1) local_rank: 4 (pid: 657174) of binary: /home/tommie_kerssies/miniconda3/envs/DAGM/bin/python
+Traceback (most recent call last):
+  File "/home/tommie_kerssies/miniconda3/envs/DAGM/bin/torchrun", line 33, in <module>
+    sys.exit(load_entry_point('torch==1.11.0', 'console_scripts', 'torchrun')())
+  File "/home/tommie_kerssies/miniconda3/envs/DAGM/lib/python3.9/site-packages/torch/distributed/elastic/multiprocessing/errors/__init__.py", line 345, in wrapper
+    return f(*args, **kwargs)
+  File "/home/tommie_kerssies/miniconda3/envs/DAGM/lib/python3.9/site-packages/torch/distributed/run.py", line 724, in main
+    run(args)
+  File "/home/tommie_kerssies/miniconda3/envs/DAGM/lib/python3.9/site-packages/torch/distributed/run.py", line 715, in run
+    elastic_launch(
+  File "/home/tommie_kerssies/miniconda3/envs/DAGM/lib/python3.9/site-packages/torch/distributed/launcher/api.py", line 131, in __call__
+    return launch_agent(self._config, self._entrypoint, list(args))
+  File "/home/tommie_kerssies/miniconda3/envs/DAGM/lib/python3.9/site-packages/torch/distributed/launcher/api.py", line 245, in launch_agent
+    raise ChildFailedError(
+torch.distributed.elastic.multiprocessing.errors.ChildFailedError: 
+============================================================
+bn.py FAILED
+------------------------------------------------------------
+Failures:
+  <NO_OTHER_FAILURES>
+------------------------------------------------------------
+Root Cause (first observed failure):
+[0]:
+  time      : 2022-06-23_23:20:12
+  host      : blade1.coc.org
+  rank      : 4 (local_rank: 4)
+  exitcode  : 1 (pid: 657174)
+  error_file: <N/A>
+  traceback : To enable traceback see: https://pytorch.org/docs/stable/elastic/errors.html
+============================================================
+WARNING:torch.distributed.run:
+*****************************************
+Setting OMP_NUM_THREADS environment variable for each process to be 1 in default, to avoid your system being overloaded, please further tune the variable for optimal performance in your application as needed. 
+*****************************************
+World size: 8
+Namespace(path='./', max_epochs=None, batch_size=8, lr=0.001, seed=0, num_workers=10, cycles=1, model='sessions_1,2,3,4,5,6,7,8,9,11_epoch_9_train_acc_0.9989992380142212.model', eval=True, train_sessions=None, val_sessions=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11], ip=None, stdin=None, control=None, hb=None, shell=None, transport=None, iopub=None, f=None, **{'Session.signature_scheme': None, 'Session.key': None})
+Traceback (most recent call last):
+  File "/home/tommie_kerssies/CORe50/bn.py", line 4, in <module>
+    model = utils.get_model(load_saved_model=True) 
+  File "/home/tommie_kerssies/CORe50/utils.py", line 105, in get_model
+    model = DDP(model, [dist.get_rank()], dist.get_rank())
+  File "/home/tommie_kerssies/miniconda3/envs/DAGM/lib/python3.9/site-packages/torch/nn/parallel/distributed.py", line 641, in __init__
+    dist._verify_params_across_processes(self.process_group, parameters)
+RuntimeError: CUDA error: out of memory
+CUDA kernel errors might be asynchronously reported at some other API call,so the stacktrace below might be incorrect.
+For debugging consider passing CUDA_LAUNCH_BLOCKING=1.
+WARNING:torch.distributed.elastic.multiprocessing.api:Sending process 657357 closing signal SIGTERM
+WARNING:torch.distributed.elastic.multiprocessing.api:Sending process 657358 closing signal SIGTERM
+WARNING:torch.distributed.elastic.multiprocessing.api:Sending process 657360 closing signal SIGTERM
+WARNING:torch.distributed.elastic.multiprocessing.api:Sending process 657361 closing signal SIGTERM
+WARNING:torch.distributed.elastic.multiprocessing.api:Sending process 657362 closing signal SIGTERM
+WARNING:torch.distributed.elastic.multiprocessing.api:Sending process 657363 closing signal SIGTERM
+WARNING:torch.distributed.elastic.multiprocessing.api:Sending process 657364 closing signal SIGTERM
+ERROR:torch.distributed.elastic.multiprocessing.api:failed (exitcode: 1) local_rank: 2 (pid: 657359) of binary: /home/tommie_kerssies/miniconda3/envs/DAGM/bin/python
+Traceback (most recent call last):
+  File "/home/tommie_kerssies/miniconda3/envs/DAGM/bin/torchrun", line 33, in <module>
+    sys.exit(load_entry_point('torch==1.11.0', 'console_scripts', 'torchrun')())
+  File "/home/tommie_kerssies/miniconda3/envs/DAGM/lib/python3.9/site-packages/torch/distributed/elastic/multiprocessing/errors/__init__.py", line 345, in wrapper
+    return f(*args, **kwargs)
+  File "/home/tommie_kerssies/miniconda3/envs/DAGM/lib/python3.9/site-packages/torch/distributed/run.py", line 724, in main
+    run(args)
+  File "/home/tommie_kerssies/miniconda3/envs/DAGM/lib/python3.9/site-packages/torch/distributed/run.py", line 715, in run
+    elastic_launch(
+  File "/home/tommie_kerssies/miniconda3/envs/DAGM/lib/python3.9/site-packages/torch/distributed/launcher/api.py", line 131, in __call__
+    return launch_agent(self._config, self._entrypoint, list(args))
+  File "/home/tommie_kerssies/miniconda3/envs/DAGM/lib/python3.9/site-packages/torch/distributed/launcher/api.py", line 245, in launch_agent
+    raise ChildFailedError(
+torch.distributed.elastic.multiprocessing.errors.ChildFailedError: 
+============================================================
+bn.py FAILED
+------------------------------------------------------------
+Failures:
+  <NO_OTHER_FAILURES>
+------------------------------------------------------------
+Root Cause (first observed failure):
+[0]:
+  time      : 2022-06-23_23:20:25
+  host      : blade1.coc.org
+  rank      : 2 (local_rank: 2)
+  exitcode  : 1 (pid: 657359)
+  error_file: <N/A>
+  traceback : To enable traceback see: https://pytorch.org/docs/stable/elastic/errors.html
+============================================================
+WARNING:torch.distributed.run:
+*****************************************
+Setting OMP_NUM_THREADS environment variable for each process to be 1 in default, to avoid your system being overloaded, please further tune the variable for optimal performance in your application as needed. 
+*****************************************
+World size: 8
+Namespace(path='./', max_epochs=None, batch_size=8, lr=0.001, seed=0, num_workers=10, cycles=1, model='sessions_1,2,3,4,5,6,7,8,10,11_epoch_9_train_acc_0.9986722469329834.model', eval=True, train_sessions=None, val_sessions=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11], ip=None, stdin=None, control=None, hb=None, shell=None, transport=None, iopub=None, f=None, **{'Session.signature_scheme': None, 'Session.key': None})
+Traceback (most recent call last):
+  File "/home/tommie_kerssies/CORe50/bn.py", line 4, in <module>
+    model = utils.get_model(load_saved_model=True) 
+  File "/home/tommie_kerssies/CORe50/utils.py", line 105, in get_model
+    model = DDP(model, [dist.get_rank()], dist.get_rank())
+  File "/home/tommie_kerssies/miniconda3/envs/DAGM/lib/python3.9/site-packages/torch/nn/parallel/distributed.py", line 641, in __init__
+    dist._verify_params_across_processes(self.process_group, parameters)
+RuntimeError: CUDA error: out of memory
+CUDA kernel errors might be asynchronously reported at some other API call,so the stacktrace below might be incorrect.
+For debugging consider passing CUDA_LAUNCH_BLOCKING=1.
+WARNING:torch.distributed.elastic.multiprocessing.api:Sending process 657447 closing signal SIGTERM
+WARNING:torch.distributed.elastic.multiprocessing.api:Sending process 657448 closing signal SIGTERM
+WARNING:torch.distributed.elastic.multiprocessing.api:Sending process 657449 closing signal SIGTERM
+WARNING:torch.distributed.elastic.multiprocessing.api:Sending process 657450 closing signal SIGTERM
+WARNING:torch.distributed.elastic.multiprocessing.api:Sending process 657451 closing signal SIGTERM
+WARNING:torch.distributed.elastic.multiprocessing.api:Sending process 657453 closing signal SIGTERM
+WARNING:torch.distributed.elastic.multiprocessing.api:Sending process 657454 closing signal SIGTERM
+ERROR:torch.distributed.elastic.multiprocessing.api:failed (exitcode: 1) local_rank: 5 (pid: 657452) of binary: /home/tommie_kerssies/miniconda3/envs/DAGM/bin/python
+Traceback (most recent call last):
+  File "/home/tommie_kerssies/miniconda3/envs/DAGM/bin/torchrun", line 33, in <module>
+    sys.exit(load_entry_point('torch==1.11.0', 'console_scripts', 'torchrun')())
+  File "/home/tommie_kerssies/miniconda3/envs/DAGM/lib/python3.9/site-packages/torch/distributed/elastic/multiprocessing/errors/__init__.py", line 345, in wrapper
+    return f(*args, **kwargs)
+  File "/home/tommie_kerssies/miniconda3/envs/DAGM/lib/python3.9/site-packages/torch/distributed/run.py", line 724, in main
+    run(args)
+  File "/home/tommie_kerssies/miniconda3/envs/DAGM/lib/python3.9/site-packages/torch/distributed/run.py", line 715, in run
+    elastic_launch(
+  File "/home/tommie_kerssies/miniconda3/envs/DAGM/lib/python3.9/site-packages/torch/distributed/launcher/api.py", line 131, in __call__
+    return launch_agent(self._config, self._entrypoint, list(args))
+  File "/home/tommie_kerssies/miniconda3/envs/DAGM/lib/python3.9/site-packages/torch/distributed/launcher/api.py", line 245, in launch_agent
+    raise ChildFailedError(
+torch.distributed.elastic.multiprocessing.errors.ChildFailedError: 
+============================================================
+bn.py FAILED
+------------------------------------------------------------
+Failures:
+  <NO_OTHER_FAILURES>
+------------------------------------------------------------
+Root Cause (first observed failure):
+[0]:
+  time      : 2022-06-23_23:20:38
+  host      : blade1.coc.org
+  rank      : 5 (local_rank: 5)
+  exitcode  : 1 (pid: 657452)
+  error_file: <N/A>
+  traceback : To enable traceback see: https://pytorch.org/docs/stable/elastic/errors.html
+============================================================
+WARNING:torch.distributed.run:
+*****************************************
+Setting OMP_NUM_THREADS environment variable for each process to be 1 in default, to avoid your system being overloaded, please further tune the variable for optimal performance in your application as needed. 
+*****************************************
+World size: 8
+Namespace(path='./', max_epochs=None, batch_size=8, lr=0.001, seed=0, num_workers=10, cycles=1, model='sessions_1,2,3,4,5,6,7,9,10,11_epoch_9_train_acc_0.9983254075050354.model', eval=True, train_sessions=None, val_sessions=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11], ip=None, stdin=None, control=None, hb=None, shell=None, transport=None, iopub=None, f=None, **{'Session.signature_scheme': None, 'Session.key': None})
+Traceback (most recent call last):
+  File "/home/tommie_kerssies/CORe50/bn.py", line 4, in <module>
+    model = utils.get_model(load_saved_model=True) 
+  File "/home/tommie_kerssies/CORe50/utils.py", line 105, in get_model
+    model = DDP(model, [dist.get_rank()], dist.get_rank())
+  File "/home/tommie_kerssies/miniconda3/envs/DAGM/lib/python3.9/site-packages/torch/nn/parallel/distributed.py", line 641, in __init__
+    dist._verify_params_across_processes(self.process_group, parameters)
+RuntimeError: CUDA error: out of memory
+CUDA kernel errors might be asynchronously reported at some other API call,so the stacktrace below might be incorrect.
+For debugging consider passing CUDA_LAUNCH_BLOCKING=1.
+WARNING:torch.distributed.elastic.multiprocessing.api:Sending process 657570 closing signal SIGTERM
+WARNING:torch.distributed.elastic.multiprocessing.api:Sending process 657571 closing signal SIGTERM
+WARNING:torch.distributed.elastic.multiprocessing.api:Sending process 657572 closing signal SIGTERM
+WARNING:torch.distributed.elastic.multiprocessing.api:Sending process 657573 closing signal SIGTERM
+WARNING:torch.distributed.elastic.multiprocessing.api:Sending process 657574 closing signal SIGTERM
+WARNING:torch.distributed.elastic.multiprocessing.api:Sending process 657575 closing signal SIGTERM
+WARNING:torch.distributed.elastic.multiprocessing.api:Sending process 657576 closing signal SIGTERM
+ERROR:torch.distributed.elastic.multiprocessing.api:failed (exitcode: 1) local_rank: 7 (pid: 657577) of binary: /home/tommie_kerssies/miniconda3/envs/DAGM/bin/python
+Traceback (most recent call last):
+  File "/home/tommie_kerssies/miniconda3/envs/DAGM/bin/torchrun", line 33, in <module>
+    sys.exit(load_entry_point('torch==1.11.0', 'console_scripts', 'torchrun')())
+  File "/home/tommie_kerssies/miniconda3/envs/DAGM/lib/python3.9/site-packages/torch/distributed/elastic/multiprocessing/errors/__init__.py", line 345, in wrapper
+    return f(*args, **kwargs)
+  File "/home/tommie_kerssies/miniconda3/envs/DAGM/lib/python3.9/site-packages/torch/distributed/run.py", line 724, in main
+    run(args)
+  File "/home/tommie_kerssies/miniconda3/envs/DAGM/lib/python3.9/site-packages/torch/distributed/run.py", line 715, in run
+    elastic_launch(
+  File "/home/tommie_kerssies/miniconda3/envs/DAGM/lib/python3.9/site-packages/torch/distributed/launcher/api.py", line 131, in __call__
+    return launch_agent(self._config, self._entrypoint, list(args))
+  File "/home/tommie_kerssies/miniconda3/envs/DAGM/lib/python3.9/site-packages/torch/distributed/launcher/api.py", line 245, in launch_agent
+    raise ChildFailedError(
+torch.distributed.elastic.multiprocessing.errors.ChildFailedError: 
+============================================================
+bn.py FAILED
+------------------------------------------------------------
+Failures:
+  <NO_OTHER_FAILURES>
+------------------------------------------------------------
+Root Cause (first observed failure):
+[0]:
+  time      : 2022-06-23_23:20:51
+  host      : blade1.coc.org
+  rank      : 7 (local_rank: 7)
+  exitcode  : 1 (pid: 657577)
+  error_file: <N/A>
+  traceback : To enable traceback see: https://pytorch.org/docs/stable/elastic/errors.html
+============================================================
+WARNING:torch.distributed.run:
+*****************************************
+Setting OMP_NUM_THREADS environment variable for each process to be 1 in default, to avoid your system being overloaded, please further tune the variable for optimal performance in your application as needed. 
+*****************************************
+World size: 8
+Namespace(path='./', max_epochs=None, batch_size=8, lr=0.001, seed=0, num_workers=10, cycles=1, model='sessions_1,2,3,4,5,6,8,9,10,11_epoch_9_train_acc_0.9984387159347534.model', eval=True, train_sessions=None, val_sessions=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11], ip=None, stdin=None, control=None, hb=None, shell=None, transport=None, iopub=None, f=None, **{'Session.signature_scheme': None, 'Session.key': None})
+Traceback (most recent call last):
+  File "/home/tommie_kerssies/CORe50/bn.py", line 4, in <module>
+    model = utils.get_model(load_saved_model=True) 
+  File "/home/tommie_kerssies/CORe50/utils.py", line 105, in get_model
+    model = DDP(model, [dist.get_rank()], dist.get_rank())
+  File "/home/tommie_kerssies/miniconda3/envs/DAGM/lib/python3.9/site-packages/torch/nn/parallel/distributed.py", line 641, in __init__
+    dist._verify_params_across_processes(self.process_group, parameters)
+RuntimeError: CUDA error: out of memory
+CUDA kernel errors might be asynchronously reported at some other API call,so the stacktrace below might be incorrect.
+For debugging consider passing CUDA_LAUNCH_BLOCKING=1.
+WARNING:torch.distributed.elastic.multiprocessing.api:Sending process 657672 closing signal SIGTERM
+WARNING:torch.distributed.elastic.multiprocessing.api:Sending process 657673 closing signal SIGTERM
+WARNING:torch.distributed.elastic.multiprocessing.api:Sending process 657674 closing signal SIGTERM
+WARNING:torch.distributed.elastic.multiprocessing.api:Sending process 657675 closing signal SIGTERM
+WARNING:torch.distributed.elastic.multiprocessing.api:Sending process 657676 closing signal SIGTERM
+WARNING:torch.distributed.elastic.multiprocessing.api:Sending process 657678 closing signal SIGTERM
+WARNING:torch.distributed.elastic.multiprocessing.api:Sending process 657679 closing signal SIGTERM
+ERROR:torch.distributed.elastic.multiprocessing.api:failed (exitcode: 1) local_rank: 5 (pid: 657677) of binary: /home/tommie_kerssies/miniconda3/envs/DAGM/bin/python
+Traceback (most recent call last):
+  File "/home/tommie_kerssies/miniconda3/envs/DAGM/bin/torchrun", line 33, in <module>
+    sys.exit(load_entry_point('torch==1.11.0', 'console_scripts', 'torchrun')())
+  File "/home/tommie_kerssies/miniconda3/envs/DAGM/lib/python3.9/site-packages/torch/distributed/elastic/multiprocessing/errors/__init__.py", line 345, in wrapper
+    return f(*args, **kwargs)
+  File "/home/tommie_kerssies/miniconda3/envs/DAGM/lib/python3.9/site-packages/torch/distributed/run.py", line 724, in main
+    run(args)
+  File "/home/tommie_kerssies/miniconda3/envs/DAGM/lib/python3.9/site-packages/torch/distributed/run.py", line 715, in run
+    elastic_launch(
+  File "/home/tommie_kerssies/miniconda3/envs/DAGM/lib/python3.9/site-packages/torch/distributed/launcher/api.py", line 131, in __call__
+    return launch_agent(self._config, self._entrypoint, list(args))
+  File "/home/tommie_kerssies/miniconda3/envs/DAGM/lib/python3.9/site-packages/torch/distributed/launcher/api.py", line 245, in launch_agent
+    raise ChildFailedError(
+torch.distributed.elastic.multiprocessing.errors.ChildFailedError: 
+============================================================
+bn.py FAILED
+------------------------------------------------------------
+Failures:
+  <NO_OTHER_FAILURES>
+------------------------------------------------------------
+Root Cause (first observed failure):
+[0]:
+  time      : 2022-06-23_23:21:04
+  host      : blade1.coc.org
+  rank      : 5 (local_rank: 5)
+  exitcode  : 1 (pid: 657677)
+  error_file: <N/A>
+  traceback : To enable traceback see: https://pytorch.org/docs/stable/elastic/errors.html
+============================================================
+WARNING:torch.distributed.run:
+*****************************************
+Setting OMP_NUM_THREADS environment variable for each process to be 1 in default, to avoid your system being overloaded, please further tune the variable for optimal performance in your application as needed. 
+*****************************************
+World size: 8
+Namespace(path='./', max_epochs=None, batch_size=8, lr=0.001, seed=0, num_workers=10, cycles=1, model='sessions_1,2,3,4,5,7,8,9,10,11_epoch_9_train_acc_0.9978315830230713.model', eval=True, train_sessions=None, val_sessions=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11], ip=None, stdin=None, control=None, hb=None, shell=None, transport=None, iopub=None, f=None, **{'Session.signature_scheme': None, 'Session.key': None})
+Traceback (most recent call last):
+  File "/home/tommie_kerssies/CORe50/bn.py", line 4, in <module>
+    model = utils.get_model(load_saved_model=True) 
+  File "/home/tommie_kerssies/CORe50/utils.py", line 105, in get_model
+    model = DDP(model, [dist.get_rank()], dist.get_rank())
+  File "/home/tommie_kerssies/miniconda3/envs/DAGM/lib/python3.9/site-packages/torch/nn/parallel/distributed.py", line 641, in __init__
+    dist._verify_params_across_processes(self.process_group, parameters)
+RuntimeError: CUDA error: out of memory
+CUDA kernel errors might be asynchronously reported at some other API call,so the stacktrace below might be incorrect.
+For debugging consider passing CUDA_LAUNCH_BLOCKING=1.
+WARNING:torch.distributed.elastic.multiprocessing.api:Sending process 657762 closing signal SIGTERM
+WARNING:torch.distributed.elastic.multiprocessing.api:Sending process 657764 closing signal SIGTERM
+WARNING:torch.distributed.elastic.multiprocessing.api:Sending process 657765 closing signal SIGTERM
+WARNING:torch.distributed.elastic.multiprocessing.api:Sending process 657766 closing signal SIGTERM
+WARNING:torch.distributed.elastic.multiprocessing.api:Sending process 657767 closing signal SIGTERM
+WARNING:torch.distributed.elastic.multiprocessing.api:Sending process 657768 closing signal SIGTERM
+WARNING:torch.distributed.elastic.multiprocessing.api:Sending process 657769 closing signal SIGTERM
+ERROR:torch.distributed.elastic.multiprocessing.api:failed (exitcode: 1) local_rank: 1 (pid: 657763) of binary: /home/tommie_kerssies/miniconda3/envs/DAGM/bin/python
+Traceback (most recent call last):
+  File "/home/tommie_kerssies/miniconda3/envs/DAGM/bin/torchrun", line 33, in <module>
+    sys.exit(load_entry_point('torch==1.11.0', 'console_scripts', 'torchrun')())
+  File "/home/tommie_kerssies/miniconda3/envs/DAGM/lib/python3.9/site-packages/torch/distributed/elastic/multiprocessing/errors/__init__.py", line 345, in wrapper
+    return f(*args, **kwargs)
+  File "/home/tommie_kerssies/miniconda3/envs/DAGM/lib/python3.9/site-packages/torch/distributed/run.py", line 724, in main
+    run(args)
+  File "/home/tommie_kerssies/miniconda3/envs/DAGM/lib/python3.9/site-packages/torch/distributed/run.py", line 715, in run
+    elastic_launch(
+  File "/home/tommie_kerssies/miniconda3/envs/DAGM/lib/python3.9/site-packages/torch/distributed/launcher/api.py", line 131, in __call__
+    return launch_agent(self._config, self._entrypoint, list(args))
+  File "/home/tommie_kerssies/miniconda3/envs/DAGM/lib/python3.9/site-packages/torch/distributed/launcher/api.py", line 245, in launch_agent
+    raise ChildFailedError(
+torch.distributed.elastic.multiprocessing.errors.ChildFailedError: 
+============================================================
+bn.py FAILED
+------------------------------------------------------------
+Failures:
+  <NO_OTHER_FAILURES>
+------------------------------------------------------------
+Root Cause (first observed failure):
+[0]:
+  time      : 2022-06-23_23:21:18
+  host      : blade1.coc.org
+  rank      : 1 (local_rank: 1)
+  exitcode  : 1 (pid: 657763)
+  error_file: <N/A>
+  traceback : To enable traceback see: https://pytorch.org/docs/stable/elastic/errors.html
+============================================================
+WARNING:torch.distributed.run:
+*****************************************
+Setting OMP_NUM_THREADS environment variable for each process to be 1 in default, to avoid your system being overloaded, please further tune the variable for optimal performance in your application as needed. 
+*****************************************
+World size: 8
+Namespace(path='./', max_epochs=None, batch_size=8, lr=0.001, seed=0, num_workers=10, cycles=1, model='sessions_1,2,3,4,6,7,8,9,10,11_epoch_9_train_acc_0.9988391995429993.model', eval=True, train_sessions=None, val_sessions=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11], ip=None, stdin=None, control=None, hb=None, shell=None, transport=None, iopub=None, f=None, **{'Session.signature_scheme': None, 'Session.key': None})
+Traceback (most recent call last):
+  File "/home/tommie_kerssies/CORe50/bn.py", line 4, in <module>
+    model = utils.get_model(load_saved_model=True) 
+  File "/home/tommie_kerssies/CORe50/utils.py", line 105, in get_model
+    model = DDP(model, [dist.get_rank()], dist.get_rank())
+  File "/home/tommie_kerssies/miniconda3/envs/DAGM/lib/python3.9/site-packages/torch/nn/parallel/distributed.py", line 641, in __init__
+    dist._verify_params_across_processes(self.process_group, parameters)
+RuntimeError: CUDA error: out of memory
+CUDA kernel errors might be asynchronously reported at some other API call,so the stacktrace below might be incorrect.
+For debugging consider passing CUDA_LAUNCH_BLOCKING=1.
+WARNING:torch.distributed.elastic.multiprocessing.api:Sending process 657866 closing signal SIGTERM
+WARNING:torch.distributed.elastic.multiprocessing.api:Sending process 657867 closing signal SIGTERM
+WARNING:torch.distributed.elastic.multiprocessing.api:Sending process 657868 closing signal SIGTERM
+WARNING:torch.distributed.elastic.multiprocessing.api:Sending process 657869 closing signal SIGTERM
+WARNING:torch.distributed.elastic.multiprocessing.api:Sending process 657870 closing signal SIGTERM
+WARNING:torch.distributed.elastic.multiprocessing.api:Sending process 657871 closing signal SIGTERM
+WARNING:torch.distributed.elastic.multiprocessing.api:Sending process 657873 closing signal SIGTERM
+ERROR:torch.distributed.elastic.multiprocessing.api:failed (exitcode: 1) local_rank: 6 (pid: 657872) of binary: /home/tommie_kerssies/miniconda3/envs/DAGM/bin/python
+Traceback (most recent call last):
+  File "/home/tommie_kerssies/miniconda3/envs/DAGM/bin/torchrun", line 33, in <module>
+    sys.exit(load_entry_point('torch==1.11.0', 'console_scripts', 'torchrun')())
+  File "/home/tommie_kerssies/miniconda3/envs/DAGM/lib/python3.9/site-packages/torch/distributed/elastic/multiprocessing/errors/__init__.py", line 345, in wrapper
+    return f(*args, **kwargs)
+  File "/home/tommie_kerssies/miniconda3/envs/DAGM/lib/python3.9/site-packages/torch/distributed/run.py", line 724, in main
+    run(args)
+  File "/home/tommie_kerssies/miniconda3/envs/DAGM/lib/python3.9/site-packages/torch/distributed/run.py", line 715, in run
+    elastic_launch(
+  File "/home/tommie_kerssies/miniconda3/envs/DAGM/lib/python3.9/site-packages/torch/distributed/launcher/api.py", line 131, in __call__
+    return launch_agent(self._config, self._entrypoint, list(args))
+  File "/home/tommie_kerssies/miniconda3/envs/DAGM/lib/python3.9/site-packages/torch/distributed/launcher/api.py", line 245, in launch_agent
+    raise ChildFailedError(
+torch.distributed.elastic.multiprocessing.errors.ChildFailedError: 
+============================================================
+bn.py FAILED
+------------------------------------------------------------
+Failures:
+  <NO_OTHER_FAILURES>
+------------------------------------------------------------
+Root Cause (first observed failure):
+[0]:
+  time      : 2022-06-23_23:21:31
+  host      : blade1.coc.org
+  rank      : 6 (local_rank: 6)
+  exitcode  : 1 (pid: 657872)
+  error_file: <N/A>
+  traceback : To enable traceback see: https://pytorch.org/docs/stable/elastic/errors.html
+============================================================
+WARNING:torch.distributed.run:
+*****************************************
+Setting OMP_NUM_THREADS environment variable for each process to be 1 in default, to avoid your system being overloaded, please further tune the variable for optimal performance in your application as needed. 
+*****************************************
+World size: 8
+Namespace(path='./', max_epochs=None, batch_size=8, lr=0.001, seed=0, num_workers=10, cycles=1, model='sessions_1,2,3,5,6,7,8,9,10,11_epoch_9_train_acc_0.9976046681404114.model', eval=True, train_sessions=None, val_sessions=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11], ip=None, stdin=None, control=None, hb=None, shell=None, transport=None, iopub=None, f=None, **{'Session.signature_scheme': None, 'Session.key': None})
+Traceback (most recent call last):
+  File "/home/tommie_kerssies/CORe50/bn.py", line 4, in <module>
+    model = utils.get_model(load_saved_model=True) 
+  File "/home/tommie_kerssies/CORe50/utils.py", line 105, in get_model
+    model = DDP(model, [dist.get_rank()], dist.get_rank())
+  File "/home/tommie_kerssies/miniconda3/envs/DAGM/lib/python3.9/site-packages/torch/nn/parallel/distributed.py", line 641, in __init__
+    dist._verify_params_across_processes(self.process_group, parameters)
+RuntimeError: CUDA error: out of memory
+CUDA kernel errors might be asynchronously reported at some other API call,so the stacktrace below might be incorrect.
+For debugging consider passing CUDA_LAUNCH_BLOCKING=1.
+WARNING:torch.distributed.elastic.multiprocessing.api:Sending process 657970 closing signal SIGTERM
+WARNING:torch.distributed.elastic.multiprocessing.api:Sending process 657971 closing signal SIGTERM
+WARNING:torch.distributed.elastic.multiprocessing.api:Sending process 657972 closing signal SIGTERM
+WARNING:torch.distributed.elastic.multiprocessing.api:Sending process 657973 closing signal SIGTERM
+WARNING:torch.distributed.elastic.multiprocessing.api:Sending process 657974 closing signal SIGTERM
+WARNING:torch.distributed.elastic.multiprocessing.api:Sending process 657975 closing signal SIGTERM
+WARNING:torch.distributed.elastic.multiprocessing.api:Sending process 657977 closing signal SIGTERM
+ERROR:torch.distributed.elastic.multiprocessing.api:failed (exitcode: 1) local_rank: 6 (pid: 657976) of binary: /home/tommie_kerssies/miniconda3/envs/DAGM/bin/python
+Traceback (most recent call last):
+  File "/home/tommie_kerssies/miniconda3/envs/DAGM/bin/torchrun", line 33, in <module>
+    sys.exit(load_entry_point('torch==1.11.0', 'console_scripts', 'torchrun')())
+  File "/home/tommie_kerssies/miniconda3/envs/DAGM/lib/python3.9/site-packages/torch/distributed/elastic/multiprocessing/errors/__init__.py", line 345, in wrapper
+    return f(*args, **kwargs)
+  File "/home/tommie_kerssies/miniconda3/envs/DAGM/lib/python3.9/site-packages/torch/distributed/run.py", line 724, in main
+    run(args)
+  File "/home/tommie_kerssies/miniconda3/envs/DAGM/lib/python3.9/site-packages/torch/distributed/run.py", line 715, in run
+    elastic_launch(
+  File "/home/tommie_kerssies/miniconda3/envs/DAGM/lib/python3.9/site-packages/torch/distributed/launcher/api.py", line 131, in __call__
+    return launch_agent(self._config, self._entrypoint, list(args))
+  File "/home/tommie_kerssies/miniconda3/envs/DAGM/lib/python3.9/site-packages/torch/distributed/launcher/api.py", line 245, in launch_agent
+    raise ChildFailedError(
+torch.distributed.elastic.multiprocessing.errors.ChildFailedError: 
+============================================================
+bn.py FAILED
+------------------------------------------------------------
+Failures:
+  <NO_OTHER_FAILURES>
+------------------------------------------------------------
+Root Cause (first observed failure):
+[0]:
+  time      : 2022-06-23_23:21:44
+  host      : blade1.coc.org
+  rank      : 6 (local_rank: 6)
+  exitcode  : 1 (pid: 657976)
+  error_file: <N/A>
+  traceback : To enable traceback see: https://pytorch.org/docs/stable/elastic/errors.html
+============================================================
+WARNING:torch.distributed.run:
+*****************************************
+Setting OMP_NUM_THREADS environment variable for each process to be 1 in default, to avoid your system being overloaded, please further tune the variable for optimal performance in your application as needed. 
+*****************************************
+World size: 8
+Namespace(path='./', max_epochs=None, batch_size=8, lr=0.001, seed=0, num_workers=10, cycles=1, model='sessions_1,2,4,5,6,7,8,9,10,11_epoch_9_train_acc_0.9981117844581604.model', eval=True, train_sessions=None, val_sessions=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11], ip=None, stdin=None, control=None, hb=None, shell=None, transport=None, iopub=None, f=None, **{'Session.signature_scheme': None, 'Session.key': None})
+Traceback (most recent call last):
+  File "/home/tommie_kerssies/CORe50/bn.py", line 4, in <module>
+    model = utils.get_model(load_saved_model=True) 
+  File "/home/tommie_kerssies/CORe50/utils.py", line 105, in get_model
+    model = DDP(model, [dist.get_rank()], dist.get_rank())
+  File "/home/tommie_kerssies/miniconda3/envs/DAGM/lib/python3.9/site-packages/torch/nn/parallel/distributed.py", line 641, in __init__
+    dist._verify_params_across_processes(self.process_group, parameters)
+RuntimeError: CUDA error: out of memory
+CUDA kernel errors might be asynchronously reported at some other API call,so the stacktrace below might be incorrect.
+For debugging consider passing CUDA_LAUNCH_BLOCKING=1.
+WARNING:torch.distributed.elastic.multiprocessing.api:Sending process 658060 closing signal SIGTERM
+WARNING:torch.distributed.elastic.multiprocessing.api:Sending process 658061 closing signal SIGTERM
+WARNING:torch.distributed.elastic.multiprocessing.api:Sending process 658062 closing signal SIGTERM
+WARNING:torch.distributed.elastic.multiprocessing.api:Sending process 658064 closing signal SIGTERM
+WARNING:torch.distributed.elastic.multiprocessing.api:Sending process 658065 closing signal SIGTERM
+WARNING:torch.distributed.elastic.multiprocessing.api:Sending process 658066 closing signal SIGTERM
+WARNING:torch.distributed.elastic.multiprocessing.api:Sending process 658067 closing signal SIGTERM
+ERROR:torch.distributed.elastic.multiprocessing.api:failed (exitcode: 1) local_rank: 3 (pid: 658063) of binary: /home/tommie_kerssies/miniconda3/envs/DAGM/bin/python
+Traceback (most recent call last):
+  File "/home/tommie_kerssies/miniconda3/envs/DAGM/bin/torchrun", line 33, in <module>
+    sys.exit(load_entry_point('torch==1.11.0', 'console_scripts', 'torchrun')())
+  File "/home/tommie_kerssies/miniconda3/envs/DAGM/lib/python3.9/site-packages/torch/distributed/elastic/multiprocessing/errors/__init__.py", line 345, in wrapper
+    return f(*args, **kwargs)
+  File "/home/tommie_kerssies/miniconda3/envs/DAGM/lib/python3.9/site-packages/torch/distributed/run.py", line 724, in main
+    run(args)
+  File "/home/tommie_kerssies/miniconda3/envs/DAGM/lib/python3.9/site-packages/torch/distributed/run.py", line 715, in run
+    elastic_launch(
+  File "/home/tommie_kerssies/miniconda3/envs/DAGM/lib/python3.9/site-packages/torch/distributed/launcher/api.py", line 131, in __call__
+    return launch_agent(self._config, self._entrypoint, list(args))
+  File "/home/tommie_kerssies/miniconda3/envs/DAGM/lib/python3.9/site-packages/torch/distributed/launcher/api.py", line 245, in launch_agent
+    raise ChildFailedError(
+torch.distributed.elastic.multiprocessing.errors.ChildFailedError: 
+============================================================
+bn.py FAILED
+------------------------------------------------------------
+Failures:
+  <NO_OTHER_FAILURES>
+------------------------------------------------------------
+Root Cause (first observed failure):
+[0]:
+  time      : 2022-06-23_23:21:57
+  host      : blade1.coc.org
+  rank      : 3 (local_rank: 3)
+  exitcode  : 1 (pid: 658063)
+  error_file: <N/A>
+  traceback : To enable traceback see: https://pytorch.org/docs/stable/elastic/errors.html
+============================================================
+WARNING:torch.distributed.run:
+*****************************************
+Setting OMP_NUM_THREADS environment variable for each process to be 1 in default, to avoid your system being overloaded, please further tune the variable for optimal performance in your application as needed. 
+*****************************************
+World size: 8
+Namespace(path='./', max_epochs=None, batch_size=8, lr=0.001, seed=0, num_workers=10, cycles=1, model='sessions_1,3,4,5,6,7,8,9,10,11_epoch_9_train_acc_0.9984520673751831.model', eval=True, train_sessions=None, val_sessions=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11], ip=None, stdin=None, control=None, hb=None, shell=None, transport=None, iopub=None, f=None, **{'Session.signature_scheme': None, 'Session.key': None})
+Traceback (most recent call last):
+  File "/home/tommie_kerssies/CORe50/bn.py", line 4, in <module>
+    model = utils.get_model(load_saved_model=True) 
+  File "/home/tommie_kerssies/CORe50/utils.py", line 105, in get_model
+    model = DDP(model, [dist.get_rank()], dist.get_rank())
+  File "/home/tommie_kerssies/miniconda3/envs/DAGM/lib/python3.9/site-packages/torch/nn/parallel/distributed.py", line 641, in __init__
+    dist._verify_params_across_processes(self.process_group, parameters)
+RuntimeError: CUDA error: out of memory
+CUDA kernel errors might be asynchronously reported at some other API call,so the stacktrace below might be incorrect.
+For debugging consider passing CUDA_LAUNCH_BLOCKING=1.
+WARNING:torch.distributed.elastic.multiprocessing.api:Sending process 658177 closing signal SIGTERM
+WARNING:torch.distributed.elastic.multiprocessing.api:Sending process 658178 closing signal SIGTERM
+WARNING:torch.distributed.elastic.multiprocessing.api:Sending process 658179 closing signal SIGTERM
+WARNING:torch.distributed.elastic.multiprocessing.api:Sending process 658180 closing signal SIGTERM
+WARNING:torch.distributed.elastic.multiprocessing.api:Sending process 658181 closing signal SIGTERM
+WARNING:torch.distributed.elastic.multiprocessing.api:Sending process 658182 closing signal SIGTERM
+WARNING:torch.distributed.elastic.multiprocessing.api:Sending process 658184 closing signal SIGTERM
+WARNING:torch.distributed.elastic.agent.server.api:Received 15 death signal, shutting down workers
+WARNING:torch.distributed.elastic.multiprocessing.api:Sending process 658178 closing signal SIGTERM
+WARNING:torch.distributed.elastic.multiprocessing.api:Sending process 658179 closing signal SIGTERM
+WARNING:torch.distributed.elastic.multiprocessing.api:Sending process 658181 closing signal SIGTERM
+WARNING:torch.distributed.elastic.multiprocessing.api:Sending process 658182 closing signal SIGTERM
+ERROR:torch.distributed.elastic.multiprocessing.errors.error_handler:{
+  "message": {
+    "message": "SignalException: Process 658174 got signal: 15",
+    "extraInfo": {
+      "py_callstack": "Traceback (most recent call last):\n  File \"/home/tommie_kerssies/miniconda3/envs/DAGM/lib/python3.9/site-packages/torch/distributed/elastic/multiprocessing/errors/__init__.py\", line 345, in wrapper\n    return f(*args, **kwargs)\n  File \"/home/tommie_kerssies/miniconda3/envs/DAGM/lib/python3.9/site-packages/torch/distributed/run.py\", line 724, in main\n    run(args)\n  File \"/home/tommie_kerssies/miniconda3/envs/DAGM/lib/python3.9/site-packages/torch/distributed/run.py\", line 715, in run\n    elastic_launch(\n  File \"/home/tommie_kerssies/miniconda3/envs/DAGM/lib/python3.9/site-packages/torch/distributed/launcher/api.py\", line 131, in __call__\n    return launch_agent(self._config, self._entrypoint, list(args))\n  File \"/home/tommie_kerssies/miniconda3/envs/DAGM/lib/python3.9/site-packages/torch/distributed/launcher/api.py\", line 236, in launch_agent\n    result = agent.run()\n  File \"/home/tommie_kerssies/miniconda3/envs/DAGM/lib/python3.9/site-packages/torch/distributed/elastic/metrics/api.py\", line 125, in wrapper\n    result = f(*args, **kwargs)\n  File \"/home/tommie_kerssies/miniconda3/envs/DAGM/lib/python3.9/site-packages/torch/distributed/elastic/agent/server/api.py\", line 709, in run\n    result = self._invoke_run(role)\n  File \"/home/tommie_kerssies/miniconda3/envs/DAGM/lib/python3.9/site-packages/torch/distributed/elastic/agent/server/api.py\", line 851, in _invoke_run\n    run_result = self._monitor_workers(self._worker_group)\n  File \"/home/tommie_kerssies/miniconda3/envs/DAGM/lib/python3.9/site-packages/torch/distributed/elastic/metrics/api.py\", line 125, in wrapper\n    result = f(*args, **kwargs)\n  File \"/home/tommie_kerssies/miniconda3/envs/DAGM/lib/python3.9/site-packages/torch/distributed/elastic/agent/server/local_elastic_agent.py\", line 207, in _monitor_workers\n    result = self._pcontext.wait(0)\n  File \"/home/tommie_kerssies/miniconda3/envs/DAGM/lib/python3.9/site-packages/torch/distributed/elastic/multiprocessing/api.py\", line 287, in wait\n    return self._poll()\n  File \"/home/tommie_kerssies/miniconda3/envs/DAGM/lib/python3.9/site-packages/torch/distributed/elastic/multiprocessing/api.py\", line 676, in _poll\n    self.close()  # terminate all running procs\n  File \"/home/tommie_kerssies/miniconda3/envs/DAGM/lib/python3.9/site-packages/torch/distributed/elastic/multiprocessing/api.py\", line 330, in close\n    self._close(death_sig=death_sig, timeout=timeout)\n  File \"/home/tommie_kerssies/miniconda3/envs/DAGM/lib/python3.9/site-packages/torch/distributed/elastic/multiprocessing/api.py\", line 720, in _close\n    handler.proc.wait(time_to_wait)\n  File \"/home/tommie_kerssies/miniconda3/envs/DAGM/lib/python3.9/subprocess.py\", line 1189, in wait\n    return self._wait(timeout=timeout)\n  File \"/home/tommie_kerssies/miniconda3/envs/DAGM/lib/python3.9/subprocess.py\", line 1911, in _wait\n    time.sleep(delay)\n  File \"/home/tommie_kerssies/miniconda3/envs/DAGM/lib/python3.9/site-packages/torch/distributed/elastic/multiprocessing/api.py\", line 60, in _terminate_process_handler\n    raise SignalException(f\"Process {os.getpid()} got signal: {sigval}\", sigval=sigval)\ntorch.distributed.elastic.multiprocessing.api.SignalException: Process 658174 got signal: 15\n",
+      "timestamp": "1656019332"
+    }
+  }
+}
+Traceback (most recent call last):
+  File "/home/tommie_kerssies/miniconda3/envs/DAGM/bin/torchrun", line 33, in <module>
+    sys.exit(load_entry_point('torch==1.11.0', 'console_scripts', 'torchrun')())
+  File "/home/tommie_kerssies/miniconda3/envs/DAGM/lib/python3.9/site-packages/torch/distributed/elastic/multiprocessing/errors/__init__.py", line 345, in wrapper
+    return f(*args, **kwargs)
+  File "/home/tommie_kerssies/miniconda3/envs/DAGM/lib/python3.9/site-packages/torch/distributed/run.py", line 724, in main
+    run(args)
+  File "/home/tommie_kerssies/miniconda3/envs/DAGM/lib/python3.9/site-packages/torch/distributed/run.py", line 715, in run
+    elastic_launch(
+  File "/home/tommie_kerssies/miniconda3/envs/DAGM/lib/python3.9/site-packages/torch/distributed/launcher/api.py", line 131, in __call__
+    return launch_agent(self._config, self._entrypoint, list(args))
+  File "/home/tommie_kerssies/miniconda3/envs/DAGM/lib/python3.9/site-packages/torch/distributed/launcher/api.py", line 236, in launch_agent
+    result = agent.run()
+  File "/home/tommie_kerssies/miniconda3/envs/DAGM/lib/python3.9/site-packages/torch/distributed/elastic/metrics/api.py", line 125, in wrapper
+    result = f(*args, **kwargs)
+  File "/home/tommie_kerssies/miniconda3/envs/DAGM/lib/python3.9/site-packages/torch/distributed/elastic/agent/server/api.py", line 709, in run
+    result = self._invoke_run(role)
+  File "/home/tommie_kerssies/miniconda3/envs/DAGM/lib/python3.9/site-packages/torch/distributed/elastic/agent/server/api.py", line 851, in _invoke_run
+    run_result = self._monitor_workers(self._worker_group)
+  File "/home/tommie_kerssies/miniconda3/envs/DAGM/lib/python3.9/site-packages/torch/distributed/elastic/metrics/api.py", line 125, in wrapper
+    result = f(*args, **kwargs)
+  File "/home/tommie_kerssies/miniconda3/envs/DAGM/lib/python3.9/site-packages/torch/distributed/elastic/agent/server/local_elastic_agent.py", line 207, in _monitor_workers
+    result = self._pcontext.wait(0)
+  File "/home/tommie_kerssies/miniconda3/envs/DAGM/lib/python3.9/site-packages/torch/distributed/elastic/multiprocessing/api.py", line 287, in wait
+    return self._poll()
+  File "/home/tommie_kerssies/miniconda3/envs/DAGM/lib/python3.9/site-packages/torch/distributed/elastic/multiprocessing/api.py", line 676, in _poll
+    self.close()  # terminate all running procs
+  File "/home/tommie_kerssies/miniconda3/envs/DAGM/lib/python3.9/site-packages/torch/distributed/elastic/multiprocessing/api.py", line 330, in close
+    self._close(death_sig=death_sig, timeout=timeout)
+  File "/home/tommie_kerssies/miniconda3/envs/DAGM/lib/python3.9/site-packages/torch/distributed/elastic/multiprocessing/api.py", line 720, in _close
+    handler.proc.wait(time_to_wait)
+  File "/home/tommie_kerssies/miniconda3/envs/DAGM/lib/python3.9/subprocess.py", line 1189, in wait
+    return self._wait(timeout=timeout)
+  File "/home/tommie_kerssies/miniconda3/envs/DAGM/lib/python3.9/subprocess.py", line 1911, in _wait
+    time.sleep(delay)
+  File "/home/tommie_kerssies/miniconda3/envs/DAGM/lib/python3.9/site-packages/torch/distributed/elastic/multiprocessing/api.py", line 60, in _terminate_process_handler
+    raise SignalException(f"Process {os.getpid()} got signal: {sigval}", sigval=sigval)
+torch.distributed.elastic.multiprocessing.api.SignalException: Process 658174 got signal: 15
+WARNING:torch.distributed.run:
+*****************************************
+Setting OMP_NUM_THREADS environment variable for each process to be 1 in default, to avoid your system being overloaded, please further tune the variable for optimal performance in your application as needed. 
+*****************************************
+World size: 5
+Namespace(path='./', max_epochs=None, batch_size=8, lr=0.001, seed=0, num_workers=10, cycles=1, model='sessions_1,2,3,4,5,6,7,8,9,10_epoch_9_train_acc_0.9989992380142212.model', eval=True, train_sessions=None, val_sessions=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11], ip=None, stdin=None, control=None, hb=None, shell=None, transport=None, iopub=None, f=None, **{'Session.signature_scheme': None, 'Session.key': None})
+[[[0.9332221746444702 0.9511007070541382 0.9331110119819641
+   0.8920973539352417 0.943687379360199 0.9081387519836426
+   0.9039679765701294 0.9272605776786804 0.9405134916305542
+   0.8832554817199707 0.9180393218994141]]]
+WARNING:torch.distributed.run:
+*****************************************
+Setting OMP_NUM_THREADS environment variable for each process to be 1 in default, to avoid your system being overloaded, please further tune the variable for optimal performance in your application as needed. 
+*****************************************
+World size: 5
+Namespace(path='./', max_epochs=None, batch_size=8, lr=0.001, seed=0, num_workers=10, cycles=1, model='sessions_1,2,3,4,5,6,7,8,9,11_epoch_9_train_acc_0.9989992380142212.model', eval=True, train_sessions=None, val_sessions=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11], ip=None, stdin=None, control=None, hb=None, shell=None, transport=None, iopub=None, f=None, **{'Session.signature_scheme': None, 'Session.key': None})
+[[[0.9332221746444702 0.9511007070541382 0.9331110119819641
+   0.8920973539352417 0.943687379360199 0.9081387519836426
+   0.9039679765701294 0.9272605776786804 0.9405134916305542
+   0.8832554817199707 0.9180393218994141]]]
+WARNING:torch.distributed.run:
+*****************************************
+Setting OMP_NUM_THREADS environment variable for each process to be 1 in default, to avoid your system being overloaded, please further tune the variable for optimal performance in your application as needed. 
+*****************************************
+World size: 5
+Namespace(path='./', max_epochs=None, batch_size=8, lr=0.001, seed=0, num_workers=10, cycles=1, model='sessions_1,2,3,4,5,6,7,8,10,11_epoch_9_train_acc_0.9986722469329834.model', eval=True, train_sessions=None, val_sessions=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11], ip=None, stdin=None, control=None, hb=None, shell=None, transport=None, iopub=None, f=None, **{'Session.signature_scheme': None, 'Session.key': None})
+[[[0.9327996373176575 0.9452968835830688 0.9221073985099792
+   0.90623539686203 0.9328657388687134 0.9050033092498779
+   0.9076358675956726 0.9156489968299866 0.7877292633056641
+   0.9000667333602905 0.918439507484436]]]
+WARNING:torch.distributed.run:
+*****************************************
+Setting OMP_NUM_THREADS environment variable for each process to be 1 in default, to avoid your system being overloaded, please further tune the variable for optimal performance in your application as needed. 
+*****************************************
+World size: 5
+Namespace(path='./', max_epochs=None, batch_size=8, lr=0.001, seed=0, num_workers=10, cycles=1, model='sessions_1,2,3,4,5,6,7,9,10,11_epoch_9_train_acc_0.9983254075050354.model', eval=True, train_sessions=None, val_sessions=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11], ip=None, stdin=None, control=None, hb=None, shell=None, transport=None, iopub=None, f=None, **{'Session.signature_scheme': None, 'Session.key': None})
+[[[0.9383366703987122 0.942695140838623 0.9231076836585999
+   0.9001667499542236 0.9275885224342346 0.9146097302436829
+   0.9001667499542236 0.8507841229438782 0.9163721203804016
+   0.9020013213157654 0.917372465133667]]]
+WARNING:torch.distributed.run:
+*****************************************
+Setting OMP_NUM_THREADS environment variable for each process to be 1 in default, to avoid your system being overloaded, please further tune the variable for optimal performance in your application as needed. 
+*****************************************
+World size: 5
+Namespace(path='./', max_epochs=None, batch_size=8, lr=0.001, seed=0, num_workers=10, cycles=1, model='sessions_1,2,3,4,5,6,8,9,10,11_epoch_9_train_acc_0.9984387159347534.model', eval=True, train_sessions=None, val_sessions=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11], ip=None, stdin=None, control=None, hb=None, shell=None, transport=None, iopub=None, f=None, **{'Session.signature_scheme': None, 'Session.key': None})
+[[[0.9421836733818054 0.9396263957023621 0.9051684141159058
+   0.9093031287193298 0.919906497001648 0.9087391495704651
+   0.6790930032730103 0.9218552112579346 0.9183061122894287
+   0.9123415350914001 0.9288429617881775]]]
+WARNING:torch.distributed.run:
+*****************************************
+Setting OMP_NUM_THREADS environment variable for each process to be 1 in default, to avoid your system being overloaded, please further tune the variable for optimal performance in your application as needed. 
+*****************************************
+World size: 5
+Namespace(path='./', max_epochs=None, batch_size=8, lr=0.001, seed=0, num_workers=10, cycles=1, model='sessions_1,2,3,4,5,7,8,9,10,11_epoch_9_train_acc_0.9978315830230713.model', eval=True, train_sessions=None, val_sessions=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11], ip=None, stdin=None, control=None, hb=None, shell=None, transport=None, iopub=None, f=None, **{'Session.signature_scheme': None, 'Session.key': None})
+[[[0.9298643469810486 0.9403602480888367 0.9198399186134338
+   0.8828275799751282 0.9207748770713806 0.7254169583320618
+   0.8863621354103088 0.9111111164093018 0.914304792881012
+   0.8913275599479675 0.9111703634262085]]]
+WARNING:torch.distributed.run:
+*****************************************
+Setting OMP_NUM_THREADS environment variable for each process to be 1 in default, to avoid your system being overloaded, please further tune the variable for optimal performance in your application as needed. 
+*****************************************
+World size: 5
+Namespace(path='./', max_epochs=None, batch_size=8, lr=0.001, seed=0, num_workers=10, cycles=1, model='sessions_1,2,3,4,6,7,8,9,10,11_epoch_9_train_acc_0.9988391995429993.model', eval=True, train_sessions=None, val_sessions=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11], ip=None, stdin=None, control=None, hb=None, shell=None, transport=None, iopub=None, f=None, **{'Session.signature_scheme': None, 'Session.key': None})
+[[[0.9288192391395569 0.9377585053443909 0.9177058935165405
+   0.9003667831420898 0.8111556172370911 0.898465633392334
+   0.9123708009719849 0.913179874420166 0.9191063642501831
+   0.8795197010040283 0.919773280620575]]]
+WARNING:torch.distributed.run:
+*****************************************
+Setting OMP_NUM_THREADS environment variable for each process to be 1 in default, to avoid your system being overloaded, please further tune the variable for optimal performance in your application as needed. 
+*****************************************
+World size: 5
+Namespace(path='./', max_epochs=None, batch_size=8, lr=0.001, seed=0, num_workers=10, cycles=1, model='sessions_1,2,3,5,6,7,8,9,10,11_epoch_9_train_acc_0.9976046681404114.model', eval=True, train_sessions=None, val_sessions=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11], ip=None, stdin=None, control=None, hb=None, shell=None, transport=None, iopub=None, f=None, **{'Session.signature_scheme': None, 'Session.key': None})
+[[[0.9112074971199036 0.9358238577842712 0.9144381284713745
+   0.715838611125946 0.9302605390548706 0.8893262147903442
+   0.8948982954025269 0.9270603656768799 0.9161720275878906
+   0.8725817203521729 0.8785595297813416]]]
+WARNING:torch.distributed.run:
+*****************************************
+Setting OMP_NUM_THREADS environment variable for each process to be 1 in default, to avoid your system being overloaded, please further tune the variable for optimal performance in your application as needed. 
+*****************************************
+World size: 5
+Namespace(path='./', max_epochs=None, batch_size=8, lr=0.001, seed=0, num_workers=10, cycles=1, model='sessions_1,2,4,5,6,7,8,9,10,11_epoch_9_train_acc_0.9981117844581604.model', eval=True, train_sessions=None, val_sessions=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11], ip=None, stdin=None, control=None, hb=None, shell=None, transport=None, iopub=None, f=None, **{'Session.signature_scheme': None, 'Session.key': None})
+[[[0.9371358752250671 0.9394930005073547 0.8016672134399414
+   0.8996332287788391 0.9349365234375 0.9004002809524536
+   0.8958986401557922 0.9205872416496277 0.9213070869445801
+   0.9082054495811462 0.9135044813156128]]]
+WARNING:torch.distributed.run:
+*****************************************
+Setting OMP_NUM_THREADS environment variable for each process to be 1 in default, to avoid your system being overloaded, please further tune the variable for optimal performance in your application as needed. 
+*****************************************
+World size: 5
+Namespace(path='./', max_epochs=None, batch_size=8, lr=0.001, seed=0, num_workers=10, cycles=1, model='sessions_1,3,4,5,6,7,8,9,10,11_epoch_9_train_acc_0.9984520673751831.model', eval=True, train_sessions=None, val_sessions=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11], ip=None, stdin=None, control=None, hb=None, shell=None, transport=None, iopub=None, f=None, **{'Session.signature_scheme': None, 'Session.key': None})
+[[[0.9363130927085876 0.7881253957748413 0.9155718684196472
+   0.902100682258606 0.9345357418060303 0.9025350213050842
+   0.9091030359268188 0.9249916672706604 0.9210403561592102
+   0.9076050519943237 0.9208402633666992]]]
+WARNING:torch.distributed.run:
+*****************************************
+Setting OMP_NUM_THREADS environment variable for each process to be 1 in default, to avoid your system being overloaded, please further tune the variable for optimal performance in your application as needed. 
+*****************************************
+World size: 5
+Namespace(path='./', max_epochs=None, batch_size=8, lr=0.001, seed=0, num_workers=10, cycles=1, model='sessions_2,3,4,5,6,7,8,9,10,11_epoch_9_train_acc_0.9986122250556946.model', eval=True, train_sessions=None, val_sessions=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11], ip=None, stdin=None, control=None, hb=None, shell=None, transport=None, iopub=None, f=None, **{'Session.signature_scheme': None, 'Session.key': None})
+[[[0.9030242562294006 0.9419612884521484 0.9211070537567139
+   0.9099032878875732 0.9258517026901245 0.9080053567886353
+   0.8948982954025269 0.9125125408172607 0.9246415495872498
+   0.8988659381866455 0.9198399186134338]]]
+WARNING:torch.distributed.run:
+*****************************************
+Setting OMP_NUM_THREADS environment variable for each process to be 1 in default, to avoid your system being overloaded, please further tune the variable for optimal performance in your application as needed. 
+*****************************************
+World size: 5
+Namespace(path='./', max_epochs=None, batch_size=64, lr=0.001, seed=0, num_workers=10, cycles=1, model='sessions_1,2,3,4,5,6,7,8,9,10_epoch_9_train_acc_0.9989992380142212.model', eval=True, train_sessions=None, val_sessions=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11], ip=None, stdin=None, control=None, hb=None, shell=None, transport=None, iopub=None, f=None, **{'Session.signature_scheme': None, 'Session.key': None})
+[[[0.9930175542831421 0.9953302145004272 0.9929976463317871
+   0.9655218124389648 0.9900467395782471 0.9765843749046326
+   0.9747248888015747 0.9891892075538635 0.993664562702179
+   0.9574382901191711 0.9807268977165222]]]
+WARNING:torch.distributed.run:
+*****************************************
+Setting OMP_NUM_THREADS environment variable for each process to be 1 in default, to avoid your system being overloaded, please further tune the variable for optimal performance in your application as needed. 
+*****************************************
+World size: 5
+Namespace(path='./', max_epochs=None, batch_size=64, lr=0.001, seed=0, num_workers=10, cycles=1, model='sessions_1,2,3,4,5,6,7,8,9,11_epoch_9_train_acc_0.9989992380142212.model', eval=True, train_sessions=None, val_sessions=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11], ip=None, stdin=None, control=None, hb=None, shell=None, transport=None, iopub=None, f=None, **{'Session.signature_scheme': None, 'Session.key': None})
+[[[0.9930175542831421 0.9953302145004272 0.9929976463317871
+   0.9655218124389648 0.9900467395782471 0.9765843749046326
+   0.9747248888015747 0.9891892075538635 0.993664562702179
+   0.9574382901191711 0.9807268977165222]]]
+WARNING:torch.distributed.run:
+*****************************************
+Setting OMP_NUM_THREADS environment variable for each process to be 1 in default, to avoid your system being overloaded, please further tune the variable for optimal performance in your application as needed. 
+*****************************************
+World size: 5
+Namespace(path='./', max_epochs=None, batch_size=64, lr=0.001, seed=0, num_workers=10, cycles=1, model='sessions_1,2,3,4,5,6,7,8,10,11_epoch_9_train_acc_0.9986722469329834.model', eval=True, train_sessions=None, val_sessions=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11], ip=None, stdin=None, control=None, hb=None, shell=None, transport=None, iopub=None, f=None, **{'Session.signature_scheme': None, 'Session.key': None})
+[[[0.9926395416259766 0.9919946789741516 0.983594536781311
+   0.9757252335548401 0.9827655553817749 0.9719813466072083
+   0.9747915863990784 0.9831164479255676 0.8717572689056396
+   0.9718478918075562 0.9829276204109192]]]
+WARNING:torch.distributed.run:
+*****************************************
+Setting OMP_NUM_THREADS environment variable for each process to be 1 in default, to avoid your system being overloaded, please further tune the variable for optimal performance in your application as needed. 
+*****************************************
+World size: 5
+Namespace(path='./', max_epochs=None, batch_size=64, lr=0.001, seed=0, num_workers=10, cycles=1, model='sessions_1,2,3,4,5,6,7,9,10,11_epoch_9_train_acc_0.9983254075050354.model', eval=True, train_sessions=None, val_sessions=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11], ip=None, stdin=None, control=None, hb=None, shell=None, transport=None, iopub=None, f=None, **{'Session.signature_scheme': None, 'Session.key': None})
+[[[0.9940404891967773 0.9921947717666626 0.9836612343788147
+   0.9691230654716492 0.9853707551956177 0.9781854748725891
+   0.9731243848800659 0.9201868772506714 0.9829276204109192
+   0.9738492369651794 0.9809936881065369]]]
+WARNING:torch.distributed.run:
+*****************************************
+Setting OMP_NUM_THREADS environment variable for each process to be 1 in default, to avoid your system being overloaded, please further tune the variable for optimal performance in your application as needed. 
+*****************************************
+World size: 5
+Namespace(path='./', max_epochs=None, batch_size=64, lr=0.001, seed=0, num_workers=10, cycles=1, model='sessions_1,2,3,4,5,6,8,9,10,11_epoch_9_train_acc_0.9984387159347534.model', eval=True, train_sessions=None, val_sessions=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11], ip=None, stdin=None, control=None, hb=None, shell=None, transport=None, iopub=None, f=None, **{'Session.signature_scheme': None, 'Session.key': None})
+[[[0.9965532422065735 0.9911274313926697 0.9791930913925171
+   0.9822607636451721 0.9810287356376648 0.9758505821228027
+   0.7637879252433777 0.9887887835502625 0.9828609824180603
+   0.9807872176170349 0.990196704864502]]]
+WARNING:torch.distributed.run:
+*****************************************
+Setting OMP_NUM_THREADS environment variable for each process to be 1 in default, to avoid your system being overloaded, please further tune the variable for optimal performance in your application as needed. 
+*****************************************
+World size: 5
+Namespace(path='./', max_epochs=None, batch_size=64, lr=0.001, seed=0, num_workers=10, cycles=1, model='sessions_1,2,3,4,5,7,8,9,10,11_epoch_9_train_acc_0.9978315830230713.model', eval=True, train_sessions=None, val_sessions=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11], ip=None, stdin=None, control=None, hb=None, shell=None, transport=None, iopub=None, f=None, **{'Session.signature_scheme': None, 'Session.key': None})
+[[[0.9920836091041565 0.9914609789848328 0.9871957302093506
+   0.9634544849395752 0.9794923067092896 0.8108072280883789
+   0.9663888216018677 0.9839839935302734 0.9824607968330383
+   0.9681788086891174 0.9791930913925171]]]
+WARNING:torch.distributed.run:
+*****************************************
+Setting OMP_NUM_THREADS environment variable for each process to be 1 in default, to avoid your system being overloaded, please further tune the variable for optimal performance in your application as needed. 
+*****************************************
+World size: 5
+Namespace(path='./', max_epochs=None, batch_size=64, lr=0.001, seed=0, num_workers=10, cycles=1, model='sessions_1,2,3,4,6,7,8,9,10,11_epoch_9_train_acc_0.9988391995429993.model', eval=True, train_sessions=None, val_sessions=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11], ip=None, stdin=None, control=None, hb=None, shell=None, transport=None, iopub=None, f=None, **{'Session.signature_scheme': None, 'Session.key': None})
+[[[0.9911941289901733 0.9897931814193726 0.9828609824180603
+   0.9749916791915894 0.8798931241035461 0.9613075256347656
+   0.9761253595352173 0.9815148711204529 0.9843280911445618
+   0.9531687498092651 0.9844614863395691]]]
+WARNING:torch.distributed.run:
+*****************************************
+Setting OMP_NUM_THREADS environment variable for each process to be 1 in default, to avoid your system being overloaded, please further tune the variable for optimal performance in your application as needed. 
+*****************************************
+World size: 5
+Namespace(path='./', max_epochs=None, batch_size=64, lr=0.001, seed=0, num_workers=10, cycles=1, model='sessions_1,2,3,5,6,7,8,9,10,11_epoch_9_train_acc_0.9976046681404114.model', eval=True, train_sessions=None, val_sessions=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11], ip=None, stdin=None, control=None, hb=None, shell=None, transport=None, iopub=None, f=None, **{'Session.signature_scheme': None, 'Session.key': None})
+[[[0.9824104905128479 0.9909939765930176 0.9838612675666809
+   0.8047348856925964 0.9851035475730896 0.9544363021850586
+   0.9677225947380066 0.9887887835502625 0.9812604188919067
+   0.9490994215011597 0.9544515013694763]]]
+WARNING:torch.distributed.run:
+*****************************************
+Setting OMP_NUM_THREADS environment variable for each process to be 1 in default, to avoid your system being overloaded, please further tune the variable for optimal performance in your application as needed. 
+*****************************************
+World size: 5
+Namespace(path='./', max_epochs=None, batch_size=64, lr=0.001, seed=0, num_workers=10, cycles=1, model='sessions_1,2,4,5,6,7,8,9,10,11_epoch_9_train_acc_0.9981117844581604.model', eval=True, train_sessions=None, val_sessions=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11], ip=None, stdin=None, control=None, hb=None, shell=None, transport=None, iopub=None, f=None, **{'Session.signature_scheme': None, 'Session.key': None})
+[[[0.9932399392127991 0.990060031414032 0.8819606304168701
+   0.9702567458152771 0.9848363399505615 0.9685123562812805
+   0.9705235362052917 0.9838505387306213 0.9858619570732117
+   0.9729152917861938 0.9837279319763184]]]
+WARNING:torch.distributed.run:
+*****************************************
+Setting OMP_NUM_THREADS environment variable for each process to be 1 in default, to avoid your system being overloaded, please further tune the variable for optimal performance in your application as needed. 
+*****************************************
+World size: 5
+Namespace(path='./', max_epochs=None, batch_size=64, lr=0.001, seed=0, num_workers=10, cycles=1, model='sessions_1,3,4,5,6,7,8,9,10,11_epoch_9_train_acc_0.9984520673751831.model', eval=True, train_sessions=None, val_sessions=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11], ip=None, stdin=None, control=None, hb=None, shell=None, transport=None, iopub=None, f=None, **{'Session.signature_scheme': None, 'Session.key': None})
+[[[0.9942851066589355 0.8567044734954834 0.9866622090339661
+   0.9727909564971924 0.9877087473869324 0.9711140990257263
+   0.9757919311523438 0.9901902079582214 0.9854618310928345
+   0.9757171273231506 0.9858619570732117]]]
+WARNING:torch.distributed.run:
+*****************************************
+Setting OMP_NUM_THREADS environment variable for each process to be 1 in default, to avoid your system being overloaded, please further tune the variable for optimal performance in your application as needed. 
+*****************************************
+World size: 5
+Namespace(path='./', max_epochs=None, batch_size=64, lr=0.001, seed=0, num_workers=10, cycles=1, model='sessions_2,3,4,5,6,7,8,9,10,11_epoch_9_train_acc_0.9986122250556946.model', eval=True, train_sessions=None, val_sessions=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11], ip=None, stdin=None, control=None, hb=None, shell=None, transport=None, iopub=None, f=None, **{'Session.signature_scheme': None, 'Session.key': None})
+[[[0.9645763635635376 0.9916611313819885 0.9858619570732117
+   0.9821273684501648 0.9837007522583008 0.9695129990577698
+   0.9625208377838135 0.981381356716156 0.9846615791320801
+   0.9707137942314148 0.9843947887420654]]]
+WARNING:torch.distributed.run:
+*****************************************
+Setting OMP_NUM_THREADS environment variable for each process to be 1 in default, to avoid your system being overloaded, please further tune the variable for optimal performance in your application as needed. 
+*****************************************
+World size: 5
+Namespace(path='./', max_epochs=None, batch_size=128, lr=0.001, seed=0, num_workers=10, cycles=1, model='sessions_1,2,3,4,5,6,7,8,9,10_epoch_9_train_acc_0.9989992380142212.model', eval=True, train_sessions=None, val_sessions=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11], ip=None, stdin=None, control=None, hb=None, shell=None, transport=None, iopub=None, f=None, **{'Session.signature_scheme': None, 'Session.key': None})
+[[[0.9946408867835999 0.9965977072715759 0.9957318902015686
+   0.9683894515037537 0.9926519989967346 0.979052722454071
+   0.9783927798271179 0.9917250871658325 0.9966655373573303
+   0.9621080756187439 0.9839279651641846]]]
+WARNING:torch.distributed.run:
+*****************************************
+Setting OMP_NUM_THREADS environment variable for each process to be 1 in default, to avoid your system being overloaded, please further tune the variable for optimal performance in your application as needed. 
+*****************************************
+World size: 5
+Namespace(path='./', max_epochs=None, batch_size=128, lr=0.001, seed=0, num_workers=10, cycles=1, model='sessions_1,2,3,4,5,6,7,8,9,11_epoch_9_train_acc_0.9989992380142212.model', eval=True, train_sessions=None, val_sessions=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11], ip=None, stdin=None, control=None, hb=None, shell=None, transport=None, iopub=None, f=None, **{'Session.signature_scheme': None, 'Session.key': None})
+[[[0.9946408867835999 0.9965977072715759 0.9957318902015686
+   0.9683894515037537 0.9926519989967346 0.979052722454071
+   0.9783927798271179 0.9917250871658325 0.9966655373573303
+   0.9621080756187439 0.9839279651641846]]]
+WARNING:torch.distributed.run:
+*****************************************
+Setting OMP_NUM_THREADS environment variable for each process to be 1 in default, to avoid your system being overloaded, please further tune the variable for optimal performance in your application as needed. 
+*****************************************
+World size: 5
+Namespace(path='./', max_epochs=None, batch_size=128, lr=0.001, seed=0, num_workers=10, cycles=1, model='sessions_1,2,3,4,5,6,7,8,10,11_epoch_9_train_acc_0.9986722469329834.model', eval=True, train_sessions=None, val_sessions=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11], ip=None, stdin=None, control=None, hb=None, shell=None, transport=None, iopub=None, f=None, **{'Session.signature_scheme': None, 'Session.key': None})
+[[[0.9950411319732666 0.993328869342804 0.9865955114364624
+   0.9793264269828796 0.9853039383888245 0.9759839773178101
+   0.9777259230613708 0.9859192371368408 0.8810269832611084
+   0.9759839773178101 0.9869289994239807]]]
+WARNING:torch.distributed.run:
+*****************************************
+Setting OMP_NUM_THREADS environment variable for each process to be 1 in default, to avoid your system being overloaded, please further tune the variable for optimal performance in your application as needed. 
+*****************************************
+World size: 5
+Namespace(path='./', max_epochs=None, batch_size=128, lr=0.001, seed=0, num_workers=10, cycles=1, model='sessions_1,2,3,4,5,6,7,9,10,11_epoch_9_train_acc_0.9983254075050354.model', eval=True, train_sessions=None, val_sessions=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11], ip=None, stdin=None, control=None, hb=None, shell=None, transport=None, iopub=None, f=None, **{'Session.signature_scheme': None, 'Session.key': None})
+[[[0.9961085319519043 0.9933956265449524 0.9864621758460999
+   0.9719906449317932 0.9885103702545166 0.9808539152145386
+   0.9790596961975098 0.9255255460739136 0.9861286878585815
+   0.9775183200836182 0.9835278391838074]]]
+WARNING:torch.distributed.run:
+*****************************************
+Setting OMP_NUM_THREADS environment variable for each process to be 1 in default, to avoid your system being overloaded, please further tune the variable for optimal performance in your application as needed. 
+*****************************************
+World size: 5
+Namespace(path='./', max_epochs=None, batch_size=128, lr=0.001, seed=0, num_workers=10, cycles=1, model='sessions_1,2,3,4,5,6,8,9,10,11_epoch_9_train_acc_0.9984387159347534.model', eval=True, train_sessions=None, val_sessions=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11], ip=None, stdin=None, control=None, hb=None, shell=None, transport=None, iopub=None, f=None, **{'Session.signature_scheme': None, 'Session.key': None})
+[[[0.9977318048477173 0.9939292669296265 0.9848616123199463
+   0.9853951334953308 0.9837675094604492 0.9797865152359009
+   0.7701233625411987 0.9919919967651367 0.9867289066314697
+   0.9847898483276367 0.99233078956604]]]
+WARNING:torch.distributed.run:
+*****************************************
+Setting OMP_NUM_THREADS environment variable for each process to be 1 in default, to avoid your system being overloaded, please further tune the variable for optimal performance in your application as needed. 
+*****************************************
+World size: 5
+Namespace(path='./', max_epochs=None, batch_size=128, lr=0.001, seed=0, num_workers=10, cycles=1, model='sessions_1,2,3,4,5,7,8,9,10,11_epoch_9_train_acc_0.9978315830230713.model', eval=True, train_sessions=None, val_sessions=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11], ip=None, stdin=None, control=None, hb=None, shell=None, transport=None, iopub=None, f=None, **{'Session.signature_scheme': None, 'Session.key': None})
+[[[0.9941294193267822 0.9930620193481445 0.9907302260398865
+   0.9687228798866272 0.9830327033996582 0.8172114491462708
+   0.9698566198348999 0.9876543283462524 0.985795259475708
+   0.9735156893730164 0.982527494430542]]]
+WARNING:torch.distributed.run:
+*****************************************
+Setting OMP_NUM_THREADS environment variable for each process to be 1 in default, to avoid your system being overloaded, please further tune the variable for optimal performance in your application as needed. 
+*****************************************
+World size: 5
+Namespace(path='./', max_epochs=None, batch_size=128, lr=0.001, seed=0, num_workers=10, cycles=1, model='sessions_1,2,3,4,6,7,8,9,10,11_epoch_9_train_acc_0.9988391995429993.model', eval=True, train_sessions=None, val_sessions=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11], ip=None, stdin=None, control=None, hb=None, shell=None, transport=None, iopub=None, f=None, **{'Session.signature_scheme': None, 'Session.key': None})
+[[[0.9939070343971252 0.9917278289794922 0.9863954782485962
+   0.9779926538467407 0.8861055374145508 0.9663775563240051
+   0.980326771736145 0.984184205532074 0.9874624609947205
+   0.9577051401138306 0.9879292845726013]]]
+WARNING:torch.distributed.run:
+*****************************************
+Setting OMP_NUM_THREADS environment variable for each process to be 1 in default, to avoid your system being overloaded, please further tune the variable for optimal performance in your application as needed. 
+*****************************************
+World size: 5
+Namespace(path='./', max_epochs=None, batch_size=128, lr=0.001, seed=0, num_workers=10, cycles=1, model='sessions_1,2,3,5,6,7,8,9,10,11_epoch_9_train_acc_0.9976046681404114.model', eval=True, train_sessions=None, val_sessions=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11], ip=None, stdin=None, control=None, hb=None, shell=None, transport=None, iopub=None, f=None, **{'Session.signature_scheme': None, 'Session.key': None})
+[[[0.9855237007141113 0.9931954741477966 0.9857285618782043
+   0.8111370205879211 0.9875083565711975 0.9590393304824829
+   0.9725908637046814 0.9923924207687378 0.9852617383003235
+   0.9546363949775696 0.9595198631286621]]]
+WARNING:torch.distributed.run:
+*****************************************
+Setting OMP_NUM_THREADS environment variable for each process to be 1 in default, to avoid your system being overloaded, please further tune the variable for optimal performance in your application as needed. 
+*****************************************
+World size: 5
+Namespace(path='./', max_epochs=None, batch_size=128, lr=0.001, seed=0, num_workers=10, cycles=1, model='sessions_1,2,4,5,6,7,8,9,10,11_epoch_9_train_acc_0.9981117844581604.model', eval=True, train_sessions=None, val_sessions=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11], ip=None, stdin=None, control=None, hb=None, shell=None, transport=None, iopub=None, f=None, **{'Session.signature_scheme': None, 'Session.key': None})
+[[[0.9952857494354248 0.9929286241531372 0.8872290849685669
+   0.9730576872825623 0.9879759550094604 0.9725817441940308
+   0.9743247628211975 0.9875208735466003 0.9897298812866211
+   0.9762508273124695 0.9864621758460999]]]
+WARNING:torch.distributed.run:
+*****************************************
+Setting OMP_NUM_THREADS environment variable for each process to be 1 in default, to avoid your system being overloaded, please further tune the variable for optimal performance in your application as needed. 
+*****************************************
+World size: 5
+Namespace(path='./', max_epochs=None, batch_size=128, lr=0.001, seed=0, num_workers=10, cycles=1, model='sessions_1,3,4,5,6,7,8,9,10,11_epoch_9_train_acc_0.9984520673751831.model', eval=True, train_sessions=None, val_sessions=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11], ip=None, stdin=None, control=None, hb=None, shell=None, transport=None, iopub=None, f=None, **{'Session.signature_scheme': None, 'Session.key': None})
+[[[0.9964420795440674 0.8613742589950562 0.990196704864502
+   0.9765921831130981 0.9898463487625122 0.9761174321174622
+   0.9795932173728943 0.9919919967651367 0.9897298812866211
+   0.978919267654419 0.989263117313385]]]
+WARNING:torch.distributed.run:
+*****************************************
+Setting OMP_NUM_THREADS environment variable for each process to be 1 in default, to avoid your system being overloaded, please further tune the variable for optimal performance in your application as needed. 
+*****************************************
+World size: 5
+Namespace(path='./', max_epochs=None, batch_size=128, lr=0.001, seed=0, num_workers=10, cycles=1, model='sessions_2,3,4,5,6,7,8,9,10,11_epoch_9_train_acc_0.9986122250556946.model', eval=True, train_sessions=None, val_sessions=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11], ip=None, stdin=None, control=None, hb=None, shell=None, transport=None, iopub=None, f=None, **{'Session.signature_scheme': None, 'Session.key': None})
+[[[0.9675338864326477 0.9939292669296265 0.9883294701576233
+   0.9845948815345764 0.9859051704406738 0.9739826321601868
+   0.9670556783676147 0.985318660736084 0.9877959489822388
+   0.9753835797309875 0.9863954782485962]]]
+WARNING:torch.distributed.run:
+*****************************************
+Setting OMP_NUM_THREADS environment variable for each process to be 1 in default, to avoid your system being overloaded, please further tune the variable for optimal performance in your application as needed. 
+*****************************************
+World size: 5
+Namespace(path='./', max_epochs=None, batch_size=256, lr=0.001, seed=0, num_workers=10, cycles=1, model='sessions_1,2,3,4,5,6,7,8,9,10_epoch_9_train_acc_0.9989992380142212.model', eval=True, train_sessions=None, val_sessions=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11], ip=None, stdin=None, control=None, hb=None, shell=None, transport=None, iopub=None, f=None, **{'Session.signature_scheme': None, 'Session.key': None})
+[[[0.9958861470222473 0.9971981048583984 0.9961320161819458
+   0.9710569977760315 0.9925851821899414 0.9806537628173828
+   0.9795932173728943 0.9934601187705994 0.9972657561302185
+   0.9655770659446716 0.9851950407028198]]]
+WARNING:torch.distributed.run:
+*****************************************
+Setting OMP_NUM_THREADS environment variable for each process to be 1 in default, to avoid your system being overloaded, please further tune the variable for optimal performance in your application as needed. 
+*****************************************
+World size: 5
+Namespace(path='./', max_epochs=None, batch_size=256, lr=0.001, seed=0, num_workers=10, cycles=1, model='sessions_1,2,3,4,5,6,7,8,9,11_epoch_9_train_acc_0.9989992380142212.model', eval=True, train_sessions=None, val_sessions=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11], ip=None, stdin=None, control=None, hb=None, shell=None, transport=None, iopub=None, f=None, **{'Session.signature_scheme': None, 'Session.key': None})
+[[[0.9958861470222473 0.9971981048583984 0.9961320161819458
+   0.9710569977760315 0.9925851821899414 0.9806537628173828
+   0.9795932173728943 0.9934601187705994 0.9972657561302185
+   0.9655770659446716 0.9851950407028198]]]
+WARNING:torch.distributed.run:
+*****************************************
+Setting OMP_NUM_THREADS environment variable for each process to be 1 in default, to avoid your system being overloaded, please further tune the variable for optimal performance in your application as needed. 
+*****************************************
+World size: 5
+Namespace(path='./', max_epochs=None, batch_size=256, lr=0.001, seed=0, num_workers=10, cycles=1, model='sessions_1,2,3,4,5,6,7,8,10,11_epoch_9_train_acc_0.9986722469329834.model', eval=True, train_sessions=None, val_sessions=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11], ip=None, stdin=None, control=None, hb=None, shell=None, transport=None, iopub=None, f=None, **{'Session.signature_scheme': None, 'Session.key': None})
+[[[0.99575275182724 0.9945964217185974 0.9886628985404968
+   0.979459822177887 0.9867067337036133 0.9785857200622559
+   0.9797265529632568 0.987854540348053 0.885695219039917
+   0.9782521724700928 0.9883294701576233]]]
+WARNING:torch.distributed.run:
+*****************************************
+Setting OMP_NUM_THREADS environment variable for each process to be 1 in default, to avoid your system being overloaded, please further tune the variable for optimal performance in your application as needed. 
+*****************************************
+World size: 5
+Namespace(path='./', max_epochs=None, batch_size=256, lr=0.001, seed=0, num_workers=10, cycles=1, model='sessions_1,2,3,4,5,6,7,9,10,11_epoch_9_train_acc_0.9983254075050354.model', eval=True, train_sessions=None, val_sessions=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11], ip=None, stdin=None, control=None, hb=None, shell=None, transport=None, iopub=None, f=None, **{'Session.signature_scheme': None, 'Session.key': None})
+[[[0.996731162071228 0.9948632717132568 0.988196074962616
+   0.973991334438324 0.9899131655693054 0.9820547103881836
+   0.9818606376647949 0.9265265464782715 0.9874624609947205
+   0.9803202152252197 0.9858619570732117]]]
+WARNING:torch.distributed.run:
+*****************************************
+Setting OMP_NUM_THREADS environment variable for each process to be 1 in default, to avoid your system being overloaded, please further tune the variable for optimal performance in your application as needed. 
+*****************************************
+World size: 5
+Namespace(path='./', max_epochs=None, batch_size=256, lr=0.001, seed=0, num_workers=10, cycles=1, model='sessions_1,2,3,4,5,6,8,9,10,11_epoch_9_train_acc_0.9984387159347534.model', eval=True, train_sessions=None, val_sessions=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11], ip=None, stdin=None, control=None, hb=None, shell=None, transport=None, iopub=None, f=None, **{'Session.signature_scheme': None, 'Session.key': None})
+[[[0.9984878897666931 0.9954636693000793 0.986862301826477
+   0.9863287806510925 0.9841015338897705 0.9815877079963684
+   0.7743914723396301 0.9932599067687988 0.988862931728363
+   0.9863241910934448 0.9929976463317871]]]
+WARNING:torch.distributed.run:
+*****************************************
+Setting OMP_NUM_THREADS environment variable for each process to be 1 in default, to avoid your system being overloaded, please further tune the variable for optimal performance in your application as needed. 
+*****************************************
+World size: 5
+Namespace(path='./', max_epochs=None, batch_size=256, lr=0.001, seed=0, num_workers=10, cycles=1, model='sessions_1,2,3,4,5,7,8,9,10,11_epoch_9_train_acc_0.9978315830230713.model', eval=True, train_sessions=None, val_sessions=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11], ip=None, stdin=None, control=None, hb=None, shell=None, transport=None, iopub=None, f=None, **{'Session.signature_scheme': None, 'Session.key': None})
+[[[0.9954191446304321 0.9939292669296265 0.9929309487342834
+   0.9695231914520264 0.9843019247055054 0.8208805918693542
+   0.9724574685096741 0.9894561171531677 0.9883961081504822
+   0.9749833345413208 0.9836612343788147]]]
+WARNING:torch.distributed.run:
+*****************************************
+Setting OMP_NUM_THREADS environment variable for each process to be 1 in default, to avoid your system being overloaded, please further tune the variable for optimal performance in your application as needed. 
+*****************************************
+World size: 5
+Namespace(path='./', max_epochs=None, batch_size=256, lr=0.001, seed=0, num_workers=10, cycles=1, model='sessions_1,2,3,4,6,7,8,9,10,11_epoch_9_train_acc_0.9988391995429993.model', eval=True, train_sessions=None, val_sessions=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11], ip=None, stdin=None, control=None, hb=None, shell=None, transport=None, iopub=None, f=None, **{'Session.signature_scheme': None, 'Session.key': None})
+[[[0.9949077367782593 0.9929953217506409 0.9875291585922241
+   0.979659914970398 0.8889111280441284 0.9673115611076355
+   0.9817272424697876 0.985318660736084 0.9887295961380005
+   0.9595063328742981 0.9886628985404968]]]
+WARNING:torch.distributed.run:
+*****************************************
+Setting OMP_NUM_THREADS environment variable for each process to be 1 in default, to avoid your system being overloaded, please further tune the variable for optimal performance in your application as needed. 
+*****************************************
+World size: 5
+Namespace(path='./', max_epochs=None, batch_size=256, lr=0.001, seed=0, num_workers=10, cycles=1, model='sessions_1,2,3,5,6,7,8,9,10,11_epoch_9_train_acc_0.9976046681404114.model', eval=True, train_sessions=None, val_sessions=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11], ip=None, stdin=None, control=None, hb=None, shell=None, transport=None, iopub=None, f=None, **{'Session.signature_scheme': None, 'Session.key': None})
+[[[0.9874805212020874 0.9939960241317749 0.9881293773651123
+   0.8127375841140747 0.9889111518859863 0.9619079232215881
+   0.9745915532112122 0.9928595423698425 0.9871290326118469
+   0.9583722352981567 0.9616538882255554]]]
+WARNING:torch.distributed.run:
+*****************************************
+Setting OMP_NUM_THREADS environment variable for each process to be 1 in default, to avoid your system being overloaded, please further tune the variable for optimal performance in your application as needed. 
+*****************************************
+World size: 5
+Namespace(path='./', max_epochs=None, batch_size=256, lr=0.001, seed=0, num_workers=10, cycles=1, model='sessions_1,2,4,5,6,7,8,9,10,11_epoch_9_train_acc_0.9981117844581604.model', eval=True, train_sessions=None, val_sessions=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11], ip=None, stdin=None, control=None, hb=None, shell=None, transport=None, iopub=None, f=None, **{'Session.signature_scheme': None, 'Session.key': None})
+[[[0.9965977072715759 0.994529664516449 0.8920973539352417
+   0.9741913676261902 0.9880427718162537 0.9749166369438171
+   0.9755918383598328 0.9903236627578735 0.9907969236373901
+   0.9784523248672485 0.9884628057479858]]]
+WARNING:torch.distributed.run:
+*****************************************
+Setting OMP_NUM_THREADS environment variable for each process to be 1 in default, to avoid your system being overloaded, please further tune the variable for optimal performance in your application as needed. 
+*****************************************
+World size: 5
+Namespace(path='./', max_epochs=None, batch_size=256, lr=0.001, seed=0, num_workers=10, cycles=1, model='sessions_1,3,4,5,6,7,8,9,10,11_epoch_9_train_acc_0.9984520673751831.model', eval=True, train_sessions=None, val_sessions=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11], ip=None, stdin=None, control=None, hb=None, shell=None, transport=None, iopub=None, f=None, **{'Session.signature_scheme': None, 'Session.key': None})
+[[[0.9972203969955444 0.8635756969451904 0.9913971424102783
+   0.9778592586517334 0.9911823868751526 0.977851927280426
+   0.9817272424697876 0.9936603307723999 0.9905301928520203
+   0.9815877079963684 0.9898632764816284]]]
+WARNING:torch.distributed.run:
+*****************************************
+Setting OMP_NUM_THREADS environment variable for each process to be 1 in default, to avoid your system being overloaded, please further tune the variable for optimal performance in your application as needed. 
+*****************************************
+World size: 5
+Namespace(path='./', max_epochs=None, batch_size=256, lr=0.001, seed=0, num_workers=10, cycles=1, model='sessions_2,3,4,5,6,7,8,9,10,11_epoch_9_train_acc_0.9986122250556946.model', eval=True, train_sessions=None, val_sessions=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11], ip=None, stdin=None, control=None, hb=None, shell=None, transport=None, iopub=None, f=None, **{'Session.signature_scheme': None, 'Session.key': None})
+[[[0.9688459038734436 0.9946631193161011 0.9900633692741394
+   0.9877959489822388 0.9871075749397278 0.9753168821334839
+   0.9676558971405029 0.9861194491386414 0.9887962937355042
+   0.9775850772857666 0.9877959489822388]]]
+WARNING:torch.distributed.run:
+*****************************************
+Setting OMP_NUM_THREADS environment variable for each process to be 1 in default, to avoid your system being overloaded, please further tune the variable for optimal performance in your application as needed. 
+*****************************************
+World size: 5
+Namespace(path='./', max_epochs=None, batch_size=64, lr=0.001, seed=0, num_workers=10, cycles=1, model='sessions_1,2,3,4,5,6,7,8,9,10_epoch_9_train_acc_0.9989992380142212.model', eval=True, train_sessions=None, val_sessions=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11], ip=None, stdin=None, control=None, hb=None, shell=None, transport=None, iopub=None, f=None, **{'Session.signature_scheme': None, 'Session.key': None})
+[[[0.9965310096740723 0.9972648620605469 0.9967989325523376
+   0.9983327984809875 0.9995324015617371 0.9982655048370361
+   0.9960653781890869 0.9957957863807678 0.9985328316688538
+   0.9945964217185974 0.9958652853965759]]]
+WARNING:torch.distributed.run:
+*****************************************
+Setting OMP_NUM_THREADS environment variable for each process to be 1 in default, to avoid your system being overloaded, please further tune the variable for optimal performance in your application as needed. 
+*****************************************
+World size: 5
+Namespace(path='./', max_epochs=None, batch_size=64, lr=0.001, seed=0, num_workers=10, cycles=1, model='sessions_1,2,3,4,5,6,7,8,9,11_epoch_9_train_acc_0.9989992380142212.model', eval=True, train_sessions=None, val_sessions=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11], ip=None, stdin=None, control=None, hb=None, shell=None, transport=None, iopub=None, f=None, **{'Session.signature_scheme': None, 'Session.key': None})
+[[[0.9965310096740723 0.9972648620605469 0.9967989325523376
+   0.9983327984809875 0.9995324015617371 0.9982655048370361
+   0.9960653781890869 0.9957957863807678 0.9985328316688538
+   0.9945964217185974 0.9958652853965759]]]
+WARNING:torch.distributed.run:
+*****************************************
+Setting OMP_NUM_THREADS environment variable for each process to be 1 in default, to avoid your system being overloaded, please further tune the variable for optimal performance in your application as needed. 
+*****************************************
+World size: 5
+Namespace(path='./', max_epochs=None, batch_size=64, lr=0.001, seed=0, num_workers=10, cycles=1, model='sessions_1,2,3,4,5,6,7,8,10,11_epoch_9_train_acc_0.9986722469329834.model', eval=True, train_sessions=None, val_sessions=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11], ip=None, stdin=None, control=None, hb=None, shell=None, transport=None, iopub=None, f=None, **{'Session.signature_scheme': None, 'Session.key': None})
+[[[0.9891483187675476 0.9944629669189453 0.991463840007782
+   0.9874624609947205 0.9927187561988831 0.9873248934745789
+   0.9833277463912964 0.9897230267524719 0.8438146114349365
+   0.9921947717666626 0.9844614863395691]]]
+WARNING:torch.distributed.run:
+*****************************************
+Setting OMP_NUM_THREADS environment variable for each process to be 1 in default, to avoid your system being overloaded, please further tune the variable for optimal performance in your application as needed. 
+*****************************************
+World size: 5
+Namespace(path='./', max_epochs=None, batch_size=64, lr=0.001, seed=0, num_workers=10, cycles=1, model='sessions_1,2,3,4,5,6,7,9,10,11_epoch_9_train_acc_0.9983254075050354.model', eval=True, train_sessions=None, val_sessions=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11], ip=None, stdin=None, control=None, hb=None, shell=None, transport=None, iopub=None, f=None, **{'Session.signature_scheme': None, 'Session.key': None})
+[[[0.9853457808494568 0.9923282265663147 0.99233078956604
+   0.9848616123199463 0.9926519989967346 0.9915943741798401
+   0.9893297553062439 0.9001668095588684 0.9896632432937622
+   0.9739826321601868 0.9895965456962585]]]
+WARNING:torch.distributed.run:
+*****************************************
+Setting OMP_NUM_THREADS environment variable for each process to be 1 in default, to avoid your system being overloaded, please further tune the variable for optimal performance in your application as needed. 
+*****************************************
+World size: 5
+Namespace(path='./', max_epochs=None, batch_size=64, lr=0.001, seed=0, num_workers=10, cycles=1, model='sessions_1,2,3,4,5,6,8,9,10,11_epoch_9_train_acc_0.9984387159347534.model', eval=True, train_sessions=None, val_sessions=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11], ip=None, stdin=None, control=None, hb=None, shell=None, transport=None, iopub=None, f=None, **{'Session.signature_scheme': None, 'Session.key': None})
+[[[0.9977985620498657 0.9964643120765686 0.9942647814750671
+   0.9989996552467346 0.998062789440155 0.9959306120872498
+   0.7563187479972839 0.9987320899963379 0.9952650666236877
+   0.9980653524398804 0.9971323609352112]]]
+WARNING:torch.distributed.run:
+*****************************************
+Setting OMP_NUM_THREADS environment variable for each process to be 1 in default, to avoid your system being overloaded, please further tune the variable for optimal performance in your application as needed. 
+*****************************************
+World size: 5
+Namespace(path='./', max_epochs=None, batch_size=64, lr=0.001, seed=0, num_workers=10, cycles=1, model='sessions_1,2,3,4,5,7,8,9,10,11_epoch_9_train_acc_0.9978315830230713.model', eval=True, train_sessions=None, val_sessions=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11], ip=None, stdin=None, control=None, hb=None, shell=None, transport=None, iopub=None, f=None, **{'Session.signature_scheme': None, 'Session.key': None})
+[[[0.982321560382843 0.9801868200302124 0.986862301826477
+   0.9805935025215149 0.9904475808143616 0.61287522315979
+   0.973991334438324 0.991257905960083 0.9793931245803833
+   0.9785190224647522 0.9815938472747803]]]
+WARNING:torch.distributed.run:
+*****************************************
+Setting OMP_NUM_THREADS environment variable for each process to be 1 in default, to avoid your system being overloaded, please further tune the variable for optimal performance in your application as needed. 
+*****************************************
+World size: 5
+Namespace(path='./', max_epochs=None, batch_size=64, lr=0.001, seed=0, num_workers=10, cycles=1, model='sessions_1,2,3,4,6,7,8,9,10,11_epoch_9_train_acc_0.9988391995429993.model', eval=True, train_sessions=None, val_sessions=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11], ip=None, stdin=None, control=None, hb=None, shell=None, transport=None, iopub=None, f=None, **{'Session.signature_scheme': None, 'Session.key': None})
+[[[0.9852790832519531 0.9886590838432312 0.9823274612426758
+   0.9895965456962585 0.8166332840919495 0.9810540080070496
+   0.9898632764816284 0.9882549047470093 0.9725908637046814
+   0.9859906435012817 0.9867956042289734]]]
+WARNING:torch.distributed.run:
+*****************************************
+Setting OMP_NUM_THREADS environment variable for each process to be 1 in default, to avoid your system being overloaded, please further tune the variable for optimal performance in your application as needed. 
+*****************************************
+World size: 5
+Namespace(path='./', max_epochs=None, batch_size=64, lr=0.001, seed=0, num_workers=10, cycles=1, model='sessions_1,2,3,5,6,7,8,9,10,11_epoch_9_train_acc_0.9976046681404114.model', eval=True, train_sessions=None, val_sessions=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11], ip=None, stdin=None, control=None, hb=None, shell=None, transport=None, iopub=None, f=None, **{'Session.signature_scheme': None, 'Session.key': None})
+[[[0.9818323254585266 0.9839226007461548 0.9875958561897278
+   0.6502167582511902 0.9837007522583008 0.9759172797203064
+   0.9728575944900513 0.9861194491386414 0.9807268977165222
+   0.9717144966125488 0.9840613603591919]]]
+WARNING:torch.distributed.run:
+*****************************************
+Setting OMP_NUM_THREADS environment variable for each process to be 1 in default, to avoid your system being overloaded, please further tune the variable for optimal performance in your application as needed. 
+*****************************************
+World size: 5
+Namespace(path='./', max_epochs=None, batch_size=64, lr=0.001, seed=0, num_workers=10, cycles=1, model='sessions_1,2,4,5,6,7,8,9,10,11_epoch_9_train_acc_0.9981117844581604.model', eval=True, train_sessions=None, val_sessions=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11], ip=None, stdin=None, control=None, hb=None, shell=None, transport=None, iopub=None, f=None, **{'Session.signature_scheme': None, 'Session.key': None})
+[[[0.9918834567070007 0.9909939765930176 0.8722240924835205
+   0.9920639991760254 0.9936539530754089 0.9941294193267822
+   0.9918639659881592 0.995195209980011 0.9950650334358215
+   0.9866577982902527 0.9929309487342834]]]
+WARNING:torch.distributed.run:
+*****************************************
+Setting OMP_NUM_THREADS environment variable for each process to be 1 in default, to avoid your system being overloaded, please further tune the variable for optimal performance in your application as needed. 
+*****************************************
+World size: 5
+Namespace(path='./', max_epochs=None, batch_size=64, lr=0.001, seed=0, num_workers=10, cycles=1, model='sessions_1,3,4,5,6,7,8,9,10,11_epoch_9_train_acc_0.9984520673751831.model', eval=True, train_sessions=None, val_sessions=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11], ip=None, stdin=None, control=None, hb=None, shell=None, transport=None, iopub=None, f=None, **{'Session.signature_scheme': None, 'Session.key': None})
+[[[0.9870358109474182 0.8207471370697021 0.9843947887420654
+   0.9899299740791321 0.9954575896263123 0.9826551079750061
+   0.9873958230018616 0.9908575415611267 0.9906635284423828
+   0.9893929362297058 0.9871290326118469]]]
+WARNING:torch.distributed.run:
+*****************************************
+Setting OMP_NUM_THREADS environment variable for each process to be 1 in default, to avoid your system being overloaded, please further tune the variable for optimal performance in your application as needed. 
+*****************************************
+World size: 5
+Namespace(path='./', max_epochs=None, batch_size=64, lr=0.001, seed=0, num_workers=10, cycles=1, model='sessions_2,3,4,5,6,7,8,9,10,11_epoch_9_train_acc_0.9986122250556946.model', eval=True, train_sessions=None, val_sessions=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11], ip=None, stdin=None, control=None, hb=None, shell=None, transport=None, iopub=None, f=None, **{'Session.signature_scheme': None, 'Session.key': None})
+[[[0.9579497575759888 0.9919946789741516 0.994331419467926
+   0.9887962937355042 0.9981963634490967 0.9941961169242859
+   0.9955318570137024 0.9964631199836731 0.98492830991745
+   0.9899933338165283 0.9869289994239807]]]

@@ -1,0 +1,297 @@
+WARNING:torch.distributed.run:
+*****************************************
+Setting OMP_NUM_THREADS environment variable for each process to be 1 in default, to avoid your system being overloaded, please further tune the variable for optimal performance in your application as needed. 
+*****************************************
+World size: 5
+Namespace(path='./', max_epochs=None, batch_size=256, lr=0.001, seed=0, num_workers=10, cycles=1, model='sessions_1,2,4,5,6,8,9,11_epoch_9_train_acc_0.9978647828102112.model', eval=True, train_sessions=None, val_sessions=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11], ip=None, stdin=None, control=None, hb=None, shell=None, transport=None, iopub=None, f=None, **{'Session.signature_scheme': None, 'Session.key': None})
+[[[0.9873248934745789 0.9770513772964478 0.8260753750801086
+   0.9847949147224426 0.9839679598808289 0.988859236240387
+   0.5937979221343994 0.9828495383262634 0.9873958230018616
+   0.9859906435012817 0.993464469909668]]]
+WARNING:torch.distributed.run:
+*****************************************
+Setting OMP_NUM_THREADS environment variable for each process to be 1 in default, to avoid your system being overloaded, please further tune the variable for optimal performance in your application as needed. 
+*****************************************
+World size: 5
+Namespace(path='./', max_epochs=None, batch_size=256, lr=0.001, seed=0, num_workers=10, cycles=1, model='sessions_1,2,4,5,6,8,9,11_epoch_9_train_acc_0.9978647828102112.model', eval=True, train_sessions=None, val_sessions=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11], ip=None, stdin=None, control=None, hb=None, shell=None, transport=None, iopub=None, f=None, **{'Session.signature_scheme': None, 'Session.key': None})
+[[[0.9962196946144104 0.9857237935066223 0.8541513681411743
+   0.9885295033454895 0.9827655553817749 0.977851927280426
+   0.7369123101234436 0.9840506911277771 0.983594536781311
+   0.9850566983222961 0.9916638731956482]]]
+WARNING:torch.distributed.run:
+*****************************************
+Setting OMP_NUM_THREADS environment variable for each process to be 1 in default, to avoid your system being overloaded, please further tune the variable for optimal performance in your application as needed. 
+*****************************************
+World size: 5
+Namespace(path='./', max_epochs=None, batch_size=256, lr=0.001, seed=0, num_workers=10, cycles=1, model='sessions_3,7,10_epoch_9_train_acc_1.0.model', eval=True, train_sessions=None, val_sessions=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11], ip=None, stdin=None, control=None, hb=None, shell=None, transport=None, iopub=None, f=None, **{'Session.signature_scheme': None, 'Session.key': None})
+[[[0.8918612599372864 0.8154102563858032 1.0 0.6311436891555786
+   0.7621910572052002 0.5092061161994934 1.0 0.8531865477561951
+   0.705101728439331 1.0 0.8440146446228027]]]
+WARNING:torch.distributed.run:
+*****************************************
+Setting OMP_NUM_THREADS environment variable for each process to be 1 in default, to avoid your system being overloaded, please further tune the variable for optimal performance in your application as needed. 
+*****************************************
+World size: 5
+Namespace(path='./', max_epochs=None, batch_size=256, lr=0.001, seed=0, num_workers=10, cycles=1, model='sessions_3,7,10_epoch_9_train_acc_1.0.model', eval=True, train_sessions=None, val_sessions=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11], ip=None, stdin=None, control=None, hb=None, shell=None, transport=None, iopub=None, f=None, **{'Session.signature_scheme': None, 'Session.key': None})
+[[[0.8933956027030945 0.8328886032104492 0.9998666048049927
+   0.7719906568527222 0.8243153095245361 0.7362241744995117
+   0.9990663528442383 0.8808141350746155 0.8074691295623779
+   0.9965977072715759 0.8096699118614197]]]
+WARNING:torch.distributed.run:
+*****************************************
+Setting OMP_NUM_THREADS environment variable for each process to be 1 in default, to avoid your system being overloaded, please further tune the variable for optimal performance in your application as needed. 
+*****************************************
+World size: 5
+Namespace(path='./', max_epochs=None, batch_size=256, lr=0.001, seed=0, num_workers=10, cycles=1, model='sessions_1,2,3,5,6,7,8,9_epoch_9_train_acc_0.9954829216003418.model', eval=True, train_sessions=None, val_sessions=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11], ip=None, stdin=None, control=None, hb=None, shell=None, transport=None, iopub=None, f=None, **{'Session.signature_scheme': None, 'Session.key': None})
+[[[0.9833222031593323 0.9899266362190247 0.9876625537872314
+   0.7497832775115967 0.9931195974349976 0.9858572483062744
+   0.9872624278068542 0.9857857823371887 0.9817272424697876
+   0.9782521724700928 0.9879292845726013]]]
+WARNING:torch.distributed.run:
+*****************************************
+Setting OMP_NUM_THREADS environment variable for each process to be 1 in default, to avoid your system being overloaded, please further tune the variable for optimal performance in your application as needed. 
+*****************************************
+World size: 5
+Namespace(path='./', max_epochs=None, batch_size=256, lr=0.001, seed=0, num_workers=10, cycles=1, model='sessions_1,2,3,5,6,7,8,9_epoch_9_train_acc_0.9954829216003418.model', eval=True, train_sessions=None, val_sessions=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11], ip=None, stdin=None, control=None, hb=None, shell=None, transport=None, iopub=None, f=None, **{'Session.signature_scheme': None, 'Session.key': None})
+[[[0.9873693585395813 0.9932621717453003 0.9846615791320801
+   0.8245415091514587 0.9868403673171997 0.9637091159820557
+   0.9761253595352173 0.9851852059364319 0.9838612675666809
+   0.9519679546356201 0.9783927798271179]]]
+WARNING:torch.distributed.run:
+*****************************************
+Setting OMP_NUM_THREADS environment variable for each process to be 1 in default, to avoid your system being overloaded, please further tune the variable for optimal performance in your application as needed. 
+*****************************************
+World size: 5
+Namespace(path='./', max_epochs=None, batch_size=256, lr=0.001, seed=0, num_workers=10, cycles=1, model='sessions_4,10,11_epoch_9_train_acc_1.0.model', eval=True, train_sessions=None, val_sessions=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11], ip=None, stdin=None, control=None, hb=None, shell=None, transport=None, iopub=None, f=None, **{'Session.signature_scheme': None, 'Session.key': None})
+[[[0.9042695164680481 0.7122081518173218 0.7094364762306213 1.0
+   0.6508349776268005 0.3988659083843231 0.5726575255393982
+   0.755822479724884 0.5469823479652405 1.0 1.0]]]
+WARNING:torch.distributed.run:
+*****************************************
+Setting OMP_NUM_THREADS environment variable for each process to be 1 in default, to avoid your system being overloaded, please further tune the variable for optimal performance in your application as needed. 
+*****************************************
+World size: 5
+Namespace(path='./', max_epochs=None, batch_size=256, lr=0.001, seed=0, num_workers=10, cycles=1, model='sessions_4,10,11_epoch_9_train_acc_1.0.model', eval=True, train_sessions=None, val_sessions=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11], ip=None, stdin=None, control=None, hb=None, shell=None, transport=None, iopub=None, f=None, **{'Session.signature_scheme': None, 'Session.key': None})
+[[[0.9278185367584229 0.7549699544906616 0.7169056534767151
+   0.9999333024024963 0.7278556823730469 0.7083389163017273
+   0.5767922401428223 0.7971972227096558 0.6955651640892029 1.0
+   0.9998666048049927]]]
+WARNING:torch.distributed.run:
+*****************************************
+Setting OMP_NUM_THREADS environment variable for each process to be 1 in default, to avoid your system being overloaded, please further tune the variable for optimal performance in your application as needed. 
+*****************************************
+World size: 5
+Namespace(path='./', max_epochs=None, batch_size=256, lr=0.001, seed=0, num_workers=10, cycles=1, model='sessions_1_epoch_9_train_acc_1.0.model', eval=True, train_sessions=None, val_sessions=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11], ip=None, stdin=None, control=None, hb=None, shell=None, transport=None, iopub=None, f=None, **{'Session.signature_scheme': None, 'Session.key': None})
+[[[1.0 0.787992000579834 0.8034678101539612 0.7477825880050659
+   0.6826319098472595 0.5456303954124451 0.5569856762886047
+   0.8226893544197083 0.8152717351913452 1.0 1.0]]]
+WARNING:torch.distributed.run:
+*****************************************
+Setting OMP_NUM_THREADS environment variable for each process to be 1 in default, to avoid your system being overloaded, please further tune the variable for optimal performance in your application as needed. 
+*****************************************
+World size: 5
+Namespace(path='./', max_epochs=None, batch_size=256, lr=0.001, seed=0, num_workers=10, cycles=1, model='sessions_1_epoch_9_train_acc_1.0.model', eval=True, train_sessions=None, val_sessions=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11], ip=None, stdin=None, control=None, hb=None, shell=None, transport=None, iopub=None, f=None, **{'Session.signature_scheme': None, 'Session.key': None})
+[[[1.0 0.8292862176895142 0.8060687184333801 0.8628209233283997
+   0.7849031686782837 0.7388258576393127 0.6303434371948242
+   0.8733400106430054 0.826008677482605 0.9997998476028442
+   0.9999333024024963]]]
+WARNING:torch.distributed.run:
+*****************************************
+Setting OMP_NUM_THREADS environment variable for each process to be 1 in default, to avoid your system being overloaded, please further tune the variable for optimal performance in your application as needed. 
+*****************************************
+World size: 5
+Namespace(path='./', max_epochs=None, batch_size=256, lr=0.001, seed=0, num_workers=10, cycles=1, model='sessions_2_epoch_9_train_acc_1.0.model', eval=True, train_sessions=None, val_sessions=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11], ip=None, stdin=None, control=None, hb=None, shell=None, transport=None, iopub=None, f=None, **{'Session.signature_scheme': None, 'Session.key': None})
+[[[0.5144540667533875 1.0 0.6480159759521484 0.4926975667476654
+   0.5503674149513245 0.26517677307128906 0.48016005754470825
+   0.6447781324386597 0.5837278962135315 0.3370913863182068
+   0.5295098423957825]]]
+WARNING:torch.distributed.run:
+*****************************************
+Setting OMP_NUM_THREADS environment variable for each process to be 1 in default, to avoid your system being overloaded, please further tune the variable for optimal performance in your application as needed. 
+*****************************************
+World size: 5
+Namespace(path='./', max_epochs=None, batch_size=256, lr=0.001, seed=0, num_workers=10, cycles=1, model='sessions_2_epoch_9_train_acc_1.0.model', eval=True, train_sessions=None, val_sessions=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11], ip=None, stdin=None, control=None, hb=None, shell=None, transport=None, iopub=None, f=None, **{'Session.signature_scheme': None, 'Session.key': None})
+[[[0.6049365997314453 1.0 0.6960986852645874 0.5811270475387573
+   0.6466934084892273 0.5310873985290527 0.5563187599182129
+   0.6960961222648621 0.6814271211624146 0.5639092922210693
+   0.6128709316253662]]]
+WARNING:torch.distributed.run:
+*****************************************
+Setting OMP_NUM_THREADS environment variable for each process to be 1 in default, to avoid your system being overloaded, please further tune the variable for optimal performance in your application as needed. 
+*****************************************
+World size: 5
+Namespace(path='./', max_epochs=None, batch_size=256, lr=0.001, seed=0, num_workers=10, cycles=1, model='sessions_3_epoch_9_train_acc_1.0.model', eval=True, train_sessions=None, val_sessions=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11], ip=None, stdin=None, control=None, hb=None, shell=None, transport=None, iopub=None, f=None, **{'Session.signature_scheme': None, 'Session.key': None})
+[[[0.37838560342788696 0.6162108182907104 1.0 0.2504834830760956
+   0.529124915599823 0.31841227412223816 0.48176059126853943
+   0.638972282409668 0.5453817844390869 0.10587058216333389
+   0.35318440198898315]]]
+WARNING:torch.distributed.run:
+*****************************************
+Setting OMP_NUM_THREADS environment variable for each process to be 1 in default, to avoid your system being overloaded, please further tune the variable for optimal performance in your application as needed. 
+*****************************************
+World size: 5
+Namespace(path='./', max_epochs=None, batch_size=256, lr=0.001, seed=0, num_workers=10, cycles=1, model='sessions_3_epoch_9_train_acc_1.0.model', eval=True, train_sessions=None, val_sessions=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11], ip=None, stdin=None, control=None, hb=None, shell=None, transport=None, iopub=None, f=None, **{'Session.signature_scheme': None, 'Session.key': None})
+[[[0.5808761119842529 0.719546377658844 1.0 0.5327776074409485
+   0.6649966835975647 0.5565043091773987 0.5946648716926575
+   0.7412745952606201 0.7003667950630188 0.4585723876953125
+   0.5963321328163147]]]
+WARNING:torch.distributed.run:
+*****************************************
+Setting OMP_NUM_THREADS environment variable for each process to be 1 in default, to avoid your system being overloaded, please further tune the variable for optimal performance in your application as needed. 
+*****************************************
+World size: 5
+Namespace(path='./', max_epochs=None, batch_size=256, lr=0.001, seed=0, num_workers=10, cycles=1, model='sessions_4_epoch_9_train_acc_1.0.model', eval=True, train_sessions=None, val_sessions=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11], ip=None, stdin=None, control=None, hb=None, shell=None, transport=None, iopub=None, f=None, **{'Session.signature_scheme': None, 'Session.key': None})
+[[[0.5489437580108643 0.36571046710014343 0.41773924231529236 1.0
+   0.4001336097717285 0.3550367057323456 0.40006670355796814
+   0.4320320188999176 0.1662554144859314 0.5529686212539673
+   0.6156718730926514]]]
+WARNING:torch.distributed.run:
+*****************************************
+Setting OMP_NUM_THREADS environment variable for each process to be 1 in default, to avoid your system being overloaded, please further tune the variable for optimal performance in your application as needed. 
+*****************************************
+World size: 5
+Namespace(path='./', max_epochs=None, batch_size=256, lr=0.001, seed=0, num_workers=10, cycles=1, model='sessions_4_epoch_9_train_acc_1.0.model', eval=True, train_sessions=None, val_sessions=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11], ip=None, stdin=None, control=None, hb=None, shell=None, transport=None, iopub=None, f=None, **{'Session.signature_scheme': None, 'Session.key': None})
+[[[0.6336891055107117 0.6087391376495361 0.5579193234443665 1.0
+   0.5905811786651611 0.6342895030975342 0.5079026222229004
+   0.6110777258872986 0.5019673109054565 0.6693128943443298
+   0.6948316097259521]]]
+WARNING:torch.distributed.run:
+*****************************************
+Setting OMP_NUM_THREADS environment variable for each process to be 1 in default, to avoid your system being overloaded, please further tune the variable for optimal performance in your application as needed. 
+*****************************************
+World size: 5
+Namespace(path='./', max_epochs=None, batch_size=256, lr=0.001, seed=0, num_workers=10, cycles=1, model='sessions_5_epoch_9_train_acc_1.0.model', eval=True, train_sessions=None, val_sessions=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11], ip=None, stdin=None, control=None, hb=None, shell=None, transport=None, iopub=None, f=None, **{'Session.signature_scheme': None, 'Session.key': None})
+[[[0.3981098532676697 0.4721814692020416 0.4555518627166748
+   0.24508169293403625 1.0 0.4582388401031494 0.4574858248233795
+   0.4435769021511078 0.47982659935951233 0.33348900079727173
+   0.32950982451438904]]]
+WARNING:torch.distributed.run:
+*****************************************
+Setting OMP_NUM_THREADS environment variable for each process to be 1 in default, to avoid your system being overloaded, please further tune the variable for optimal performance in your application as needed. 
+*****************************************
+World size: 5
+Namespace(path='./', max_epochs=None, batch_size=256, lr=0.001, seed=0, num_workers=10, cycles=1, model='sessions_5_epoch_9_train_acc_1.0.model', eval=True, train_sessions=None, val_sessions=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11], ip=None, stdin=None, control=None, hb=None, shell=None, transport=None, iopub=None, f=None, **{'Session.signature_scheme': None, 'Session.key': None})
+[[[0.5248610377311707 0.6209473013877869 0.6148049235343933
+   0.5471823811531067 1.0 0.6293529272079468 0.5425808429718018
+   0.6275609135627747 0.6122040748596191 0.5292195081710815
+   0.5241080522537231]]]
+WARNING:torch.distributed.run:
+*****************************************
+Setting OMP_NUM_THREADS environment variable for each process to be 1 in default, to avoid your system being overloaded, please further tune the variable for optimal performance in your application as needed. 
+*****************************************
+World size: 5
+Namespace(path='./', max_epochs=None, batch_size=256, lr=0.001, seed=0, num_workers=10, cycles=1, model='sessions_6_epoch_9_train_acc_1.0.model', eval=True, train_sessions=None, val_sessions=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11], ip=None, stdin=None, control=None, hb=None, shell=None, transport=None, iopub=None, f=None, **{'Session.signature_scheme': None, 'Session.key': None})
+[[[0.3446964621543884 0.3229486346244812 0.3262420892715454
+   0.3381127119064331 0.583500325679779 1.0 0.29909971356391907
+   0.2509843111038208 0.312237411737442 0.17631754279136658
+   0.4087362587451935]]]
+WARNING:torch.distributed.run:
+*****************************************
+Setting OMP_NUM_THREADS environment variable for each process to be 1 in default, to avoid your system being overloaded, please further tune the variable for optimal performance in your application as needed. 
+*****************************************
+World size: 5
+Namespace(path='./', max_epochs=None, batch_size=256, lr=0.001, seed=0, num_workers=10, cycles=1, model='sessions_6_epoch_9_train_acc_1.0.model', eval=True, train_sessions=None, val_sessions=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11], ip=None, stdin=None, control=None, hb=None, shell=None, transport=None, iopub=None, f=None, **{'Session.signature_scheme': None, 'Session.key': None})
+[[[0.5681787729263306 0.57084721326828 0.5757919549942017
+   0.6880293488502502 0.6928523778915405 1.0 0.527442455291748
+   0.5890557169914246 0.5384461283683777 0.5450299978256226
+   0.6040680408477783]]]
+WARNING:torch.distributed.run:
+*****************************************
+Setting OMP_NUM_THREADS environment variable for each process to be 1 in default, to avoid your system being overloaded, please further tune the variable for optimal performance in your application as needed. 
+*****************************************
+World size: 5
+Namespace(path='./', max_epochs=None, batch_size=256, lr=0.001, seed=0, num_workers=10, cycles=1, model='sessions_7_epoch_9_train_acc_1.0.model', eval=True, train_sessions=None, val_sessions=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11], ip=None, stdin=None, control=None, hb=None, shell=None, transport=None, iopub=None, f=None, **{'Session.signature_scheme': None, 'Session.key': None})
+[[[0.3367356061935425 0.5788525938987732 0.6123374700546265
+   0.23114371299743652 0.5614562630653381 0.3507004678249359
+   0.9999333024024963 0.6860193610191345 0.4923641085624695
+   0.1641761213541031 0.23261086642742157]]]
+WARNING:torch.distributed.run:
+*****************************************
+Setting OMP_NUM_THREADS environment variable for each process to be 1 in default, to avoid your system being overloaded, please further tune the variable for optimal performance in your application as needed. 
+*****************************************
+World size: 5
+Namespace(path='./', max_epochs=None, batch_size=256, lr=0.001, seed=0, num_workers=10, cycles=1, model='sessions_7_epoch_9_train_acc_1.0.model', eval=True, train_sessions=None, val_sessions=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11], ip=None, stdin=None, control=None, hb=None, shell=None, transport=None, iopub=None, f=None, **{'Session.signature_scheme': None, 'Session.key': None})
+[[[0.47020235657691956 0.6558372378349304 0.6582193970680237
+   0.5317105650901794 0.6814295053482056 0.5675783753395081 1.0
+   0.7125124931335449 0.5981994271278381 0.3887925148010254
+   0.5067022442817688]]]
+WARNING:torch.distributed.run:
+*****************************************
+Setting OMP_NUM_THREADS environment variable for each process to be 1 in default, to avoid your system being overloaded, please further tune the variable for optimal performance in your application as needed. 
+*****************************************
+World size: 5
+Namespace(path='./', max_epochs=None, batch_size=256, lr=0.001, seed=0, num_workers=10, cycles=1, model='sessions_8_epoch_9_train_acc_1.0.model', eval=True, train_sessions=None, val_sessions=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11], ip=None, stdin=None, control=None, hb=None, shell=None, transport=None, iopub=None, f=None, **{'Session.signature_scheme': None, 'Session.key': None})
+[[[0.3937958776950836 0.49319547414779663 0.6402800679206848
+   0.24781593680381775 0.4908483624458313 0.27531686425209045
+   0.4858953058719635 0.9999332427978516 0.533111035823822
+   0.18705803155899048 0.2984327971935272]]]
+WARNING:torch.distributed.run:
+*****************************************
+Setting OMP_NUM_THREADS environment variable for each process to be 1 in default, to avoid your system being overloaded, please further tune the variable for optimal performance in your application as needed. 
+*****************************************
+World size: 5
+Namespace(path='./', max_epochs=None, batch_size=256, lr=0.001, seed=0, num_workers=10, cycles=1, model='sessions_8_epoch_9_train_acc_1.0.model', eval=True, train_sessions=None, val_sessions=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11], ip=None, stdin=None, control=None, hb=None, shell=None, transport=None, iopub=None, f=None, **{'Session.signature_scheme': None, 'Session.key': None})
+[[[0.6466533541679382 0.6977985501289368 0.7593197822570801
+   0.5945981740951538 0.6873747706413269 0.5902601480484009
+   0.641080379486084 1.0 0.7331777215003967 0.5043362379074097
+   0.675625205039978]]]
+WARNING:torch.distributed.run:
+*****************************************
+Setting OMP_NUM_THREADS environment variable for each process to be 1 in default, to avoid your system being overloaded, please further tune the variable for optimal performance in your application as needed. 
+*****************************************
+World size: 5
+Namespace(path='./', max_epochs=None, batch_size=256, lr=0.001, seed=0, num_workers=10, cycles=1, model='sessions_9_epoch_9_train_acc_1.0.model', eval=True, train_sessions=None, val_sessions=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11], ip=None, stdin=None, control=None, hb=None, shell=None, transport=None, iopub=None, f=None, **{'Session.signature_scheme': None, 'Session.key': None})
+[[[0.4073382318019867 0.5938625931739807 0.6488829851150513
+   0.1057685911655426 0.6085504293441772 0.4030687212944031
+   0.40706902742385864 0.663530170917511 1.0 0.20320212841033936
+   0.3509836494922638]]]
+WARNING:torch.distributed.run:
+*****************************************
+Setting OMP_NUM_THREADS environment variable for each process to be 1 in default, to avoid your system being overloaded, please further tune the variable for optimal performance in your application as needed. 
+*****************************************
+World size: 5
+Namespace(path='./', max_epochs=None, batch_size=256, lr=0.001, seed=0, num_workers=10, cycles=1, model='sessions_9_epoch_9_train_acc_1.0.model', eval=True, train_sessions=None, val_sessions=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11], ip=None, stdin=None, control=None, hb=None, shell=None, transport=None, iopub=None, f=None, **{'Session.signature_scheme': None, 'Session.key': None})
+[[[0.6104958653450012 0.7352901697158813 0.7343114614486694
+   0.5857952833175659 0.7645958662033081 0.6062708497047424
+   0.5578526258468628 0.7724391222000122 1.0 0.5026684403419495
+   0.6760253310203552]]]
+WARNING:torch.distributed.run:
+*****************************************
+Setting OMP_NUM_THREADS environment variable for each process to be 1 in default, to avoid your system being overloaded, please further tune the variable for optimal performance in your application as needed. 
+*****************************************
+World size: 5
+Namespace(path='./', max_epochs=None, batch_size=256, lr=0.001, seed=0, num_workers=10, cycles=1, model='sessions_10_epoch_9_train_acc_1.0.model', eval=True, train_sessions=None, val_sessions=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11], ip=None, stdin=None, control=None, hb=None, shell=None, transport=None, iopub=None, f=None, **{'Session.signature_scheme': None, 'Session.key': None})
+[[[0.6899933218955994 0.48552367091178894 0.4246082007884979
+   0.519106388092041 0.5302605032920837 0.24062708020210266
+   0.3223741352558136 0.4843510091304779 0.3414471447467804 1.0
+   0.5515171885490417]]]
+WARNING:torch.distributed.run:
+*****************************************
+Setting OMP_NUM_THREADS environment variable for each process to be 1 in default, to avoid your system being overloaded, please further tune the variable for optimal performance in your application as needed. 
+*****************************************
+World size: 5
+Namespace(path='./', max_epochs=None, batch_size=256, lr=0.001, seed=0, num_workers=10, cycles=1, model='sessions_10_epoch_9_train_acc_1.0.model', eval=True, train_sessions=None, val_sessions=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11], ip=None, stdin=None, control=None, hb=None, shell=None, transport=None, iopub=None, f=None, **{'Session.signature_scheme': None, 'Session.key': None})
+[[[0.7671336531639099 0.6253502368927002 0.5297765731811523
+   0.709303081035614 0.6458249688148499 0.5845230221748352
+   0.41733911633491516 0.6206873655319214 0.48656219244003296 1.0
+   0.6402134299278259]]]
+WARNING:torch.distributed.run:
+*****************************************
+Setting OMP_NUM_THREADS environment variable for each process to be 1 in default, to avoid your system being overloaded, please further tune the variable for optimal performance in your application as needed. 
+*****************************************
+World size: 5
+Namespace(path='./', max_epochs=None, batch_size=256, lr=0.001, seed=0, num_workers=10, cycles=1, model='sessions_11_epoch_9_train_acc_1.0.model', eval=True, train_sessions=None, val_sessions=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11], ip=None, stdin=None, control=None, hb=None, shell=None, transport=None, iopub=None, f=None, **{'Session.signature_scheme': None, 'Session.key': None})
+[[[0.6426061987876892 0.3990660309791565 0.4201400578022003
+   0.510370135307312 0.38470274209976196 0.31827884912490845
+   0.27349117398262024 0.4681347906589508 0.38666221499443054
+   0.4263508915901184 0.9998666048049927]]]
+WARNING:torch.distributed.run:
+*****************************************
+Setting OMP_NUM_THREADS environment variable for each process to be 1 in default, to avoid your system being overloaded, please further tune the variable for optimal performance in your application as needed. 
+*****************************************
+World size: 5
+Namespace(path='./', max_epochs=None, batch_size=256, lr=0.001, seed=0, num_workers=10, cycles=1, model='sessions_11_epoch_9_train_acc_1.0.model', eval=True, train_sessions=None, val_sessions=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11], ip=None, stdin=None, control=None, hb=None, shell=None, transport=None, iopub=None, f=None, **{'Session.signature_scheme': None, 'Session.key': None})
+[[[0.7305536866188049 0.6382254958152771 0.6918306350708008
+   0.7183061242103577 0.6166332960128784 0.5799199342727661
+   0.5067689418792725 0.7180513739585876 0.6291430592536926
+   0.5895930528640747 1.0]]]

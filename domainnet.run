@@ -1,0 +1,39 @@
+#!/usr/bin/bash
+export OMP_NUM_THREADS=1
+
+for METHOD in source bn tent
+do
+  for SEED in 2020 2021 2022
+  do
+      torchrun --nproc_per_node=4 run.py \
+      --method ${METHOD} \
+      --seed ${SEED} \
+      --model best_real_${SEED}.pth.tar \
+      --sources real \
+      -t real -t painting -t clipart -t sketch -t real \
+      --path /dataB3/tommie_kerssies \
+      --dataset DomainNet-126 \
+      --cycles 1 \
+      --batch_size 100 \
+      --lr 1e-4
+  done
+done
+
+
+for METHOD in source bn tent
+do
+  for SEED in 2020 2021 2022
+  do
+      torchrun --nproc_per_node=4 run.py \
+      --method ${METHOD} \
+      --seed ${SEED} \
+      --model best_painting_${SEED}.pth.tar \
+      --sources painting \
+      -t painting -t real -t clipart -t sketch -t painting \
+      --path /dataB3/tommie_kerssies \
+      --dataset DomainNet-126 \
+      --cycles 1 \
+      --batch_size 100 \
+      --lr 1e-4
+  done
+done
