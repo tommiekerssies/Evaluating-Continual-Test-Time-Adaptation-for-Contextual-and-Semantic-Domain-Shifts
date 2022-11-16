@@ -16,7 +16,6 @@ try:
 
   if utils.args.resume_run:
     adaptation_model = torch.load(wandb.restore(adaptation_model_name))
-    print(adaptation_model)
     
   elif utils.args.method == "source":
     adaptation_model = utils.get_model(load_saved_model=True).eval()
