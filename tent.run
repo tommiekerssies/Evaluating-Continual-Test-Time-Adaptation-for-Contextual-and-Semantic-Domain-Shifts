@@ -1,2 +1,0 @@
-#!/usr/bin/bash
-python tent.py --batch_size 1024 --cycles 10 --show_intermediate_results True --val_sessions 2 3 4 5 6 7 8 9 10 11 1 --model sessions_1_epoch_9_train_acc_1.0.model
